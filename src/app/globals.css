@@ -8,3 +8,11 @@
   --font-Zen-Dots: "Zen Dots", sans-serif; 
   --font-Urbanist: "Urbanist", sans-serif; 
 }
+
+html, .sidebar, .content{
+  scrollbar-width: none;
+}
+
+::-webkit-scrollbar{
+  display: none;
+}

@@ -4,31 +4,110 @@ import { SiGooglegemini } from "react-icons/si";
 import Marquee from "react-fast-marquee";
 import { projectList } from "@/data/projectList";
 import { TiLocationArrow } from "react-icons/ti";
+import Link from "next/link";
+import { useState } from "react";
+import CountUp from 'react-countup';
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/all";
+
+gsap.registerPlugin(ScrollTrigger);
 
 function page() {
 
+  const [loaded, setLoaded] = useState(false);
+  
   const navigate = (link: string) => {
-    if(link.startsWith(`https`)){
+    if (link.startsWith(`https`)) {
       window.open(link, '_blank');
     }
-    else{
+    else {
       window.open(`mailto:${link}`, '_blank');
     }
   }
 
+  const animate = () => {
+    gsap.fromTo('#text-1', {
+      x: "-200",
+    }, {
+      x: "0",
+      duration: 1.4,
+      ease: "power2.inOut"
+    });
+    gsap.fromTo('#text-2', {
+      x: "200",
+    }, {
+      x: "0",
+      duration: 1.4,
+      ease: "power2.inOut"
+    });
+
+    gsap.fromTo('#quotes p', {
+      opacity: 0,
+    }, {
+      delay: 0.2,
+      opacity: 1,
+      duration: 1,
+      stagger: 0.3
+    })
+  }
+
+  useGSAP(() => {
+    gsap.fromTo('#project', {
+      opacity: 0,
+      y: -10,
+      scale: 0.7,
+    },{
+      opacity: 1.1,
+      ease: "power2.inOut",
+      scale: 1,
+      y: 0,
+      stagger: 0.8,
+      duration: 1.7,
+      scrollTrigger: {
+        trigger: "#project",
+        start: "top 70%",
+        end: "bottom 80%",
+        scrub: true
+      }
+    });
+
+    gsap.fromTo('#design', {
+      opacity: 0,
+      x: "-30",
+      scale: 0.7,
+    },{
+      opacity: 1.1,
+      ease: "power2.inOut",
+      scale: 1,
+      x: 0,
+      duration: 1.7,
+      scrollTrigger: {
+        trigger: "#design",
+        start: "top 70%",
+        end: "bottom 80%",
+        scrub: true
+      }
+    });
+  });
+
   return (
     <>
 
-      <div className={`overflow-hidden h-auto w-full flex flex-col justify-start items-center relative`}>
+      <div className={`absolute rounded-b-2xl ${loaded ? "-translate-y-full" : "translate-y-0"} duration-500 ease-in-out top-0 w-full h-screen bg-[#0D1BC3] overflow-hidden z-40 flex justify-center items-center`}>
+        <p className={`font-Michroma text-[#B2FF6E] font-semibold text-lg lg:text-2xl`}><CountUp start={0} duration={4} end={100} onEnd={() => { setLoaded(true); animate() }} /></p>
+      </div>
+
+      <div className={`overflow-hidden ${loaded ? "block" : "hidden"} h-auto w-full flex flex-col justify-start items-center relative`}>
 
         {/* hero section */}
         <div className={`w-full h-screen z-10 bg-[#111111] flex flex-col justify-center items-center relative overflow-hidden gap-3`}>
           <p className={`absolute left-1/2 -translate-x-1/2 top-7 font-Michroma text-[10px] text-white tracking-[5px]`}>ISUDIPTODAS</p>
 
-          <h1 className={`text-white text-start font-Zen-Dots text-3xl sm:text-6xl w-full pl-12 md:pl-16 lg:pl-44 xl:pl-56`}>DESIGNER</h1>
-          <h1 className={`text-white text-end font-Zen-Dots text-3xl w-full sm:text-6xl pr-12 md:pr-16 lg:pr-44 xl:pr-56`}>DEVELOPER</h1>
+          <h1 id="text-1" className={`text-white text-start font-Zen-Dots text-3xl sm:text-6xl w-full pl-12 md:pl-16 lg:pl-44 xl:pl-56 overflow-hidden`}>DESIGNER</h1>
+          <h1 id="text-2" className={`text-white text-end font-Zen-Dots text-3xl w-full sm:text-6xl pr-12 md:pr-16 lg:pr-44 xl:pr-56 overflow-hidden`}>DEVELOPER</h1>
 
-          <div className={`w-full absolute bottom-0 py-8 md:py-12 px-5 grid grid-cols-2 sm:grid-cols-4 justify-items-center gap-3`}>
+          <div id="quotes" className={`w-full absolute bottom-0 py-8 md:py-12 px-5 grid grid-cols-2 sm:grid-cols-4 justify-items-center gap-3`}>
             <p className={`text-white font-Michroma text-[8px] md:text-[10px] lg:text-sm cursor-pointer`}>UI DESIGN</p>
             <p className={`text-white font-Michroma text-[8px] md:text-[10px] lg:text-sm cursor-pointer`}>GRAPHIC DESIGN</p>
             <p className={`text-white font-Michroma text-[8px] md:text-[10px] lg:text-sm cursor-pointer`}>WEB DEVELOPMENT</p>
@@ -152,7 +231,7 @@ function page() {
 
             <div className={`w-full flex flex-col px-5 md:px-14 lg:px-20 justify-start items-center gap-8 mt-10 md:mt-16 xl:mt-24`}>
               {projectList.map((list, index) => {
-                return <div key={index} className={`w-[80%] lg:w-[70%] rounded-lg bg-[#d9d9d971] flex flex-col md:flex-row justify-start md:justify-between items-center md:items-start gap-2 md:gap-4 shadow-lg py-2 px-2`}>
+                return <div id="project" key={index} className={`w-[80%] lg:w-[70%] rounded-lg bg-[#d9d9d971] flex flex-col md:flex-row justify-start md:justify-between items-center md:items-start gap-2 md:gap-4 shadow-lg py-2 px-2`}>
                   <div className={`w-full md:w-[30%] h-32 md:h-36 rounded-lg overflow-hidden`}>
                     <img src={list.image} className={`h-full w-full object-cover`} />
                   </div>
@@ -174,7 +253,7 @@ function page() {
 
         {/* design */}
         <div className={`w-full bg-white py-10 flex justify-center items-center`}>
-          <div className={`w-[80%] md:w-[60%] h-48 lg:h-56 rounded-xl relative bg-[#76fe00] overflow-hidden`}>
+          <div id="design" className={`w-[80%] md:w-[60%] h-48 lg:h-56 rounded-xl relative bg-[#76fe00] overflow-hidden`}>
             <div className={`w-[80%] h-full absolute left-0 bg-gradient-to-r from-[#76fe00] to-transparent z-20 flex flex-col justify-center items-start px-5`}>
               <h1 className={`w-full text-start font-Michroma text-xl lg:text-2xl text-white font-bold`}>Explore My Design Portfolio</h1>
               <p className={`w-auto text-start font-Michroma text-[10px] md:text-sm text-black px-4 py-2 mt-2 rounded-full flex justify-center items-center gap-3 bg-white cursor-pointer hover:scale-95 duration-200 ease-in-out`} onClick={() => navigate('https://www.behance.net/sudipto_das')}>View on Behance <TiLocationArrow /></p>
@@ -183,17 +262,21 @@ function page() {
           </div>
         </div>
 
+        <div className={`w-full bg-white py-7 md:py-12 flex justify-center items-center`}>
+          <Link href='/cv_sudipto.pdf' download="/cv_sudipto.pdf" className={`w-auto px-5 py-2 hover:scale-95 duration-200 ease-in-out cursor-pointer bg-gradient-to-r from-blue-300 via-blue-500 to-blue-700 text-white font-Michroma text-sm md:text-lg font-light`}>Download CV</Link>
+        </div>
+
         {/* footer */}
         <div className={`w-full h-auto flex justify-center items-center px-7 py-8 md:py-10`}>
           <div className={`w-full md:w-[90%] flex flex-col justify-center items-center pt-5 pb-5 gap-3 rounded-lg lg:rounded-xl bg-[#b9b9b985]`}>
             <p className={`w-full text-center font-Michroma text-[10px] text-black tracking-[5px]`}>ISUDIPTODAS</p>
             <p className={`w-full text-center font-black font-Michroma text-xl sm:text-3xl lg:text-4xl xl:ext-6xl sm:mt-4 text-black`}>LET'S GET IN TOUCH</p>
             <div className={`w-full mt-5 md:mt-10 px-5 md:px-10 grid grid-cols-2 md:grid-cols-5 justify-items-center gap-5`}>
-                <p className={`w-full font-Michroma text-center text-sm xl:text-lg px-4 py-2 rounded-full hover:bg-black hover:text-white duration-200 ease-in-out text-black cursor-pointer`} onClick={() => navigate('https://www.linkedin.com/in/sudiptodas-developer')}>LinkedIn</p>
-                <p className={`w-full font-Michroma text-center text-sm xl:text-lg px-4 py-2 rounded-full hover:bg-black hover:text-white duration-200 ease-in-out text-black cursor-pointer`} onClick={() => navigate('https://github.com/isudiptodas')}>Github</p>
-                <p className={`w-full font-Michroma text-center text-sm xl:text-lg px-4 py-2 rounded-full hover:bg-black hover:text-white duration-200 ease-in-out text-black cursor-pointer`} onClick={() => navigate('https://www.behance.net/sudipto_das')}>Behance</p>
-                <p className={`w-full font-Michroma text-center text-sm xl:text-lg px-4 py-2 rounded-full hover:bg-black hover:text-white duration-200 ease-in-out text-black cursor-pointer`} onClick={() => navigate('isudiptodas10@gmail.com')}>Gmail</p>
-                <p className={`w-full font-Michroma text-center text-sm xl:text-lg px-4 py-2 rounded-full hover:bg-black hover:text-white duration-200 ease-in-out text-black cursor-pointer`} onClick={() => navigate('isudiptodas01@outlook.com')}>Outlook</p>
+              <p className={`w-full font-Michroma text-center text-sm xl:text-lg px-4 py-2 rounded-full hover:bg-black hover:text-white duration-200 ease-in-out text-black cursor-pointer`} onClick={() => navigate('https://www.linkedin.com/in/sudiptodas-developer')}>LinkedIn</p>
+              <p className={`w-full font-Michroma text-center text-sm xl:text-lg px-4 py-2 rounded-full hover:bg-black hover:text-white duration-200 ease-in-out text-black cursor-pointer`} onClick={() => navigate('https://github.com/isudiptodas')}>Github</p>
+              <p className={`w-full font-Michroma text-center text-sm xl:text-lg px-4 py-2 rounded-full hover:bg-black hover:text-white duration-200 ease-in-out text-black cursor-pointer`} onClick={() => navigate('https://www.behance.net/sudipto_das')}>Behance</p>
+              <p className={`w-full font-Michroma text-center text-sm xl:text-lg px-4 py-2 rounded-full hover:bg-black hover:text-white duration-200 ease-in-out text-black cursor-pointer`} onClick={() => navigate('isudiptodas10@gmail.com')}>Gmail</p>
+              <p className={`w-full font-Michroma text-center text-sm xl:text-lg px-4 py-2 rounded-full hover:bg-black hover:text-white duration-200 ease-in-out text-black cursor-pointer`} onClick={() => navigate('isudiptodas01@outlook.com')}>Outlook</p>
             </div>
           </div>
         </div>
