@@ -10,13 +10,17 @@ import CountUp from 'react-countup';
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/all";
+import { imageList } from "@/data/photographyImageList";
+import { CiCircleChevUp } from "react-icons/ci";
+import { CiCircleChevDown } from "react-icons/ci";
 
 gsap.registerPlugin(ScrollTrigger);
 
 function page() {
 
   const [loaded, setLoaded] = useState(false);
-  
+  const [galleryVisible, setGalleryVisible] = useState(false);
+
   const navigate = (link: string) => {
     if (link.startsWith(`https`)) {
       window.open(link, '_blank');
@@ -57,7 +61,7 @@ function page() {
       opacity: 0,
       y: -10,
       scale: 0.7,
-    },{
+    }, {
       opacity: 1.1,
       ease: "power2.inOut",
       scale: 1,
@@ -76,7 +80,7 @@ function page() {
       opacity: 0,
       x: "-30",
       scale: 0.7,
-    },{
+    }, {
       opacity: 1.1,
       ease: "power2.inOut",
       scale: 1,
@@ -249,6 +253,17 @@ function page() {
               })}
             </div>
           </div>
+        </div>
+
+        {/* photography */}
+        <div className={`w-full py-5 flex justify-center items-center`}>
+          <p onClick={() => setGalleryVisible(!galleryVisible)} className={`w-auto active:scale-95 px-5 border-2 cursor-pointer hover:bg-black hover:text-white text-black duration-200 ease-in-out border-black rounded-full py-2 flex justify-center items-center gap-3 font-Michroma text-sm md:text-lg`}>{galleryVisible ? <p className={`flex justify-center items-center gap-2`}>Hide Gallery <CiCircleChevUp className={`text-lg md:text-xl`}/></p> : <p className={`flex justify-center items-center gap-2`}>View Gallery <CiCircleChevDown className={`text-lg md:text-xl`}/></p>}</p>
+        </div>
+
+        <div className={`w-[90%] ${galleryVisible ? "block" : "hidden"} h-auto py-10 px-5 bg-white columns-2 md:columns-3 lg:columns-4 overflow-auto`}>
+          {imageList.map((image, index) => {
+            return <img key={index} src={image} className={`h-auto my-5 rounded-lg break-inside-avoid`} />
+          })}
         </div>
 
         {/* design */}
