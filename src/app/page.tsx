@@ -235,7 +235,7 @@ function page() {
 
             <div className={`w-full flex flex-col px-5 md:px-14 lg:px-20 justify-start items-center gap-8 mt-10 md:mt-16 xl:mt-24`}>
               {projectList.map((list, index) => {
-                return <div id="project" key={index} className={`w-[80%] lg:w-[70%] rounded-lg bg-[#d9d9d971] flex flex-col md:flex-row justify-start md:justify-between items-center md:items-start gap-2 md:gap-4 shadow-lg py-2 px-2`}>
+                return <div id="project" key={index} className={`w-[80%] lg:w-[70%] rounded-lg bg-[#cacaca71] flex flex-col md:flex-row justify-start md:justify-between items-center md:items-start gap-2 md:gap-4 shadow-lg py-2 px-2`}>
                   <div className={`w-full md:w-[30%] h-32 md:h-36 rounded-lg overflow-hidden`}>
                     <img src={list.image} className={`h-full w-full object-cover`} />
                   </div>
@@ -257,7 +257,7 @@ function page() {
 
         {/* photography */}
         <div className={`w-full py-5 flex justify-center items-center`}>
-          <p onClick={() => setGalleryVisible(!galleryVisible)} className={`w-auto active:scale-95 px-5 border-2 cursor-pointer hover:bg-black hover:text-white text-black duration-200 ease-in-out border-black rounded-full py-2 flex justify-center items-center gap-3 font-Michroma text-sm md:text-lg`}>{galleryVisible ? <p className={`flex justify-center items-center gap-2`}>Hide Gallery <CiCircleChevUp className={`text-lg md:text-xl`}/></p> : <p className={`flex justify-center items-center gap-2`}>View Gallery <CiCircleChevDown className={`text-lg md:text-xl`}/></p>}</p>
+          <p onClick={() => setGalleryVisible(!galleryVisible)} className={`w-auto active:scale-95 px-5 border-2 cursor-pointer hover:bg-black hover:text-white text-black duration-200 ease-in-out border-black rounded-full py-2 flex justify-center items-center gap-3 font-Michroma text-sm md:text-lg`}>{galleryVisible ? <p className={`flex justify-center items-center gap-2`}>Hide Gallery <CiCircleChevUp className={`text-lg md:text-xl`} /></p> : <p className={`flex justify-center items-center gap-2`}>View Gallery <CiCircleChevDown className={`text-lg md:text-xl`} /></p>}</p>
         </div>
 
         <div className={`w-[90%] ${galleryVisible ? "block" : "hidden"} h-auto py-10 px-5 bg-white columns-2 md:columns-3 lg:columns-4 overflow-auto`}>
@@ -268,17 +268,15 @@ function page() {
 
         {/* design */}
         <div className={`w-full bg-white py-10 flex justify-center items-center`}>
-          <div id="design" className={`w-[80%] md:w-[60%] h-48 lg:h-56 rounded-xl relative bg-[#76fe00] overflow-hidden`}>
-            <div className={`w-[80%] h-full absolute left-0 bg-gradient-to-r from-[#76fe00] to-transparent z-20 flex flex-col justify-center items-start px-5`}>
-              <h1 className={`w-full text-start font-Michroma text-xl lg:text-2xl text-white font-bold`}>Explore My Design Portfolio</h1>
-              <p className={`w-auto text-start font-Michroma text-[10px] md:text-sm text-black px-4 py-2 mt-2 rounded-full flex justify-center items-center gap-3 bg-white cursor-pointer hover:scale-95 duration-200 ease-in-out`} onClick={() => navigate('https://www.behance.net/sudipto_das')}>View on Behance <TiLocationArrow /></p>
-            </div>
-            <img src='/assets/design.jpg' className={`h-full w-full object-cover`} />
+          <div id="design" className={`w-[80%] md:w-[60%] h-48 lg:h-56 rounded-xl relative bg-black flex flex-col justify-center items-start pl-5 overflow-hidden`}>
+            <h1 className={`w-full z-20 text-start font-Michroma text-lg lg:text-2xl text-white font-bold`}>Explore My Design Portfolio</h1>
+            <p className={`w-auto z-20 text-start font-Michroma text-[10px] md:text-sm text-black px-4 py-2 mt-2 rounded-full flex justify-center items-center gap-3 bg-white cursor-pointer hover:scale-95 duration-200 ease-in-out`} onClick={() => navigate('https://www.behance.net/sudipto_das')}>View on Behance <TiLocationArrow /></p>
+            <img src="/assets/designBackground.jpg" className={`absolute z-10 w-full h-full`} />
           </div>
         </div>
 
         <div className={`w-full bg-white py-7 md:py-12 flex justify-center items-center`}>
-          <Link href='/cv_sudipto.pdf' download="/cv_sudipto.pdf" className={`w-auto px-5 py-2 hover:scale-95 duration-200 ease-in-out cursor-pointer bg-gradient-to-r from-blue-300 via-blue-500 to-blue-700 text-white font-Michroma text-sm md:text-lg font-light`}>Download CV</Link>
+          <Link href='/cv_sudipto.pdf' download="/cv_sudipto.pdf" className={`w-auto px-5 py-2 hover:scale-95 hover:rounded-4xl duration-200 ease-in-out cursor-pointer bg-gradient-to-r from-blue-300 via-blue-500 to-blue-700 text-white font-Michroma text-sm md:text-lg font-light`}>Download CV</Link>
         </div>
 
         {/* footer */}
