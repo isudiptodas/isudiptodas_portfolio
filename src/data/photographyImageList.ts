@@ -22,5 +22,8 @@ export const imageList = [
     'https://ucarecdn.com/7dead6c2-1df8-4957-8403-fb52b8d86559/IMG_20250801_183233_upscaled.jpeg',
     'https://ucarecdn.com/996523b5-4653-448a-b97d-9a70fc5acbbd/IMG_20250801_191722.jpg',
     'https://ucarecdn.com/0a7ebb29-74d2-447f-a02c-81c09149928f/IMG_20250730_023052.jpg',
-    'https://ucarecdn.com/d902e1f0-5031-4bfb-84f5-0d80262b775b/IMG20250805130719.jpg'
+    'https://ucarecdn.com/d902e1f0-5031-4bfb-84f5-0d80262b775b/IMG20250805130719.jpg',
+    'https://ucarecdn.com/1c5c0d96-70ad-494e-a127-acaf8dc576a8/IMG_20250809_220243.jpg',
+    'https://ucarecdn.com/1298c2ac-3908-4c39-9abf-3f4abec92e30/Picsart_250809_123256407.jpg',
 ];
+
