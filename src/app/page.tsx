@@ -235,7 +235,7 @@ function page() {
 
             <div className={`w-full flex flex-col px-5 md:px-14 lg:px-20 justify-start items-center gap-8 mt-10 md:mt-16 xl:mt-24`}>
               {projectList.map((list, index) => {
-                return <div id="project" key={index} className={`w-[80%] lg:w-[70%] rounded-lg bg-[#cacaca71] flex flex-col md:flex-row justify-start md:justify-between items-center md:items-start gap-2 md:gap-4 shadow-lg py-2 px-2`}>
+                return <div id="project" key={index} className={`w-[90%] lg:w-[70%] rounded-lg bg-[#cacaca71] flex flex-col md:flex-row justify-start md:justify-between items-center md:items-start gap-2 md:gap-4 shadow-lg py-2 px-2`}>
                   <div className={`w-full md:w-[30%] h-32 md:h-36 rounded-lg overflow-hidden`}>
                     <img src={list.image} className={`h-full w-full object-cover`} />
                   </div>
