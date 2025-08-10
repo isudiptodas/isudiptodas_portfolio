@@ -260,7 +260,7 @@ function page() {
           <p onClick={() => setGalleryVisible(!galleryVisible)} className={`w-auto active:scale-95 px-5 border-2 cursor-pointer hover:bg-black hover:text-white text-black duration-200 ease-in-out border-black rounded-full py-2 flex justify-center items-center gap-3 font-Michroma text-sm md:text-lg`}>{galleryVisible ? <p className={`flex justify-center items-center gap-2`}>Hide Gallery <CiCircleChevUp className={`text-lg md:text-xl`} /></p> : <p className={`flex justify-center items-center gap-2`}>View Gallery <CiCircleChevDown className={`text-lg md:text-xl`} /></p>}</p>
         </div>
 
-        <div className={`w-[90%] ${galleryVisible ? "block" : "hidden"} h-auto py-10 px-5 bg-white columns-2 md:columns-3 lg:columns-4 overflow-auto`}>
+        <div className={`w-[90%] ${galleryVisible ? "block" : "hidden"} h-auto py-10 px-1 lg:px-5 bg-white columns-2 md:columns-3 lg:columns-4 overflow-auto`}>
           {imageList.map((image, index) => {
             return <img key={index} src={image} className={`h-auto my-5 rounded-lg break-inside-avoid`} />
           })}
