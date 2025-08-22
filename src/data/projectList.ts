@@ -78,7 +78,8 @@ export const projectList = [
         dedicated news section, cloud share option.`,
         tech : `NextJs, TailwindCSS, Gemini API, Supabase, Google Search API, Node Cron`,
         github: `https://github.com/isudiptodas/Ripple-AI-Smart_Search_Explorer`,
-        live: ``,
-        deployed: false
+        live: `https://ripple-ai-snowy.vercel.app/`,
+        deployed: true
     },
 ]
+
