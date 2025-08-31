@@ -74,13 +74,14 @@ export const projectList = [
     {
         name: `ripple AI`,
         image: `/assets/ripple-ai.png`,
-        desc: `A smart search platform without the need to account creation and usage tracking. Providing features like : realtime internet data, 
-        dedicated news section, cloud share option.`,
+        desc: `A multi-feature platform with tools like : AI chat and real time internet data fetching, cloud file sharing, dedicated news section, 
+        interactive decision making and smart message encoding system`,
         tech : `NextJs, TailwindCSS, Gemini API, Supabase, Google Search API, Node Cron`,
         github: `https://github.com/isudiptodas/Ripple-AI-Smart_Search_Explorer`,
         live: `https://ripple-ai-six.vercel.app/`,
         deployed: true
     },
 ]
+
 
 
