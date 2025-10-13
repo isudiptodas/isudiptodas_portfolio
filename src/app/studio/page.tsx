@@ -8,6 +8,10 @@ function page() {
 
   const [option, setOption] = useState('photo');
 
+  const openLink = (link:string){
+    window.open(link, '_blank');
+  }
+
   return (
     <>
       <div className={`w-full relative h-screen bg-[#111111] overflow-y-hidden flex flex-col justify-start items-center pt-5`}>
@@ -21,13 +25,13 @@ function page() {
 
         {option === 'photo' && <div className={`w-[90%] h-auto py-5 px-2 mt-28 lg:mt-36 lg:px-5 bg-[#111111] columns-2 md:columns-3 lg:columns-4 overflow-auto`}>
           {imageList.map((image, index) => {
-            return <img key={index} src={image} className={`h-auto cursor-pointer my-5 rounded-lg break-inside-avoid`} />
+            return <img onClick={() => openLink(image)} key={index} src={image} className={`h-auto cursor-pointer my-5 rounded-lg break-inside-avoid`} />
           })}
         </div>}
 
         {option === 'design' && <div className={`w-[90%] h-auto py-5 px-2 mt-28 lg:mt-36 lg:px-5 bg-[#111111] columns-2 md:columns-3 lg:columns-4 overflow-auto`}>
           {designList.map((design, index) => {
-            return <img key={index} src={design} className={`h-auto cursor-pointer my-5 rounded-lg break-inside-avoid`} />
+            return <img onClick={() => openLink(design)} key={index} src={design} className={`h-auto cursor-pointer my-5 rounded-lg break-inside-avoid`} />
           })}
         </div>}
 
@@ -42,5 +46,6 @@ function page() {
 }
 
 export default page;
+
 
 
