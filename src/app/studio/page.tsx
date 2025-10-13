@@ -23,19 +23,19 @@ function page() {
           <p onClick={() => setOption('video')} className={`w-auto ${option === 'video' ? "bg-[#B2FF6E] text-black font-bold" : "bg-transparent text-white"} rounded-full py-3 px-3 text-[10px] md:text-sm xl:text-lg cursor-pointer tracking-widest font-Michroma`}>Video</p>
         </div>
 
-        {option === 'photo' && <div className={`w-[90%] h-auto py-5 px-2 mt-28 lg:mt-36 lg:px-5 bg-[#111111] columns-2 md:columns-3 lg:columns-4 overflow-auto`}>
+        {option === 'photo' && <div className={`w-[90%] h-auto py-5 px-2 mt-36 lg:px-5 bg-[#111111] columns-2 md:columns-3 lg:columns-4 overflow-auto`}>
           {imageList.map((image, index) => {
             return <img onClick={() => openLink(image)} key={index} src={image} className={`h-auto cursor-pointer my-5 rounded-lg break-inside-avoid`} />
           })}
         </div>}
 
-        {option === 'design' && <div className={`w-[90%] h-auto py-5 px-2 mt-28 lg:mt-36 lg:px-5 bg-[#111111] columns-2 md:columns-3 lg:columns-4 overflow-auto`}>
+        {option === 'design' && <div className={`w-[90%] h-auto py-5 px-2 mt-36 lg:px-5 bg-[#111111] columns-2 md:columns-3 lg:columns-4 overflow-auto`}>
           {designList.map((design, index) => {
             return <img onClick={() => openLink(design)} key={index} src={design} className={`h-auto cursor-pointer my-5 rounded-lg break-inside-avoid`} />
           })}
         </div>}
 
-        {option === 'video' && <div className={`w-[90%] h-auto py-5 px-2 mt-28 lg:mt-36 lg:px-5 bg-[#111111] flex flex-col justify-start items-center overflow-auto`}>
+        {option === 'video' && <div className={`w-[90%] h-auto py-5 px-2 mt-36 lg:px-5 bg-[#111111] flex flex-col justify-start items-center overflow-auto`}>
           <p className={`w-full text-center font-Michroma text-[10px] md:text-lg lg:text-4xl font-bold text-white tracking-widest`}>Coming Soon</p>
         </div>}
 
@@ -46,6 +46,7 @@ function page() {
 }
 
 export default page;
+
 
 
 
