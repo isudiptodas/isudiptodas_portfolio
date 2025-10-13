@@ -2,6 +2,7 @@
 
 import { designList, imageList } from "@/data/work";
 import { useState } from "react";
+import Link from 'next/link';
 
 function page() {
 
@@ -10,7 +11,7 @@ function page() {
   return (
     <>
       <div className={`w-full relative h-screen bg-[#111111] overflow-y-hidden flex flex-col justify-start items-center pt-5`}>
-        <p className={`absolute left-1/2 -translate-x-1/2 top-7 font-Michroma text-[10px] text-white tracking-[5px]`}>ISUDIPTODAS</p>
+        <Link href='/' className={`absolute left-1/2 -translate-x-1/2 top-7 font-Michroma text-[10px] text-white tracking-[5px]`}>ISUDIPTODAS</Link>
 
         <div className={`w-[95%] fixed overflow-x-auto px-3 mt-16 h-auto flex justify-start md:justify-center items-center gap-3`}>
           <p onClick={() => setOption('photo')} className={`w-auto ${option === 'photo' ? "border-b-2 border-[#B2FF6E] font-bold" : "border-b-2 border-transparent"} text-white pb-3 px-5 text-[10px] md:text-sm xl:text-lg cursor-pointer tracking-widest font-Michroma`}>Photography</p>
@@ -41,4 +42,5 @@ function page() {
 }
 
 export default page;
+
 
