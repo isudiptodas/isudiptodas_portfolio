@@ -8,7 +8,7 @@ function page() {
 
   const [option, setOption] = useState('photo');
 
-  const openLink = (link:string){
+  const openLink = (link:string) => {
     window.open(link, '_blank');
   }
 
@@ -46,6 +46,7 @@ function page() {
 }
 
 export default page;
+
 
 
 
