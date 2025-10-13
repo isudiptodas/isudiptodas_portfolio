@@ -32,7 +32,22 @@ export const imageList = [
 ];
 
 export const designList = [
-    '',
+    'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/argentina.png',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/beats-solo.png',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/bombay-shaving-company.png',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/dhoni-ipl-2.png',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/dhoni-ipl.png',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/messi-argentina-2.png',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/messi-argentina.png',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/messi-ronaldo.png',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/neymar-brasil.png',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/ps5.png',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/sennheiser.png',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/spotify.png',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/the-box.png',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/the-weeknd.png',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/zayn.png',
 ];
+
 
 
