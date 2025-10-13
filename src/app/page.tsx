@@ -10,7 +10,6 @@ import CountUp from 'react-countup';
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/all";
-import { imageList } from "@/data/photographyImageList";
 import { CiCircleChevUp } from "react-icons/ci";
 import { CiCircleChevDown } from "react-icons/ci";
 
@@ -256,7 +255,7 @@ function page() {
         </div>
 
         {/* photography */}
-        <div className={`w-full py-5 flex justify-center items-center`}>
+        {/* <div className={`w-full py-5 flex justify-center items-center`}>
           <p onClick={() => setGalleryVisible(!galleryVisible)} className={`w-auto active:scale-95 px-5 border-2 cursor-pointer hover:bg-black hover:text-white text-black duration-200 ease-in-out border-black rounded-full py-2 flex justify-center items-center gap-3 font-Michroma text-sm md:text-lg`}>{galleryVisible ? <p className={`flex justify-center items-center gap-2`}>Hide Gallery <CiCircleChevUp className={`text-lg md:text-xl`} /></p> : <p className={`flex justify-center items-center gap-2`}>View Gallery <CiCircleChevDown className={`text-lg md:text-xl`} /></p>}</p>
         </div>
 
@@ -264,19 +263,23 @@ function page() {
           {imageList.map((image, index) => {
             return <img key={index} src={image} className={`h-auto my-5 rounded-lg break-inside-avoid`} />
           })}
-        </div>
+        </div> */}
 
         {/* design */}
-        <div className={`w-full bg-white py-10 flex justify-center items-center`}>
+        {/* <div className={`w-full bg-white py-10 flex justify-center items-center`}>
           <div id="design" className={`w-[80%] md:w-[60%] h-48 lg:h-56 rounded-xl relative bg-black flex flex-col justify-center items-start pl-5 overflow-hidden`}>
             <h1 className={`w-full z-20 text-start font-Michroma text-lg lg:text-2xl text-white font-bold`}>Explore My Design Portfolio</h1>
             <p className={`w-auto z-20 text-start font-Michroma text-[10px] md:text-sm text-black px-4 py-2 mt-2 rounded-full flex justify-center items-center gap-3 bg-white cursor-pointer hover:scale-95 duration-200 ease-in-out`} onClick={() => navigate('https://www.behance.net/sudipto_das')}>View on Behance <TiLocationArrow /></p>
             <img src="/assets/designBackground.jpg" className={`absolute z-10 w-full h-full`} />
           </div>
-        </div>
+        </div> */}
 
         <div className={`w-full bg-white py-7 md:py-12 flex justify-center items-center`}>
           <Link href='/cv_sudipto.pdf' download="/cv_sudipto.pdf" className={`w-auto px-5 py-2 hover:scale-95 hover:rounded-4xl duration-200 ease-in-out cursor-pointer bg-gradient-to-r from-blue-300 via-blue-500 to-blue-700 text-white font-Michroma text-sm md:text-lg font-light`}>Download CV</Link>
+        </div>
+
+        <div className={`w-full bg-white flex justify-center items-center`}>
+          <Link href='/studio' className={`w-auto px-5 lg:px-8 py-2 rounded-full shadow-2xl duration-200 ease-in-out cursor-pointer bg-gradient-to-r from-blue-500 via-teal-600 to-yellow-500 bg-clip-text text-transparent font-Michroma text-sm md:text-lg font-light`}>Enter Studio</Link>
         </div>
 
         {/* footer */}
@@ -284,10 +287,9 @@ function page() {
           <div className={`w-full md:w-[90%] flex flex-col justify-center items-center pt-5 pb-5 gap-3 rounded-lg lg:rounded-xl bg-[#b9b9b985]`}>
             <p className={`w-full text-center font-Michroma text-[10px] text-black tracking-[5px]`}>ISUDIPTODAS</p>
             <p className={`w-full text-center font-black font-Michroma text-xl sm:text-3xl lg:text-4xl xl:ext-6xl sm:mt-4 text-black`}>LET'S GET IN TOUCH</p>
-            <div className={`w-full mt-5 md:mt-10 px-5 md:px-10 grid grid-cols-2 md:grid-cols-5 justify-items-center gap-5`}>
+            <div className={`w-full mt-5 md:mt-10 px-5 md:px-10 grid grid-cols-2 md:grid-cols-4 justify-items-center gap-5`}>
               <p className={`w-full font-Michroma text-center text-sm xl:text-lg px-4 py-2 rounded-full hover:bg-black hover:text-white duration-200 ease-in-out text-black cursor-pointer`} onClick={() => navigate('https://www.linkedin.com/in/sudiptodas-developer')}>LinkedIn</p>
               <p className={`w-full font-Michroma text-center text-sm xl:text-lg px-4 py-2 rounded-full hover:bg-black hover:text-white duration-200 ease-in-out text-black cursor-pointer`} onClick={() => navigate('https://github.com/isudiptodas')}>Github</p>
-              <p className={`w-full font-Michroma text-center text-sm xl:text-lg px-4 py-2 rounded-full hover:bg-black hover:text-white duration-200 ease-in-out text-black cursor-pointer`} onClick={() => navigate('https://www.behance.net/sudipto_das')}>Behance</p>
               <p className={`w-full font-Michroma text-center text-sm xl:text-lg px-4 py-2 rounded-full hover:bg-black hover:text-white duration-200 ease-in-out text-black cursor-pointer`} onClick={() => navigate('isudiptodas10@gmail.com')}>Gmail</p>
               <p className={`w-full font-Michroma text-center text-sm xl:text-lg px-4 py-2 rounded-full hover:bg-black hover:text-white duration-200 ease-in-out text-black cursor-pointer`} onClick={() => navigate('isudiptodas01@outlook.com')}>Outlook</p>
             </div>
