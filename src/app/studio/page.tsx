@@ -13,9 +13,9 @@ function page() {
         <p className={`absolute left-1/2 -translate-x-1/2 top-7 font-Michroma text-[10px] text-white tracking-[5px]`}>ISUDIPTODAS</p>
 
         <div className={`w-[95%] fixed overflow-x-auto px-3 mt-16 h-auto flex justify-start md:justify-center items-center gap-3`}>
-          <p onClick={() => setOption('photo')} className={`w-auto ${option === 'photo' ? "border-b-2 border-[#B2FF6E]" : "border-b-2 border-transparent"} text-white pb-3 px-5 text-[10px] md:text-sm xl:text-lg cursor-pointer tracking-widest font-Michroma`}>Photography</p>
-          <p onClick={() => setOption('design')} className={`w-auto ${option === 'design' ? "border-b-2 border-[#B2FF6E]" : "border-b-2 border-transparent"} text-white pb-3 px-5 text-[10px] md:text-sm xl:text-lg cursor-pointer tracking-widest font-Michroma`}>Design</p>
-          <p onClick={() => setOption('video')} className={`w-auto ${option === 'video' ? "border-b-2 border-[#B2FF6E]" : "border-b-2 border-transparent"} text-white pb-3 px-5 text-[10px] md:text-sm xl:text-lg cursor-pointer tracking-widest font-Michroma`}>Video</p>
+          <p onClick={() => setOption('photo')} className={`w-auto ${option === 'photo' ? "border-b-2 border-[#B2FF6E] font-bold" : "border-b-2 border-transparent"} text-white pb-3 px-5 text-[10px] md:text-sm xl:text-lg cursor-pointer tracking-widest font-Michroma`}>Photography</p>
+          <p onClick={() => setOption('design')} className={`w-auto ${option === 'design' ? "border-b-2 border-[#B2FF6E] font-bold" : "border-b-2 border-transparent"} text-white pb-3 px-5 text-[10px] md:text-sm xl:text-lg cursor-pointer tracking-widest font-Michroma`}>Design</p>
+          <p onClick={() => setOption('video')} className={`w-auto ${option === 'video' ? "border-b-2 border-[#B2FF6E] font-bold" : "border-b-2 border-transparent"} text-white pb-3 px-5 text-[10px] md:text-sm xl:text-lg cursor-pointer tracking-widest font-Michroma`}>Video</p>
         </div>
 
         {option === 'photo' && <div className={`w-[90%] h-auto py-5 px-2 mt-28 lg:mt-36 lg:px-5 bg-[#111111] columns-2 md:columns-3 lg:columns-4 overflow-auto`}>
@@ -41,3 +41,4 @@ function page() {
 }
 
 export default page;
+
