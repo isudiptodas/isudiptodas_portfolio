@@ -159,22 +159,6 @@ function page() {
                 <h1 className={`font-Zen-Dots text-black text-3xl lg:text-4xl xl:text-5xl shrink-0`}>VIDEO EDITING</h1>
                 <span className={`p-2 rounded-full bg-transparent border-[2px] border-black`}><SiGooglegemini /></span>
               </div>
-
-
-              {/* <h1 className={`font-Zen-Dots text-black text-3xl shrink-0`}>LLM</h1>
-              <span className={`p-2 rounded-full bg-transparent border-[2px] border-black`}><SiGooglegemini /></span>
-
-              <h1 className={`font-Zen-Dots text-black text-3xl shrink-0`}>CLOUD</h1>
-              <span className={`p-2 rounded-full bg-transparent border-[2px] border-black`}><SiGooglegemini /></span>
-
-              <h1 className={`font-Zen-Dots text-black text-3xl shrink-0`}>POSTER DESIGN</h1>
-              <span className={`p-2 rounded-full bg-transparent border-[2px] border-black`}><SiGooglegemini /></span>
-
-              <h1 className={`font-Zen-Dots text-black text-3xl shrink-0`}>WEB ANIMATIONS</h1>
-              <span className={`p-2 rounded-full bg-transparent border-[2px] border-black`}><SiGooglegemini /></span>
-
-              <h1 className={`font-Zen-Dots text-black text-3xl shrink-0`}>VIDEO EDITING</h1>
-              <span className={`p-2 rounded-full bg-transparent border-[2px] border-black`}><SiGooglegemini /></span> */}
             </Marquee>
           </div>
 
@@ -254,26 +238,6 @@ function page() {
           </div>
         </div>
 
-        {/* photography */}
-        {/* <div className={`w-full py-5 flex justify-center items-center`}>
-          <p onClick={() => setGalleryVisible(!galleryVisible)} className={`w-auto active:scale-95 px-5 border-2 cursor-pointer hover:bg-black hover:text-white text-black duration-200 ease-in-out border-black rounded-full py-2 flex justify-center items-center gap-3 font-Michroma text-sm md:text-lg`}>{galleryVisible ? <p className={`flex justify-center items-center gap-2`}>Hide Gallery <CiCircleChevUp className={`text-lg md:text-xl`} /></p> : <p className={`flex justify-center items-center gap-2`}>View Gallery <CiCircleChevDown className={`text-lg md:text-xl`} /></p>}</p>
-        </div>
-
-        <div className={`w-[90%] ${galleryVisible ? "block" : "hidden"} h-auto py-10 px-1 lg:px-5 bg-white columns-2 md:columns-3 lg:columns-4 overflow-auto`}>
-          {imageList.map((image, index) => {
-            return <img key={index} src={image} className={`h-auto my-5 rounded-lg break-inside-avoid`} />
-          })}
-        </div> */}
-
-        {/* design */}
-        {/* <div className={`w-full bg-white py-10 flex justify-center items-center`}>
-          <div id="design" className={`w-[80%] md:w-[60%] h-48 lg:h-56 rounded-xl relative bg-black flex flex-col justify-center items-start pl-5 overflow-hidden`}>
-            <h1 className={`w-full z-20 text-start font-Michroma text-lg lg:text-2xl text-white font-bold`}>Explore My Design Portfolio</h1>
-            <p className={`w-auto z-20 text-start font-Michroma text-[10px] md:text-sm text-black px-4 py-2 mt-2 rounded-full flex justify-center items-center gap-3 bg-white cursor-pointer hover:scale-95 duration-200 ease-in-out`} onClick={() => navigate('https://www.behance.net/sudipto_das')}>View on Behance <TiLocationArrow /></p>
-            <img src="/assets/designBackground.jpg" className={`absolute z-10 w-full h-full`} />
-          </div>
-        </div> */}
-
         <div className={`w-full bg-white py-7 md:py-12 flex justify-center items-center`}>
           <Link href='/cv_sudipto.pdf' download="/cv_sudipto.pdf" className={`w-auto px-5 py-2 hover:scale-95 hover:rounded-4xl duration-200 ease-in-out cursor-pointer bg-gradient-to-r from-blue-300 via-blue-500 to-blue-700 text-white font-Michroma text-sm md:text-lg font-light`}>Download CV</Link>
         </div>
@@ -303,3 +267,4 @@ function page() {
 }
 
 export default page
+
