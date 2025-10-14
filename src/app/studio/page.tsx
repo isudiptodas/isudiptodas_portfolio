@@ -24,7 +24,7 @@ function page() {
         </div>
 
         <div className={`w-full h-auto flex justify-center items-center px-5 fixed bottom-8`}>
-        <Link href='/' className={`w-auto px-3 py-2 rounded-full text-white font-Michroma text-[10px] md:text-sm backdrop-blur-3xl bg-white/25`}>Exit Studio</Link>
+        <Link href='/' className={`w-auto px-5 py-3 rounded-full text-white font-Michroma text-[10px] md:text-sm backdrop-blur-3xl bg-white/25`}>Exit Studio</Link>
         </div>
 
         {option === 'photo' && <div className={`w-[90%] h-auto py-5 px-2 mt-36 lg:px-5 bg-[#111111] columns-2 md:columns-3 lg:columns-4 overflow-auto`}>
@@ -50,6 +50,7 @@ function page() {
 }
 
 export default page;
+
 
 
 
