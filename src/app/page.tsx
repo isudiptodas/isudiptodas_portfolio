@@ -243,7 +243,7 @@ function page() {
         </div>
 
         <div className={`w-full bg-white flex justify-center items-center`}>
-          <Link href='/studio' className={`w-auto px-5 lg:px-8 py-2 rounded-full shadow-2xl duration-200 ease-in-out cursor-pointer bg-gradient-to-r from-blue-500 via-teal-600 to-yellow-500 bg-clip-text text-transparent font-Michroma text-sm md:text-lg font-light`}>Enter Studio</Link>
+          <Link href='/studio' className={`w-auto px-5 lg:px-8 py-2 rounded-full border-2 border-black shadow-2xl duration-200 ease-in-out cursor-pointer bg-gradient-to-r from-blue-500 via-teal-600 to-yellow-500 bg-clip-text text-transparent font-Michroma text-sm md:text-lg font-light`}>Enter Studio</Link>
         </div>
 
         {/* footer */}
@@ -267,4 +267,5 @@ function page() {
 }
 
 export default page
+
 
