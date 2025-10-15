@@ -1,4 +1,5 @@
 export const imageList = [
+    'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/3d-music-player.png',
     'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/afternoon-ride.jpg',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/arm-wrestling.jpg',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/august-evening.jpg',
@@ -49,6 +50,7 @@ export const designList = [
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/the-weeknd.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/zayn.png',
 ];
+
 
 
 
