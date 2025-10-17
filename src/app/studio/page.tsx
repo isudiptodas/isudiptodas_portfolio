@@ -17,7 +17,7 @@ function page() {
       <div className={`w-full relative h-screen bg-[#111111] overflow-y-hidden flex flex-col justify-start items-center pt-5`}>
         <Link href='/' className={`absolute left-1/2 -translate-x-1/2 top-7 font-Michroma text-[10px] text-white tracking-[5px]`}>ISUDIPTODAS</Link>
 
-        <div className={`w-[95%] fixed py-3 border-[2px] border-neutral-700 rounded-full overflow-x-auto px-3 mt-16 h-auto flex justify-start md:justify-center items-center gap-3`}>
+        <div className={`w-[95%] md:w-auto fixed py-3 border-[2px] border-neutral-700 rounded-full overflow-x-auto px-3 mt-16 h-auto flex justify-evenly md:justify-center items-center gap-3 md:gap-5`}>
           <p onClick={() => setOption('photo')} className={`w-auto ${option === 'photo' ? " bg-[#B2FF6E] text-black font-bold" : " bg-transparent text-white "} rounded-full py-3 px-3 text-[10px] md:text-sm xl:text-lg cursor-pointer tracking-widest font-Michroma`}>Photography</p>
           <p onClick={() => setOption('design')} className={`w-auto ${option === 'design' ? " bg-[#B2FF6E] text-black font-bold" : " bg-transparent text-white "} rounded-full py-3 px-3 text-[10px] md:text-sm xl:text-lg cursor-pointer tracking-widest font-Michroma`}>Design</p>
           <p onClick={() => setOption('video')} className={`w-auto ${option === 'video' ? "bg-[#B2FF6E] text-black font-bold" : "bg-transparent text-white"} rounded-full py-3 px-3 text-[10px] md:text-sm xl:text-lg cursor-pointer tracking-widest font-Michroma`}>Video</p>
@@ -50,6 +50,7 @@ function page() {
 }
 
 export default page;
+
 
 
 
