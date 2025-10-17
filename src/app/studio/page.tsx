@@ -27,13 +27,13 @@ function page() {
         <Link href='/' className={`w-auto px-5 py-3 rounded-full text-white font-Michroma text-[10px] md:text-sm backdrop-blur-3xl bg-white/25`}>Exit Studio</Link>
         </div>
 
-        {option === 'photo' && <div className={`w-[90%] h-auto py-5 px-2 mt-36 lg:px-5 bg-[#111111] columns-2 md:columns-3 lg:columns-4 overflow-auto`}>
+        {option === 'photo' && <div className={`w-[90%] h-auto py-5 mt-36 lg:px-3 bg-[#111111] columns-2 md:columns-3 lg:columns-4 overflow-auto`}>
           {imageList.map((image, index) => {
             return <img onClick={() => openLink(image)} key={index} src={image} className={`h-auto cursor-pointer my-5 rounded-lg break-inside-avoid`} />
           })}
         </div>}
 
-        {option === 'design' && <div className={`w-[90%] h-auto py-5 px-2 mt-36 lg:px-5 bg-[#111111] columns-2 md:columns-3 lg:columns-4 overflow-auto`}>
+        {option === 'design' && <div className={`w-[90%] h-auto py-5 mt-36 lg:p bg-[#111111] columns-2 md:columns-3 lg:columns-4 overflow-auto`}>
           {designList.map((design, index) => {
             return <img onClick={() => openLink(design)} key={index} src={design} className={`h-auto cursor-pointer my-5 rounded-lg break-inside-avoid`} />
           })}
@@ -50,6 +50,7 @@ function page() {
 }
 
 export default page;
+
 
 
 
