@@ -185,12 +185,12 @@ function page() {
             <p className={`text-white font-Michroma text-[10px] md:text-sm w-full text-start flex justify-start items-center gap-3`}><SiGooglegemini /> I not just build applications, but instead focus on building new solutions for the problems I faced. </p>
             <p className={`text-white font-Michroma text-[10px] md:text-sm w-full text-start flex justify-start items-center gap-3`}><SiGooglegemini /> I am always curious to learn new things, try new tech stack and implement them in my way. </p>
 
-            <p className={`text-white font-Michroma text-[10px] md:text-sm w-full text-start`}>
+            <p className={`text-white mt-3 font-Michroma text-[10px] md:text-sm w-full text-start`}>
               Beside this, I also have a lot of interest in photography, cinematography, editing, storytelling and making digital designs. Have a look on 
               my photography and design works in my studio.
             </p>
 
-            <div className={`w-full bg-transparent flex justify-center items-center`}>
+            <div className={`w-full mt-2 bg-transparent flex justify-center items-center`}>
               <Link href='/studio' className={`w-auto px-5 lg:px-8 py-2 rounded-full bg-white text-black duration-200 ease-in-out cursor-pointer font-Michroma text-sm md:text-lg font-light`}>Enter Studio</Link>
             </div>
           </div>
@@ -261,10 +261,6 @@ function page() {
           <Link href='/cv_sudipto.pdf' download="/cv_sudipto.pdf" className={`w-auto px-5 py-2 hover:scale-95 hover:rounded-4xl duration-200 ease-in-out cursor-pointer bg-gradient-to-r from-blue-300 via-blue-500 to-blue-700 text-white font-Michroma text-sm md:text-lg font-light`}>Download CV</Link>
         </div>
 
-        <div className={`w-full bg-white flex justify-center items-center`}>
-          <Link href='/studio' className={`w-auto px-5 lg:px-8 py-2 rounded-full border-2 border-black shadow-2xl duration-200 ease-in-out cursor-pointer bg-gradient-to-r from-blue-500 via-teal-600 to-yellow-500 bg-clip-text text-transparent font-Michroma text-sm md:text-lg font-light`}>Enter Studio</Link>
-        </div>
-
         {/* footer */}
         <div className={`w-full h-auto flex justify-center items-center px-7 py-8 md:py-10`}>
           <div className={`w-full md:w-[90%] flex flex-col justify-center items-center pt-5 pb-5 gap-3 rounded-lg lg:rounded-xl bg-[#b9b9b985]`}>
@@ -286,6 +282,7 @@ function page() {
 }
 
 export default page
+
 
 
 
