@@ -156,6 +156,16 @@ function page() {
               </div>
 
               <div className={`w-auto px-3 flex justify-center items-center gap-5`}>
+                <h1 className={`font-Zen-Dots text-black text-3xl lg:text-4xl xl:text-5xl shrink-0`}>STORYTELLING</h1>
+                <span className={`p-2 rounded-full bg-transparent border-[2px] border-black`}><SiGooglegemini /></span>
+              </div>
+
+              <div className={`w-auto px-3 flex justify-center items-center gap-5`}>
+                <h1 className={`font-Zen-Dots text-black text-3xl lg:text-4xl xl:text-5xl shrink-0`}>PHOTOGRAPHY</h1>
+                <span className={`p-2 rounded-full bg-transparent border-[2px] border-black`}><SiGooglegemini /></span>
+              </div>
+
+              <div className={`w-auto px-3 flex justify-center items-center gap-5`}>
                 <h1 className={`font-Zen-Dots text-black text-3xl lg:text-4xl xl:text-5xl shrink-0`}>VIDEO EDITING</h1>
                 <span className={`p-2 rounded-full bg-transparent border-[2px] border-black`}><SiGooglegemini /></span>
               </div>
@@ -174,6 +184,15 @@ function page() {
             <p className={`text-white font-Michroma text-[10px] md:text-sm w-full text-start flex justify-start items-center gap-3`}><SiGooglegemini /> With me development can be as fun as playing super mario.</p>
             <p className={`text-white font-Michroma text-[10px] md:text-sm w-full text-start flex justify-start items-center gap-3`}><SiGooglegemini /> I not just build applications, but instead focus on building new solutions for the problems I faced. </p>
             <p className={`text-white font-Michroma text-[10px] md:text-sm w-full text-start flex justify-start items-center gap-3`}><SiGooglegemini /> I am always curious to learn new things, try new tech stack and implement them in my way. </p>
+
+            <p className={`text-white font-Michroma text-[10px] md:text-sm w-full text-start`}>
+              Beside this, I also have a lot of interest in photography, cinematography, editing, storytelling and making digital designs. Have a look on 
+              my photography and design works in my studio.
+            </p>
+
+            <div className={`w-full bg-transparent flex justify-center items-center`}>
+              <Link href='/studio' className={`w-auto px-5 lg:px-8 py-2 rounded-full bg-white text-black duration-200 ease-in-out cursor-pointer font-Michroma text-sm md:text-lg font-light`}>Enter Studio</Link>
+            </div>
           </div>
         </div>
 
@@ -267,5 +286,6 @@ function page() {
 }
 
 export default page
+
 
 
