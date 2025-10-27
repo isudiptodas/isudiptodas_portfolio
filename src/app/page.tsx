@@ -172,7 +172,7 @@ function page() {
             </Marquee>
           </div>
 
-          <div className={`pt-16 pb-10 lg:pt-28 lg:pt-16 px-5 w-full z-20 md:px-12 flex flex-col justify-start items-start gap-4`}>
+          <div className={`pt-16 pb-10 lg:pt-28 lg:pb-16 px-5 w-full z-20 md:px-12 flex flex-col justify-start items-start gap-4`}>
             <h3 className={`text-white font-Michroma text-xl md:text-2xl w-full text-start font-semibold`}>ABOUT ME</h3>
             <p className={`text-white font-Michroma text-[10px] md:text-sm w-full text-start`}>I’m a passionate full-stack developer with over 2 years of hands
               on experience on MERN stack, NextJS, SpringBoot specializing in building dynamic and responsive user interfaces.
@@ -282,6 +282,7 @@ function page() {
 }
 
 export default page
+
 
 
 
