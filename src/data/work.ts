@@ -1,4 +1,7 @@
 export const imageList = [
+    'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/dogs.jpg',
+    'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/sleeping-cat-1.jpg',
+    'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/sleeping-cat-2.jpg',
     'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/window-boy.jpg',
     'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/coca-cola.jpg',
     'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/park-street-christmas.jpg',
@@ -55,6 +58,7 @@ export const designList = [
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/the-weeknd.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/zayn.png',
 ];
+
 
 
 
