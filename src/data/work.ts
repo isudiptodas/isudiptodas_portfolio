@@ -1,14 +1,14 @@
 export const imageList = [
-    'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/dogs.jpg',
-    'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/sleeping-cat-1.jpg',
-    'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/sleeping-cat-2.jpg',
-    'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/window-boy.jpg',
-    'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/coca-cola.jpg',
-    'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/park-street-christmas.jpg',
-    'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/maidan-morning-2.jpg',
-    'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/victoria-afternoon.jpg',
-    'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/3d-music-player.png',
-    'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/afternoon-ride.jpg',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/dogs.jpg',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/sleeping-cat-1.jpg',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/sleeping-cat-2.jpg',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/window-boy.jpg',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/coca-cola.jpg',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/park-street-christmas.jpg',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/maidan-morning-2.jpg',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/victoria-afternoon.jpg',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/3d-music-player.png',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/afternoon-ride.jpg',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/arm-wrestling.jpg',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/august-evening.jpg',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/belagavi-leading-lines.jpg',
@@ -41,8 +41,8 @@ export const imageList = [
 ];
 
 export const designList = [
-    'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/stranger-things-5.jpg',
-    'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/argentina.png',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/stranger-things-5.jpg',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/argentina.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/beats-solo.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/bombay-shaving-company.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/dhoni-ipl-2.png',
@@ -58,6 +58,7 @@ export const designList = [
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/the-weeknd.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/zayn.png',
 ];
+
 
 
 
