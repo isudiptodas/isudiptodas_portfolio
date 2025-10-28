@@ -19,5 +19,6 @@ html, .sidebar, .content{
 }
 
 body{
-  cursor: url('/assets/cursor.png'), default;
+  cursor: url('/assets/cursor.png'), auto;
 }
+
