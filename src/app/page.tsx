@@ -190,7 +190,7 @@ function page() {
               my photography and design works in my studio.
             </p>
 
-            <div className={`w-full mt-2 bg-transparent flex justify-center items-center`}>
+            <div className={`w-full mt-5 bg-transparent flex justify-center items-center`}>
               <Link href='/studio' className={`w-auto px-5 lg:px-8 py-2 rounded-full bg-white text-black duration-200 ease-in-out cursor-pointer font-Michroma text-sm md:text-lg font-light`}>Enter Studio</Link>
             </div>
           </div>
@@ -282,6 +282,7 @@ function page() {
 }
 
 export default page
+
 
 
 
