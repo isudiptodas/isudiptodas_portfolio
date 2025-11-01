@@ -43,6 +43,9 @@ export const imageList = [
 ];
 
 export const designList = [
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/srk-1.png',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/srk-2.png',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/srk-3.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/stranger-things-5.jpg',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/argentina.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/beats-solo.png',
@@ -60,6 +63,7 @@ export const designList = [
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/the-weeknd.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/zayn.png',
 ];
+
 
 
 
