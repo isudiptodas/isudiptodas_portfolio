@@ -197,7 +197,7 @@ function page() {
         </div>
 
         {/* tech stack */}
-        <div className={`w-full px-5 md:px-12 bg-[#0D1BC3] flex flex-col justify-start items-center gap-3 py-10`}>
+        <div className={`w-full px-5 md:px-12 bg-[#0D1BC3] flex flex-col justify-start items-center gap-3 pt-5 pb-10`}>
           <h3 className={`text-white font-Michroma text-xl md:text-2xl w-full text-center font-semibold`}>TECH STACK WORKED WITH</h3>
 
           {/* grids */}
@@ -282,6 +282,7 @@ function page() {
 }
 
 export default page
+
 
 
 
