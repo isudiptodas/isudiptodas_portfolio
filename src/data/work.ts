@@ -1,4 +1,5 @@
 export const imageList = [
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/clock-tower-2.jpg',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/upside-down.jpg',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/clock-tower.jpg',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/denver-1.jpg',
@@ -66,6 +67,7 @@ export const designList = [
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/the-weeknd.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/zayn.png',
 ];
+
 
 
 
