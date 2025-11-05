@@ -8,7 +8,7 @@ import { FaPlay } from "react-icons/fa";
 
 function page() {
 
-  const [option, setOption] = useState('video');
+  const [option, setOption] = useState('photo');
   const[videoOpen, setVideoOpen] = useState(false);
   const[currentVideo, setCurrentVideo] = useState<null | string>(null);
 
@@ -71,6 +71,7 @@ function page() {
 }
 
 export default page;
+
 
 
 
