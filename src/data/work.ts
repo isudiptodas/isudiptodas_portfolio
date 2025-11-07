@@ -46,6 +46,12 @@ export const imageList = [
 ];
 
 export const designList = [
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/fifa-world-cup-2026.png',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/fifa26-messi.png',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/fifa26-ronaldo.png',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/fifa26-neymar.png',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/fifa26-mbappe.png',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/fifa26-hakimi.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/ssmb29.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/srk-1.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/srk-2.png',
@@ -67,6 +73,7 @@ export const designList = [
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/the-weeknd.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/zayn.png',
 ];
+
 
 
 
