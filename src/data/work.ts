@@ -1,5 +1,5 @@
 export const imageList = [
-'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/tram-window.jpg',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/tram-window.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/kolkata-tram.jpg',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/bus.jpg',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/maidan-winter.jpg',
@@ -78,6 +78,7 @@ export const designList = [
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/the-weeknd.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/zayn.png',
 ];
+
 
 
 
