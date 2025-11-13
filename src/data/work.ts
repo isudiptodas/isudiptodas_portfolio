@@ -50,6 +50,7 @@ export const imageList = [
 ];
 
 export const designList = [
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/eyes-closed-mv.jpg',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/joe-keery.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/fifa-world-cup-2026.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/fifa26-messi.png',
@@ -78,6 +79,7 @@ export const designList = [
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/the-weeknd.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/zayn.png',
 ];
+
 
 
 
