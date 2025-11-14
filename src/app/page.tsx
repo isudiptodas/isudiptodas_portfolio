@@ -10,8 +10,6 @@ import CountUp from 'react-countup';
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/all";
-import { CiCircleChevUp } from "react-icons/ci";
-import { CiCircleChevDown } from "react-icons/ci";
 
 gsap.registerPlugin(ScrollTrigger);
 

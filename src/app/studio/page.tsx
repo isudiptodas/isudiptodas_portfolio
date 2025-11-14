@@ -5,10 +5,15 @@ import { useState } from "react";
 import Link from 'next/link';
 import { videoLinks } from "@/data/video";
 import { FaPlay } from "react-icons/fa";
+import { IoMdPhotos } from "react-icons/io";
+import { BsVectorPen } from "react-icons/bs";
+import { FaVideo } from "react-icons/fa";
+import { IoDocumentText } from "react-icons/io5";
+import { documentList } from "@/data/documents";
 
 function page() {
 
-  const [option, setOption] = useState('photo');
+  const [option, setOption] = useState('document');
   const[videoOpen, setVideoOpen] = useState(false);
   const[currentVideo, setCurrentVideo] = useState<null | string>(null);
 
@@ -22,9 +27,10 @@ function page() {
         <Link href='/' className={`absolute left-1/2 -translate-x-1/2 top-7 font-Michroma text-[10px] text-white tracking-[5px]`}>ISUDIPTODAS</Link>
 
         <div className={`w-[95%] md:w-auto fixed py-3 border-[2px] border-neutral-700 rounded-full overflow-x-auto px-3 mt-16 h-auto flex justify-evenly md:justify-center items-center gap-3 md:gap-5`}>
-          <p onClick={() => setOption('photo')} className={`w-auto ${option === 'photo' ? " bg-[#B2FF6E] text-black font-bold" : " bg-transparent text-white "} rounded-full py-3 px-3 text-[10px] md:text-sm xl:text-lg cursor-pointer tracking-widest font-Michroma`}>Photography</p>
-          <p onClick={() => setOption('design')} className={`w-auto ${option === 'design' ? " bg-[#B2FF6E] text-black font-bold" : " bg-transparent text-white "} rounded-full py-3 px-3 text-[10px] md:text-sm xl:text-lg cursor-pointer tracking-widest font-Michroma`}>Design</p>
-          <p onClick={() => setOption('video')} className={`w-auto ${option === 'video' ? "bg-[#B2FF6E] text-black font-bold" : "bg-transparent text-white"} rounded-full py-3 px-3 text-[10px] md:text-sm xl:text-lg cursor-pointer tracking-widest font-Michroma`}>Video</p>
+          <p onClick={() => setOption('photo')} className={`w-auto ${option === 'photo' ? " bg-[#B2FF6E] text-black font-bold" : " bg-transparent text-white "} rounded-full py-3 px-3 text-[10px] md:text-sm xl:text-lg cursor-pointer tracking-widest font-Michroma flex justify-center items-center gap-2`}>Photography <IoMdPhotos  className={`text-lg`}/></p>
+          <p onClick={() => setOption('design')} className={`w-auto ${option === 'design' ? " bg-[#B2FF6E] text-black font-bold" : " bg-transparent text-white "} rounded-full py-3 px-3 text-[10px] md:text-sm xl:text-lg cursor-pointer tracking-widest font-Michroma flex justify-center items-center gap-2`}>Design <BsVectorPen  className={`text-lg`}/></p>
+          <p onClick={() => setOption('video')} className={`w-auto ${option === 'video' ? "bg-[#B2FF6E] text-black font-bold" : "bg-transparent text-white"} rounded-full py-3 px-3 text-[10px] md:text-sm xl:text-lg cursor-pointer tracking-widest font-Michroma flex justify-center items-center gap-2`}>Video <FaVideo  className={`text-lg`}/></p>
+          <p onClick={() => setOption('document')} className={`w-auto ${option === 'document' ? "bg-[#B2FF6E] text-black font-bold" : "bg-transparent text-white"} rounded-full py-3 px-3 text-[10px] md:text-sm xl:text-lg cursor-pointer tracking-widest font-Michroma flex justify-center items-center gap-2`}>Document <IoDocumentText className={`text-lg`} /></p>
         </div>
 
         {/* video play box */}
@@ -48,6 +54,15 @@ function page() {
         {option === 'design' && <div className={`w-[90%] h-auto py-5 mt-36 lg:mt-40 lg:p bg-[#111111] columns-2 md:columns-3 lg:columns-4 overflow-auto`}>
           {designList.map((design, index) => {
             return <img onClick={() => openLink(design)} key={index} src={design} className={`h-auto cursor-pointer my-5 rounded-lg break-inside-avoid`} />
+          })}
+        </div>}
+
+        {option === 'document' && <div className={`w-[90%] h-auto py-5 mt-36 lg:mt-40 lg:p bg-[#111111] grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 overflow-auto`}>
+          {documentList.map((doc, index) => {
+            return <div key={index} className={`w-auto hover:bg-zinc-800 duration-300 ease-in-out cursor-pointer bg-transparent h-auto px-2 py-2 rounded-xl flex flex-col justify-start items-center gap-2`}>
+              <img onClick={() => openLink(doc.link)} src={doc.thumbnail} className={`h-auto rounded-xl cursor-pointer`} />
+              <p className={`font-Urbanist text-white text-[10px] md:text-sm xl:text-lg w-full text-start mt-2`}>{doc.name}</p>
+            </div>
           })}
         </div>}
 

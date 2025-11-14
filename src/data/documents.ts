@@ -1,0 +1,12 @@
+export const documentList = [
+    {
+        name: `The Art Of Web Development`,
+        thumbnail: `https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/documents_thumbnail/web-development.png`,
+        link: `https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/documents/The%20Art%20Of%20Web%20Development.pdf`
+    },
+    {
+        name: `Decoding LLM`,
+        thumbnail: `https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/documents_thumbnail/decoding-llm.png`,
+        link: `https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/documents/Decoding%20LLM.pdf`
+    },
+]
