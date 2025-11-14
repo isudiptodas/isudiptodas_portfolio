@@ -1,4 +1,6 @@
 export const imageList = [
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/howrah-winter-morning.jpg',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/kolkata-city.jpg',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/tram-window.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/park-street-afternoon.jpg',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/kolkata-tram.jpg',
@@ -79,6 +81,7 @@ export const designList = [
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/the-weeknd.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/zayn.png',
 ];
+
 
 
 
