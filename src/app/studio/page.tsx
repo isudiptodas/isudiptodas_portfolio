@@ -13,7 +13,7 @@ import { documentList } from "@/data/documents";
 
 function page() {
 
-  const [option, setOption] = useState('document');
+  const [option, setOption] = useState('photo');
   const[videoOpen, setVideoOpen] = useState(false);
   const[currentVideo, setCurrentVideo] = useState<null | string>(null);
 
@@ -86,6 +86,7 @@ function page() {
 }
 
 export default page;
+
 
 
 
