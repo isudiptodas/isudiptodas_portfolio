@@ -223,7 +223,7 @@ function page() {
             </div>
             <div className={`bg-white/40 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
               <h3 className={`w-full text-center font-Michroma font-semibold text-[#76fe00] text-sm`}>MISC</h3>
-              <p className="w-full text-center mt-5 font-Urbanist text-white text-sm">ArcJet, Docker, Drizle, Prisma</p>
+              <p className="w-full text-center mt-5 font-Urbanist text-white text-sm">ArcJet, Docker, Drizzle, Prisma, Langchain</p>
             </div>
           </div>
         </div>
@@ -280,6 +280,7 @@ function page() {
 }
 
 export default page
+
 
 
 
