@@ -10,13 +10,19 @@ import CountUp from 'react-countup';
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/all";
+import { FaApple } from "react-icons/fa";
+import { FaMicrosoft } from "react-icons/fa6";
+import { BiLogoGmail } from "react-icons/bi";
+import { PiMicrosoftOutlookLogoFill } from "react-icons/pi";
+import { FaGithub } from "react-icons/fa";
+import { FaLinkedin } from "react-icons/fa";
+import { FaSquareXTwitter } from "react-icons/fa6";
 
 gsap.registerPlugin(ScrollTrigger);
 
 function page() {
 
-  const [loaded, setLoaded] = useState(false);
-  const [galleryVisible, setGalleryVisible] = useState(false);
+  const [loaded, setLoaded] = useState(true);
 
   const navigate = (link: string) => {
     if (link.startsWith(`https`)) {
@@ -184,7 +190,7 @@ function page() {
             <p className={`text-white font-Michroma text-[10px] md:text-sm w-full text-start flex justify-start items-center gap-3`}><SiGooglegemini /> I am always curious to learn new things, try new tech stack and implement them in my way. </p>
 
             <p className={`text-white mt-3 font-Michroma text-[10px] md:text-sm w-full text-start`}>
-              Beside this, I also have a lot of interest in photography, cinematography, editing, storytelling and making digital designs. Have a look on 
+              Beside this, I also have a lot of interest in photography, cinematography, editing, storytelling and making digital designs. Have a look on
               my photography and design works in my studio.
             </p>
 
@@ -255,22 +261,39 @@ function page() {
           </div>
         </div>
 
-        <div className={`w-full bg-white py-7 md:py-12 flex justify-center items-center`}>
+
+        {/* os theme portfolio */}
+        <div className={`w-full relative h-auto bg-zinc-900 py-8 lg:py-10 px-5 flex flex-col justify-start items-center`}>
+          <div className={`w-full absolute top-0 py-3 rounded-b-4xl bg-white`}></div>
+
+          <h1 className={`w-full mb-7 mt-8 lg:mb-10 text-center font-Michroma font-semibold text-xl lg:text-3xl text-white opacity-35 leading-10`}>Check Out OS Inspired Portfolio</h1>
+
+          <div className={`w-full h-auto flex flex-col md:flex-row justify-center items-center gap-5`}>
+            {/* macos */}
+            <div onClick={() => navigate('https://os-theme.vercel.app/macos')} className={`w-auto h-auto hover:bg-white group duration-200 ease-in-out border border-gray-500 cursor-pointer py-3 px-6 rounded-md flex justify-center items-center gap-2`}>
+              <span className={`text-2xl text-white group-hover:text-black duration-200 ease-in-out`}><FaApple /></span>
+              <p className={`text-white group-hover:text-black duration-200 ease-in-out font-semibold text-lg`}>MacOS</p>
+            </div>
+
+            {/* windows */}
+            <div onClick={() => navigate('https://os-theme.vercel.app/windows')} className={`w-auto h-auto hover:bg-blue-500 duration-200 ease-in-out border border-gray-500 cursor-pointer py-3 px-6 rounded-md flex justify-center items-center gap-2`}>
+              <span className={`text-2xl text-white`}><FaMicrosoft /></span>
+              <p className={`text-white font-semibold text-lg`}>Windows</p>
+            </div>
+          </div>
+        </div>
+
+        <div className={`w-full bg-zinc-900 py-7 md:py-12 flex justify-center items-center`}>
           <Link href='/cv_sudipto.pdf' download="/cv_sudipto.pdf" className={`w-auto px-5 py-2 hover:scale-95 hover:rounded-4xl duration-200 ease-in-out cursor-pointer bg-gradient-to-r from-blue-300 via-blue-500 to-blue-700 text-white font-Michroma text-sm md:text-lg font-light`}>Download CV</Link>
         </div>
 
         {/* footer */}
-        <div className={`w-full h-auto flex justify-center items-center px-7 py-8 md:py-10`}>
-          <div className={`w-full md:w-[90%] flex flex-col justify-center items-center pt-5 pb-5 gap-3 rounded-lg lg:rounded-xl bg-[#b9b9b985]`}>
-            <p className={`w-full text-center font-Michroma text-[10px] text-black tracking-[5px]`}>ISUDIPTODAS</p>
-            <p className={`w-full text-center font-black font-Michroma text-xl sm:text-3xl lg:text-4xl xl:ext-6xl sm:mt-4 text-black`}>LET'S GET IN TOUCH</p>
-            <div className={`w-full mt-5 md:mt-10 px-5 md:px-10 grid grid-cols-2 md:grid-cols-4 justify-items-center gap-5`}>
-              <p className={`w-full font-Michroma text-center text-sm xl:text-lg px-4 py-2 rounded-full hover:bg-black hover:text-white duration-200 ease-in-out text-black cursor-pointer`} onClick={() => navigate('https://www.linkedin.com/in/sudiptodas-developer')}>LinkedIn</p>
-              <p className={`w-full font-Michroma text-center text-sm xl:text-lg px-4 py-2 rounded-full hover:bg-black hover:text-white duration-200 ease-in-out text-black cursor-pointer`} onClick={() => navigate('https://github.com/isudiptodas')}>Github</p>
-              <p className={`w-full font-Michroma text-center text-sm xl:text-lg px-4 py-2 rounded-full hover:bg-black hover:text-white duration-200 ease-in-out text-black cursor-pointer`} onClick={() => navigate('isudiptodas10@gmail.com')}>Gmail</p>
-              <p className={`w-full font-Michroma text-center text-sm xl:text-lg px-4 py-2 rounded-full hover:bg-black hover:text-white duration-200 ease-in-out text-black cursor-pointer`} onClick={() => navigate('isudiptodas01@outlook.com')}>Outlook</p>
-            </div>
-          </div>
+        <div className={`w-full h-auto py-10 flex justify-center items-center gap-5 lg:gap-8 bg-zinc-900`}>
+            <span onClick={() => navigate('mailto:work.sudiptodas@gmail.com')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><BiLogoGmail/></span>
+            <span onClick={() => navigate('mailto:isudiptodas01@outlook.com')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><PiMicrosoftOutlookLogoFill/></span>
+            <span onClick={() => navigate('https://github.com/isudiptodas')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><FaGithub/></span>
+            <span onClick={() => navigate('https://www.linkedin.com/in/sudiptodas-developer')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><FaLinkedin/></span>
+            <span onClick={() => navigate('https://www.x.com/isudiptodas')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><FaSquareXTwitter/></span>
         </div>
 
       </div>
