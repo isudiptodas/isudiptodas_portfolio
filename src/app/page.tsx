@@ -22,7 +22,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 function page() {
 
-  const [loaded, setLoaded] = useState(true);
+  const [loaded, setLoaded] = useState(false);
 
   const navigate = (link: string) => {
     if (link.startsWith(`https`)) {
@@ -303,6 +303,7 @@ function page() {
 }
 
 export default page
+
 
 
 
