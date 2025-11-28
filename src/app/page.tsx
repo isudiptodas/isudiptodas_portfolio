@@ -266,7 +266,7 @@ function page() {
         <div className={`w-full relative h-auto bg-zinc-900 py-8 lg:py-10 px-5 flex flex-col justify-start items-center`}>
           <div className={`w-full absolute top-0 py-3 rounded-b-4xl bg-white`}></div>
 
-          <h1 className={`w-full mb-7 mt-8 lg:mb-10 text-center font-Michroma font-semibold text-xl lg:text-3xl text-white opacity-35 leading-10`}>Check Out OS Inspired Portfolio</h1>
+          <h1 className={`w-full mb-7 mt-8 lg:mb-10 text-center font-Michroma font-semibold text-xl lg:text-3xl text-white opacity-35 leading-10`}>OS Inspired</h1>
 
           <div className={`w-full h-auto flex flex-col md:flex-row justify-center items-center gap-5`}>
             {/* macos */}
@@ -303,6 +303,7 @@ function page() {
 }
 
 export default page
+
 
 
 
