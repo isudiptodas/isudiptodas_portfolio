@@ -53,6 +53,7 @@ export const imageList = [
 ];
 
 export const designList = [
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/poulami-adhikary.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/varanasi.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/bahubali-the-epic.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/eyes-closed-mv.jpg',
@@ -84,6 +85,7 @@ export const designList = [
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/the-weeknd.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/zayn.png',
 ];
+
 
 
 
