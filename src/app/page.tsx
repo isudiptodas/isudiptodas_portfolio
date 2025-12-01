@@ -5,7 +5,7 @@ import Marquee from "react-fast-marquee";
 import { projectList } from "@/data/projectList";
 import { TiLocationArrow } from "react-icons/ti";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CountUp from 'react-countup';
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -17,12 +17,26 @@ import { PiMicrosoftOutlookLogoFill } from "react-icons/pi";
 import { FaGithub } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
+import { freelance } from "@/data/freelance";
 
 gsap.registerPlugin(ScrollTrigger);
 
 function page() {
 
   const [loaded, setLoaded] = useState(false);
+  const [hiringVisible, setHiringVisible] = useState(false);
+
+  useEffect(() => {
+    if (hiringVisible) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [hiringVisible]);
 
   const navigate = (link: string) => {
     if (link.startsWith(`https`)) {
@@ -101,8 +115,8 @@ function page() {
   return (
     <>
 
-      <div className={`absolute rounded-b-2xl ${loaded ? "-translate-y-full" : "translate-y-0"} duration-500 ease-in-out top-0 w-full h-screen bg-[#0D1BC3] overflow-hidden z-40 flex justify-center items-center`}>
-        <p className={`font-Michroma text-[#B2FF6E] font-semibold text-lg lg:text-2xl`}><CountUp start={0} duration={4} end={100} onEnd={() => { setLoaded(true); animate() }} /></p>
+      <div className={`absolute rounded-b-2xl ${loaded ? "-translate-y-full" : "translate-y-0"} duration-500 ease-in-out top-0 w-full h-screen bg-gradient-to-br from-black via-[#040b5d] to-[#0D1BC3] overflow-hidden z-40 flex justify-center items-center`}>
+        <p className={`font-Michroma text-[#B2FF6E] font-semibold text-lg lg:text-2xl`}><CountUp start={0} duration={3} end={100} onEnd={() => { setLoaded(true); animate() }} /></p>
       </div>
 
       <div className={`overflow-hidden ${loaded ? "block" : "hidden"} h-auto w-full flex flex-col justify-start items-center relative`}>
@@ -178,18 +192,18 @@ function page() {
 
           <div className={`pt-16 pb-10 lg:pt-28 lg:pb-16 px-5 w-full z-20 md:px-12 flex flex-col justify-start items-start gap-4`}>
             <h3 className={`text-white font-Michroma text-xl md:text-2xl w-full text-start font-semibold`}>ABOUT ME</h3>
-            <p className={`text-white font-Michroma text-[10px] md:text-sm w-full text-start`}>I’m a passionate full-stack developer with over 2 years of hands
+            <p className={`text-white text-[10px] md:text-sm w-full text-start`}>I’m a passionate full-stack developer with over 2 years of hands
               on experience on MERN stack, NextJS, SpringBoot specializing in building dynamic and responsive user interfaces.
               Currently focusing on building AI applications using LLMs and diving deep in the AI world.
             </p>
             <p className={`text-white font-Michroma text-[10px] md:text-sm font-semibold mt-2 w-full text-start`}>What's great in me ?</p>
 
-            <p className={`text-white font-Michroma text-[10px] md:text-sm mt-2 w-full text-start flex justify-start items-center gap-3`}><SiGooglegemini /> I can simplify complex topics in an easy and fun way.</p>
-            <p className={`text-white font-Michroma text-[10px] md:text-sm w-full text-start flex justify-start items-center gap-3`}><SiGooglegemini /> With me development can be as fun as playing super mario.</p>
-            <p className={`text-white font-Michroma text-[10px] md:text-sm w-full text-start flex justify-start items-center gap-3`}><SiGooglegemini /> I not just build applications, but instead focus on building new solutions for the problems I faced. </p>
-            <p className={`text-white font-Michroma text-[10px] md:text-sm w-full text-start flex justify-start items-center gap-3`}><SiGooglegemini /> I am always curious to learn new things, try new tech stack and implement them in my way. </p>
+            <p className={`text-white text-[10px] md:text-sm mt-2 w-full text-start flex justify-start items-center gap-3`}><SiGooglegemini /> I can simplify complex topics in an easy and fun way.</p>
+            <p className={`text-white text-[10px] md:text-sm w-full text-start flex justify-start items-center gap-3`}><SiGooglegemini /> With me development can be as fun as playing super mario.</p>
+            <p className={`text-white text-[10px] md:text-sm w-full text-start flex justify-start items-center gap-3`}><SiGooglegemini /> I not just build applications, but instead focus on building new solutions for the problems I faced. </p>
+            <p className={`text-white text-[10px] md:text-sm w-full text-start flex justify-start items-center gap-3`}><SiGooglegemini /> I am always curious to learn new things, try new tech stack and implement them in my way. </p>
 
-            <p className={`text-white mt-3 font-Michroma text-[10px] md:text-sm w-full text-start`}>
+            <p className={`text-white mt-3 text-[10px] md:text-sm w-full text-start`}>
               Beside this, I also have a lot of interest in photography, cinematography, editing, storytelling and making digital designs. Have a look on
               my photography and design works in my studio.
             </p>
@@ -221,7 +235,7 @@ function page() {
             </div>
             <div className={`bg-white/40 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
               <h3 className={`w-full text-center font-Michroma font-semibold text-[#76fe00] text-sm`}>DESIGN TOOLS</h3>
-              <p className="w-full text-center mt-5 font-Urbanist text-white text-sm">Canva, Figma, Adobe Lightroom</p>
+              <p className="w-full text-center mt-5 font-Urbanist text-white text-sm">Canva, Figma, Affinity</p>
             </div>
             <div className={`bg-white/40 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
               <h3 className={`w-full text-center font-Michroma font-semibold text-[#76fe00] text-sm`}>DATABASES</h3>
@@ -261,6 +275,38 @@ function page() {
           </div>
         </div>
 
+        {/* freelancing section */}
+        <div className={`w-full h-auto flex flex-col justify-start items-center py-5`}>
+          <h1 className={`w-full mb-4 text-center bg-gradient-to-b from-zinc-900 via-zinc-500 to-white font-Michroma font-bold bg-clip-text text-transparent text-4xl md:text-6xl lg:text-4xl`}>WHAT I'M OFFERING</h1>
+
+          <div className={`w-full h-auto pt-4 pb-5 px-5 lg:px-8 flex flex-col md:flex-row justify-start lg:justify-between items-center gap-5 lg:gap-10`}>
+            {freelance.map((item) => {
+              return <div key={item.topic} className={`w-full border border-black py-5 px-5 rounded-md hover:shadow-2xl shadow-md duration-200 ease-in-out cursor-default flex flex-col justify-start items-start`}>
+                <h1 className={`w-full text-start font-Zen-Dots text-black text-lg lg:text-xl`}>{item.topic}</h1>
+                <h1 className={`w-full mb-2 text-start font-Urbanist text-gray-600 text-sm lg:text-lg`}>{item.goodAt}</h1>
+                {item.list.map((line, index) => {
+                  return <p key={index} className={`w-full flex justify-start items-center gap-2 text-[10px] lg:text-sm text-black`}><span className={`text-green-600 text-[12px] xl:text-lg`}>✓</span> {line}</p>
+                })}
+                <p className={`w-full py-2 text-start flex justify-start items-center gap-2 text-[10px] lg:text-lg`}><span className={`font-bold`}>$</span> Contact for pricing details</p>
+                <p onClick={() => setHiringVisible(true)} className={`w-full py-3 mt-2 rounded-md bg-black text-white font-semibold text-center text-sm cursor-pointer active:opacity-75 duration-200 ease-in-out`}>Work with me</p>
+              </div>
+            })}
+          </div>
+        </div>
+
+        {/* hiring popup */}
+        <div onClick={() => setHiringVisible(false)} className={`w-full ${hiringVisible ? "scale-100" : "scale-0"} duration-300 ease-in-out h-screen fixed backdrop-blur-xl bg-white/10 z-30 flex justify-center items-center`}>
+            <div className={`w-[90%] md:w-auto h-auto px-5 lg:px-8 py-5 lg:py-8 bg-white rounded-lg flex flex-col justify-center items-center`}>
+                <h1 className={`w-full text-center text-4xl lg:text-6xl font-Urbanist font-bold`}>Connect With Me</h1>
+                <h1 className={`w-full text-center text-sm lg:text-lg italic font-Urbanist`}>Let me build something great for you</h1>
+
+                <div className={`w-full py-5 flex justify-between items-center gap-3`}>
+                    <p onClick={() => window.open('mailto:isudiptodas01@outlook.com','_blank')} className={`w-full active:opacity-75 duration-150 ease-in-out py-2 lg:py-4 rounded-md flex justify-center items-center gap-2 bg-blue-500 text-white text-sm cursor-pointer`}><span><PiMicrosoftOutlookLogoFill/></span>Outlook</p>
+                    <p onClick={() => window.open('mailto:work.sudiptodas@gmail.com','_blank')} className={`w-full active:opacity-75 duration-150 ease-in-out py-2 lg:py-4 rounded-md flex justify-center items-center gap-2 bg-red-500 text-white text-sm cursor-pointer`}><span><BiLogoGmail/></span>Gmail</p>
+                </div>
+            </div>
+        </div>
+
 
         {/* os theme portfolio */}
         <div className={`w-full relative h-auto bg-zinc-900 py-8 lg:py-10 px-5 flex flex-col justify-start items-center`}>
@@ -289,11 +335,11 @@ function page() {
 
         {/* footer */}
         <div className={`w-full h-auto py-10 flex justify-center items-center gap-5 lg:gap-8 bg-zinc-900`}>
-            <span onClick={() => navigate('mailto:work.sudiptodas@gmail.com')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><BiLogoGmail/></span>
-            <span onClick={() => navigate('mailto:isudiptodas01@outlook.com')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><PiMicrosoftOutlookLogoFill/></span>
-            <span onClick={() => navigate('https://github.com/isudiptodas')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><FaGithub/></span>
-            <span onClick={() => navigate('https://www.linkedin.com/in/sudiptodas-developer')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><FaLinkedin/></span>
-            <span onClick={() => navigate('https://www.x.com/isudiptodas')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><FaSquareXTwitter/></span>
+          <span onClick={() => navigate('mailto:work.sudiptodas@gmail.com')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><BiLogoGmail /></span>
+          <span onClick={() => navigate('mailto:isudiptodas01@outlook.com')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><PiMicrosoftOutlookLogoFill /></span>
+          <span onClick={() => navigate('https://github.com/isudiptodas')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><FaGithub /></span>
+          <span onClick={() => navigate('https://www.linkedin.com/in/sudiptodas-developer')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><FaLinkedin /></span>
+          <span onClick={() => navigate('https://www.x.com/isudiptodas')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><FaSquareXTwitter /></span>
         </div>
 
       </div>
