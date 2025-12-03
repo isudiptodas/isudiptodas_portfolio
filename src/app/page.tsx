@@ -23,7 +23,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 function page() {
 
-  const [loaded, setLoaded] = useState(true);
+  const [loaded, setLoaded] = useState(false);
   const [hiringVisible, setHiringVisible] = useState(false);
 
   useEffect(() => {
@@ -348,6 +348,7 @@ function page() {
 }
 
 export default page
+
 
 
 
