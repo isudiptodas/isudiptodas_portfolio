@@ -2,7 +2,7 @@
 
 import { SiGooglegemini } from "react-icons/si";
 import Marquee from "react-fast-marquee";
-import { projectList } from "@/data/projectList";
+import { webProjects } from "@/data/projectList";
 import { TiLocationArrow } from "react-icons/ti";
 import Link from "next/link";
 import { useState, useEffect } from "react";
@@ -23,7 +23,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 function page() {
 
-  const [loaded, setLoaded] = useState(false);
+  const [loaded, setLoaded] = useState(true);
   const [hiringVisible, setHiringVisible] = useState(false);
 
   useEffect(() => {
@@ -209,7 +209,7 @@ function page() {
             </p>
 
             <div className={`w-full mt-5 bg-transparent flex justify-center items-center`}>
-              <Link href='/studio' className={`w-auto px-5 lg:px-8 py-2 rounded-full bg-white text-black duration-200 ease-in-out cursor-pointer font-Michroma text-sm md:text-lg font-light`}>Enter Studio</Link>
+              <Link href='/studio' className={`w-auto px-5 lg:px-8 py-2 rounded-full hover:opacity-75 duration-150 ease-in-out bg-white text-black duration-200 ease-in-out cursor-pointer font-Michroma text-sm md:text-lg font-light`}>Enter Studio</Link>
             </div>
           </div>
         </div>
@@ -250,24 +250,23 @@ function page() {
 
         {/* projects */}
         <div className={`w-full h-auto flex justify-center items-start pt-5 bg-[#0D1BC3]`}>
-          <div className={`w-full h-auto flex flex-col justify-start items-center bg-white rounded-t-full pt-24 pb-12 `}>
+          <div className={`w-full h-auto flex flex-col justify-start items-center bg-white rounded-t-[50px] md:rounded-t-[100px] pt-10 md:pt-16 pb-12 `}>
             <h3 className={`text-black font-Michroma text-xl md:text-2xl px-24 w-full text-center font-semibold`}>EXPLORE PROJECTS</h3>
 
-            <div className={`w-full flex flex-col px-5 md:px-14 lg:px-20 justify-start items-center gap-8 mt-10 md:mt-16 xl:mt-24`}>
-              {projectList.map((list, index) => {
-                return <div id="project" key={index} className={`w-[90%] lg:w-[70%] rounded-lg bg-[#cacaca71] flex flex-col md:flex-row justify-start md:justify-between items-center md:items-start gap-2 md:gap-4 shadow-lg py-2 px-2`}>
-                  <div className={`w-full md:w-[30%] h-32 md:h-36 rounded-lg overflow-hidden`}>
-                    <img src={list.image} className={`h-full w-full object-cover`} />
+            <div className={`w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-5 lg:gap-10 px-5 md:px-14 mt-10 md:mt-16 xl:mt-24`}>
+              {webProjects.map((list, index) => {
+                return <div id="project" key={index} className={`w-[95%] overflow-hidden mb-5 mx-5 md:w-full rounded-lg border border-black bg-[#cacaca55] flex flex-col justify-start items-center shadow-md hover:shadow-lg duration-150 ease-in-out pb-3`}>
+                  <div className={`w-full h-auto overflow-hidden rounded-b-xl`}>
+                      <img src={list.image} className={`h-full w-full object-cover`} />
                   </div>
-                  <div className={`w-full md:w-[70%] flex flex-col justify-start items-start mt-2 md:mt-0`}>
-                    <p className={`text-black w-full text-start font-Michroma capitalize text-sm font-semibold`}>{list.name}</p>
-                    <p className={`text-black w-full text-start font-Michroma text-[10px]`}>{list.tech}</p>
-                    <p className={`text-black w-full text-start font-Urbanist text-[10px] mt-2`}>{list.desc}</p>
-
-                    <div className={`w-full flex justify-start items-center gap-3 py-2 md:py-0 md:mt-3`}>
-                      <span className={`text-white text-[10px] font-Urbanist hover:opacity-70 hover:scale-95 duration-200 ease-in-out bg-black px-4 rounded-full py-1 cursor-pointer`} onClick={() => navigate(list.github)}>Github</span>
-                      <span className={`text-black text-[10px] font-Urbanist hover:opacity-70 hover:scale-95 duration-200 ease-in-out bg-[#76fe00] ${list.deployed ? "block" : "hidden"} px-4 rounded-full py-1 flex justify-center items-center gap-3 cursor-pointer`} onClick={() => navigate(list?.live)}>Live <TiLocationArrow /></span>
-                    </div>
+                  <p className={`w-full text-start font-Michroma capitalize px-3 pt-3 font-semibold text-lg`}>{list.name}</p>
+                  <p className={`w-full px-3 italic font-Urbanist text-black text-[10px] md:text-[12px] pb-5`}>{list.tech}</p>
+                  {list.features.map((feat) => {
+                      return <p key={feat} className={`w-full px-3 text-[10px] md:text-[12px] text-black`}>● {feat}</p>
+                  })}
+                  <div className={`w-full py-3 px-3 flex ${list.deployed ? "justify-between gap-4" : "justify-start"} items-center`}>
+                      <p onClick={() => navigate(list.github)} className={`${list.deployed ? "w-full" : "w-auto"} rounded-full px-4 py-2 cursor-pointer hover:opacity-75 duration-150 ease-in-out bg-black text-white font-semibold flex justify-center items-center text-[12px] gap-3`}>Github <span><FaGithub/></span></p>
+                      <p onClick={() => navigate(list?.live)} className={`${list.deployed ? "w-full" : "w-auto"} rounded-full px-4 py-2 cursor-pointer hover:opacity-75 duration-150 ease-in-out bg-[#77ff00] text-black font-semibold flex justify-center items-center text-[12px] gap-3 ${list.deployed ? "block" : "hidden"}`}>Live <span><TiLocationArrow/></span></p>
                   </div>
                 </div>
               })}
