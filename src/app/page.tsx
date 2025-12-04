@@ -255,7 +255,7 @@ function page() {
 
             <div className={`w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-5 lg:gap-10 px-5 md:px-14 mt-10 md:mt-16 xl:mt-24`}>
               {webProjects.map((list, index) => {
-                return <div id="project" key={index} className={`w-[95%] overflow-hidden mb-5 mx-5 md:w-full rounded-lg border border-black bg-[#cacaca55] flex flex-col justify-start items-center shadow-md hover:shadow-lg duration-150 ease-in-out pb-3`}>
+                return <div id="project" key={index} className={`w-[95%] overflow-hidden mb-5 mx-5 md:w-full rounded-2xl border border-black bg-[#cacaca55] flex flex-col justify-start items-center shadow-md hover:shadow-lg duration-150 ease-in-out pb-3`}>
                   <div className={`w-full h-auto overflow-hidden rounded-b-xl`}>
                       <img src={list.image} className={`h-full w-full object-cover`} />
                   </div>
@@ -348,6 +348,7 @@ function page() {
 }
 
 export default page
+
 
 
 
