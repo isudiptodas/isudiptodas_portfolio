@@ -111,7 +111,22 @@ export const webProjects = [
         live: `https://ripple-ai-six.vercel.app/`,
         deployed: true
     },
+    {
+        name: `pixel labs`,
+        image: `/assets/pixel-labs.png`,
+        features: [
+            "Open source react based component UI library",
+            "UI element list with wide variety",
+            "No heavy dependency or CLI installation needed",
+            "Select, copy code & paste in your codebase",
+        ],
+        tech: `NextJs, TailwindCSS, Framer Motion`,
+        github: `https://github.com/isudiptodas/Pixel-Labs-Component_UI_Library`,
+        live: ``,
+        deployed: false
+    },
 ]
+
 
 
 
