@@ -122,10 +122,11 @@ export const webProjects = [
         ],
         tech: `NextJs, TailwindCSS, Framer Motion`,
         github: `https://github.com/isudiptodas/Pixel-Labs-Component_UI_Library`,
-        live: ``,
-        deployed: false
+        live: `https://pixel-labs-azure.vercel.app/`,
+        deployed: true
     },
 ]
+
 
 
 
