@@ -53,6 +53,7 @@ export const imageList = [
 ];
 
 export const designList = [
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/kolkata-aqi.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/pixel-labs.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/messi-india-tour-2.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/messi-india-tour.png',
@@ -88,5 +89,6 @@ export const designList = [
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/the-weeknd.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/zayn.png',
 ];
+
 
 
