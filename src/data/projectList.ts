@@ -79,7 +79,7 @@ export const webProjects = [
         ],
         tech: `ReactJs, TailwindCSS, NodeJs, ExpressJs, MongoDb, CryptoJs`,
         github: `https://github.com/isudiptodas/SHIELD-Password_Manager`,
-        live: `https://evaluate-ai-5peo.vercel.app/`,
+        live: `https://shield-1-w26n.onrender.com/`,
         deployed: true
     },
     {
@@ -126,6 +126,7 @@ export const webProjects = [
         deployed: true
     },
 ]
+
 
 
 
