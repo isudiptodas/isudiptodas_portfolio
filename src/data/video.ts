@@ -1,5 +1,9 @@
 export const videoLinks = [
     {
+        link: `https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/video/thinking_is_optional.mp4`,
+        thumbnail: `https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/thumbnail/thinking-is-optional.png`
+    },
+    {
         link: `https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/video/mother_earth.mp4`,
         thumbnail: `https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/thumbnail/mother-earth.png`
     },
@@ -17,4 +21,5 @@ export const videoLinks = [
     },
    
 ];
+
 
