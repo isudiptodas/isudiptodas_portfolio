@@ -194,7 +194,7 @@ function page() {
             <h3 className={`text-white font-Michroma text-xl md:text-2xl w-full text-start font-semibold`}>ABOUT ME</h3>
             <p className={`text-white text-[10px] md:text-sm w-full text-start`}>I’m a passionate full-stack developer with over 2 years of hands
               on experience on MERN stack, NextJS, SpringBoot specializing in building dynamic and responsive user interfaces.
-              Currently focusing on building AI applications using LLMs and diving deep in the AI world.
+              Currently focusing on devops and building high level systems that scale to millions.
             </p>
             <p className={`text-white font-Michroma text-[10px] md:text-sm font-semibold mt-2 w-full text-start`}>What's great in me ?</p>
 
@@ -356,6 +356,7 @@ function page() {
 }
 
 export default page
+
 
 
 
