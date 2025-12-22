@@ -242,8 +242,12 @@ function page() {
               <p className="w-full text-center mt-5 font-Urbanist text-white text-sm">MySQL, MongoDB, Datastax, NeonDB</p>
             </div>
             <div className={`bg-white/40 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
-              <h3 className={`w-full text-center font-Michroma font-semibold text-[#76fe00] text-sm`}>MISC</h3>
-              <p className="w-full text-center mt-5 font-Urbanist text-white text-sm">ArcJet, Docker, Drizzle, Prisma, Langchain</p>
+              <h3 className={`w-full text-center font-Michroma font-semibold text-[#76fe00] text-sm`}>OTHER TOOLS</h3>
+              <p className="w-full text-center mt-5 font-Urbanist text-white text-sm">ArcJet, Drizzle, Prisma</p>
+            </div>
+            <div className={`bg-white/40 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
+              <h3 className={`w-full text-center font-Michroma font-semibold text-[#76fe00] text-sm`}>CLOUD</h3>
+              <p className="w-full text-center mt-5 font-Urbanist text-white text-sm">Docker, AWS (S3, EC2, DynamoDB, SES, IAM)</p>
             </div>
           </div>
         </div>
@@ -348,6 +352,7 @@ function page() {
 }
 
 export default page
+
 
 
 
