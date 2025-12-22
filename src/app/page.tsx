@@ -239,7 +239,7 @@ function page() {
             </div>
             <div className={`bg-white/40 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
               <h3 className={`w-full text-center font-Michroma font-semibold text-[#76fe00] text-sm`}>DATABASES</h3>
-              <p className="w-full text-center mt-5 font-Urbanist text-white text-sm">MySQL, MongoDB, Datastax, NeonDB</p>
+              <p className="w-full text-center mt-5 font-Urbanist text-white text-sm">MySQL, MongoDB, Datastax, NeonDB, Redis</p>
             </div>
             <div className={`bg-white/40 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
               <h3 className={`w-full text-center font-Michroma font-semibold text-[#76fe00] text-sm`}>OTHER TOOLS</h3>
@@ -248,6 +248,10 @@ function page() {
             <div className={`bg-white/40 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
               <h3 className={`w-full text-center font-Michroma font-semibold text-[#76fe00] text-sm`}>CLOUD</h3>
               <p className="w-full text-center mt-5 font-Urbanist text-white text-sm">Docker, AWS (S3, EC2, DynamoDB, SES, IAM)</p>
+            </div>
+            <div className={`bg-white/40 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
+              <h3 className={`w-full text-center font-Michroma font-semibold text-[#76fe00] text-sm`}>Messaging Queues</h3>
+              <p className="w-full text-center mt-5 font-Urbanist text-white text-sm">BullMQ, RabbitMQ</p>
             </div>
           </div>
         </div>
@@ -352,6 +356,7 @@ function page() {
 }
 
 export default page
+
 
 
 
