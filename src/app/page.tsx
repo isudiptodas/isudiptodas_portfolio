@@ -129,10 +129,10 @@ function page() {
           <h1 id="text-2" className={`text-white text-end font-Zen-Dots text-3xl w-full sm:text-6xl pr-12 md:pr-16 lg:pr-44 xl:pr-56 overflow-hidden`}>DEVELOPER</h1>
 
           <div id="quotes" className={`w-full absolute bottom-0 py-8 md:py-12 px-5 grid grid-cols-2 sm:grid-cols-4 justify-items-center gap-3`}>
-            <p className={`text-white font-Michroma text-[8px] md:text-[10px] lg:text-sm cursor-pointer`}>UI DESIGN</p>
-            <p className={`text-white font-Michroma text-[8px] md:text-[10px] lg:text-sm cursor-pointer`}>GRAPHIC DESIGN</p>
             <p className={`text-white font-Michroma text-[8px] md:text-[10px] lg:text-sm cursor-pointer`}>WEB DEVELOPMENT</p>
-            <p className={`text-white font-Michroma text-[8px] md:text-[10px] lg:text-sm cursor-pointer`}>AI INTEGRATION</p>
+            <p className={`text-white font-Michroma text-[8px] md:text-[10px] lg:text-sm cursor-pointer`}>GRAPHIC DESIGN</p>
+            <p className={`text-white font-Michroma text-[8px] md:text-[10px] lg:text-sm cursor-pointer`}>VIDEO EDITING</p>
+            <p className={`text-white font-Michroma text-[8px] md:text-[10px] lg:text-sm cursor-pointer`}>DEVOPS</p>
           </div>
         </div>
 
@@ -159,7 +159,7 @@ function page() {
               </div>
 
               <div className={`w-auto px-3 flex justify-center items-center gap-5`}>
-                <h1 className={`font-Zen-Dots text-black text-3xl lg:text-4xl xl:text-5xl shrink-0`}>POSTER DESIGN</h1>
+                <h1 className={`font-Zen-Dots text-black text-3xl lg:text-4xl xl:text-5xl shrink-0`}>GRAPHIC DESIGN</h1>
                 <span className={`p-2 rounded-full bg-transparent border-[2px] border-black`}><SiGooglegemini /></span>
               </div>
 
@@ -185,6 +185,11 @@ function page() {
 
               <div className={`w-auto px-3 flex justify-center items-center gap-5`}>
                 <h1 className={`font-Zen-Dots text-black text-3xl lg:text-4xl xl:text-5xl shrink-0`}>VIDEO EDITING</h1>
+                <span className={`p-2 rounded-full bg-transparent border-[2px] border-black`}><SiGooglegemini /></span>
+              </div>
+
+              <div className={`w-auto px-3 flex justify-center items-center gap-5`}>
+                <h1 className={`font-Zen-Dots text-black text-3xl lg:text-4xl xl:text-5xl shrink-0`}>DEVOPS</h1>
                 <span className={`p-2 rounded-full bg-transparent border-[2px] border-black`}><SiGooglegemini /></span>
               </div>
             </Marquee>
@@ -356,6 +361,7 @@ function page() {
 }
 
 export default page
+
 
 
 
