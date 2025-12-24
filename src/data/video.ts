@@ -1,5 +1,9 @@
 export const videoLinks = [
     {
+        link: `https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/video/save_aravalli.mp4`,
+        thumbnail: `https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/thumbnail/save-aravalli.png`
+    },
+    {
         link: `https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/video/thinking_is_optional.mp4`,
         thumbnail: `https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/thumbnail/thinking-is-optional.png`
     },
@@ -21,5 +25,6 @@ export const videoLinks = [
     },
    
 ];
+
 
 
