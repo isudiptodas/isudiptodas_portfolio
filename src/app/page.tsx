@@ -122,7 +122,7 @@ function page() {
       <div className={`overflow-hidden ${loaded ? "block" : "hidden"} h-auto w-full flex flex-col justify-start items-center relative`}>
 
         {/* hero section */}
-        <div className={`w-full h-screen z-10 bg-[#111111] flex flex-col justify-center items-center relative overflow-hidden gap-3`}>
+        <div className={`w-full h-screen z-10 bg-[#080808] flex flex-col justify-center items-center relative overflow-hidden gap-3`}>
           <p className={`absolute left-1/2 -translate-x-1/2 top-7 font-Michroma text-[10px] text-white tracking-[5px]`}>ISUDIPTODAS</p>
 
           <h1 id="text-1" className={`text-white text-start font-Zen-Dots text-3xl sm:text-6xl w-full pl-12 md:pl-16 lg:pl-44 xl:pl-56 overflow-hidden`}>DESIGNER</h1>
@@ -346,7 +346,7 @@ function page() {
         </div>
 
         {/* footer */}
-        <div className={`w-full h-auto py-10 flex justify-center items-center gap-5 lg:gap-8 bg-zinc-900`}>
+        <div className={`w-full h-auto py-10 flex justify-center items-center gap-5 lg:gap-8 bg-[#080808]`}>
           <span onClick={() => navigate('mailto:work.sudiptodas@gmail.com')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><BiLogoGmail /></span>
           <span onClick={() => navigate('mailto:isudiptodas01@outlook.com')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><PiMicrosoftOutlookLogoFill /></span>
           <span onClick={() => navigate('https://github.com/isudiptodas')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><FaGithub /></span>
@@ -361,6 +361,7 @@ function page() {
 }
 
 export default page
+
 
 
 
