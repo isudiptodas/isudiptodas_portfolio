@@ -228,35 +228,35 @@ function page() {
 
             <div className={`bg-white/40 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
               <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>PROGRAMMING LANGUAGES</h3>
-              <p className="w-full text-center mt-5 font-Urbanist text-white text-sm">C++, Java</p>
+              <p className="w-full text-center mt-5 text-white text-sm">C++, Java</p>
             </div>
             <div className={`bg-white/40 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
               <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>FRONTEND</h3>
-              <p className="w-full text-center mt-5 font-Urbanist text-white text-sm">HTML, CSS, JavaScript, TypeScript, TailwindCSS, ReactJs, NextJs</p>
+              <p className="w-full text-center mt-5 text-white text-sm">HTML, CSS, JavaScript, TypeScript, TailwindCSS, ReactJs, NextJs</p>
             </div>
             <div className={`bg-white/40 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
               <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>BACKEND</h3>
-              <p className="w-full text-center mt-5 font-Urbanist text-white text-sm">NodeJs, ExpressJs, SpringBoot, Supabase</p>
+              <p className="w-full text-center mt-5 text-white text-sm">NodeJs, ExpressJs, SpringBoot, Supabase</p>
             </div>
             <div className={`bg-white/40 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
               <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>DESIGN TOOLS</h3>
-              <p className="w-full text-center mt-5 font-Urbanist text-white text-sm">Canva, Figma, Affinity</p>
+              <p className="w-full text-center mt-5 text-white text-sm">Canva, Figma, Affinity</p>
             </div>
             <div className={`bg-white/40 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
               <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>DATABASES</h3>
-              <p className="w-full text-center mt-5 font-Urbanist text-white text-sm">MySQL, MongoDB, Datastax, NeonDB, Redis</p>
+              <p className="w-full text-center mt-5 text-white text-sm">MySQL, MongoDB, Datastax, NeonDB, Redis</p>
             </div>
             <div className={`bg-white/40 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
               <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>OTHER TOOLS</h3>
-              <p className="w-full text-center mt-5 font-Urbanist text-white text-sm">ArcJet, Drizzle, Prisma</p>
+              <p className="w-full text-center mt-5 text-white text-sm">ArcJet, Drizzle, Prisma</p>
             </div>
             <div className={`bg-white/40 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
               <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>CLOUD</h3>
-              <p className="w-full text-center mt-5 font-Urbanist text-white text-sm">Docker, AWS (S3, EC2, DynamoDB, SES, IAM)</p>
+              <p className="w-full text-center mt-5 text-white text-sm">Docker, AWS (S3, EC2, DynamoDB, SES, IAM)</p>
             </div>
             <div className={`bg-white/40 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
               <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>Messaging Queues</h3>
-              <p className="w-full text-center mt-5 font-Urbanist text-white text-sm">BullMQ</p>
+              <p className="w-full text-center mt-5 text-white text-sm">BullMQ</p>
             </div>
           </div>
         </div>
@@ -299,7 +299,7 @@ function page() {
                 {item.list.map((line, index) => {
                   return <p key={index} className={`w-full flex justify-start items-center gap-2 text-[10px] lg:text-sm text-black`}><span className={`text-green-600 text-[12px] xl:text-lg`}>✓</span> {line}</p>
                 })}
-                <p className={`w-full py-2 text-start flex justify-start items-center gap-2 text-[10px] lg:text-lg`}><span className={`font-bold`}>$</span> Contact for pricing details</p>
+                <p className={`w-full py-2 text-start flex justify-start items-center gap-2 text-sm lg:text-lg`}><span className={`font-bold`}>$</span> Contact for pricing details</p>
                 <p onClick={() => setHiringVisible(true)} className={`w-full py-3 mt-2 rounded-md bg-black text-white font-semibold text-center text-sm cursor-pointer active:opacity-75 duration-200 ease-in-out`}>Work with me</p>
               </div>
             })}
@@ -361,6 +361,7 @@ function page() {
 }
 
 export default page
+
 
 
 
