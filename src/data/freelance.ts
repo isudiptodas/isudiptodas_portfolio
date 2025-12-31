@@ -1,7 +1,7 @@
 export const freelance = [
     {
         topic: `Development`,
-        goodAt: `I am good at :`,
+        goodAt: `I am great at :`,
         list: [
             'Developing a complete end to end UI design for any website / app.',
             'Developing a complete web application from scratch.',
@@ -11,7 +11,7 @@ export const freelance = [
     },
     {
         topic: `Designing`,
-        goodAt: `I am good at :`,
+        goodAt: `I am great at :`,
         list: [
             'Designing social media post templates.',
             'Designing advertisement posters.',
@@ -19,4 +19,5 @@ export const freelance = [
             'Designing youtube thumbnails.',
         ]
     },
+
 ]
