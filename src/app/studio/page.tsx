@@ -1,6 +1,6 @@
 'use client'
 
-import { designList, imageList } from "@/data/work";
+import { designList, imageList } from "@/data/photo-design";
 import { Suspense, useEffect, useState } from "react";
 import Link from 'next/link';
 import { videoLinks } from "@/data/video";
@@ -11,7 +11,7 @@ import { FaVideo } from "react-icons/fa";
 import { IoDocumentText } from "react-icons/io5";
 import { documentList } from "@/data/documents";
 import { useSearchParams } from "next/navigation";
-
+ 
 function page() {
 
   function StudioContent() {

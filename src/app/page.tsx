@@ -2,8 +2,6 @@
 
 import { SiGooglegemini } from "react-icons/si";
 import Marquee from "react-fast-marquee";
-import { webProjects } from "@/data/projectList";
-import { TiLocationArrow } from "react-icons/ti";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import CountUp from 'react-countup';
@@ -18,6 +16,9 @@ import { FaGithub } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { freelance } from "@/data/freelance";
+import { works } from "@/data/work";
+import { FaLocationArrow } from "react-icons/fa";
+import { useRouter } from "next/navigation";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,6 +26,7 @@ function page() {
 
   const [loaded, setLoaded] = useState(false);
   const [hiringVisible, setHiringVisible] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (hiringVisible) {
@@ -74,24 +76,6 @@ function page() {
   }
 
   useGSAP(() => {
-    gsap.fromTo('#project', {
-      opacity: 0,
-      y: -10,
-      scale: 0.7,
-    }, {
-      opacity: 1.1,
-      ease: "power2.inOut",
-      scale: 1,
-      y: 0,
-      stagger: 0.8,
-      duration: 1.7,
-      scrollTrigger: {
-        trigger: "#project",
-        start: "top 70%",
-        end: "bottom 80%",
-        scrub: true
-      }
-    });
 
     gsap.fromTo('#design', {
       opacity: 0,
@@ -209,13 +193,9 @@ function page() {
             <p className={`text-white text-[10px] md:text-sm w-full text-start flex justify-start items-center gap-3`}><SiGooglegemini /> I am always curious to learn new things, try new tech stack and implement them in my way. </p>
 
             <p className={`text-white mt-3 text-[10px] md:text-sm w-full text-start`}>
-              Beside this, I also have a lot of interest in photography, cinematography, editing, storytelling and making digital designs. Have a look on
-              my photography and design works in my studio.
+              Beside this, I also have a lot of interest in photography, cinematography, editing, storytelling and making digital designs.
             </p>
 
-            <div className={`w-full mt-5 bg-transparent flex justify-center items-center`}>
-              <Link href='/studio' className={`w-auto px-5 lg:px-8 py-2 rounded-full hover:opacity-75 duration-150 ease-in-out bg-white text-black duration-200 ease-in-out cursor-pointer font-Michroma text-sm md:text-lg font-light`}>Enter Studio</Link>
-            </div>
           </div>
         </div>
 
@@ -261,31 +241,27 @@ function page() {
           </div>
         </div>
 
-        {/* projects */}
-        <div className={`w-full h-auto flex justify-center items-start pt-5 bg-[#0D1BC3]`}>
-          <div className={`w-full h-auto flex flex-col justify-start items-center bg-white rounded-t-[50px] md:rounded-t-[100px] pt-10 md:pt-16 pb-12 `}>
-            <h3 className={`text-black font-Michroma text-xl md:text-2xl px-24 w-full text-center font-semibold`}>EXPLORE PROJECTS</h3>
-
-            <div className={`w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-5 lg:gap-10 px-5 md:px-14 mt-10 md:mt-16 xl:mt-24`}>
-              {webProjects.map((list, index) => {
-                return <div id="project" key={index} className={`w-[95%] overflow-hidden mb-5 mx-5 md:w-full rounded-2xl border border-black bg-[#cacaca55] flex flex-col justify-start items-center shadow-md hover:shadow-lg duration-150 ease-in-out pb-3`}>
-                  <div className={`w-full h-auto overflow-hidden rounded-b-xl`}>
-                      <img src={list.image} className={`h-full w-full object-cover`} />
-                  </div>
-                  <p className={`w-full text-start font-Michroma capitalize px-3 pt-3 font-semibold text-lg`}>{list.name}</p>
-                  <p className={`w-full px-3 italic font-Urbanist text-black text-[10px] md:text-[12px] pb-5`}>{list.tech}</p>
-                  {list.features.map((feat) => {
-                      return <p key={feat} className={`w-full px-3 text-[10px] md:text-[12px] text-black`}>● {feat}</p>
-                  })}
-                  <div className={`w-full py-3 px-3 flex ${list.deployed ? "justify-between gap-4" : "justify-start"} items-center`}>
-                      <p onClick={() => navigate(list.github)} className={`${list.deployed ? "w-full" : "w-auto"} rounded-full px-4 py-2 cursor-pointer hover:opacity-75 duration-150 ease-in-out bg-black text-white font-semibold flex justify-center items-center text-[12px] gap-3`}>Github <span><FaGithub/></span></p>
-                      <p onClick={() => navigate(list?.live)} className={`${list.deployed ? "w-full" : "w-auto"} rounded-full px-4 py-2 cursor-pointer hover:opacity-75 duration-150 ease-in-out bg-[#77ff00] text-black font-semibold flex justify-center items-center text-[12px] gap-3 ${list.deployed ? "block" : "hidden"}`}>Live <span><TiLocationArrow/></span></p>
-                  </div>
+        {/* work */}
+        <div className={`w-full h-auto px-5 md:px-12 flex flex-col justify-start items-center pt-10`}>
+          <h3 className={`text-black font-Michroma text-xl md:text-2xl w-full text-center font-semibold`}>EXPLORE WORK</h3>
+          
+          <div className={`w-full py-10 h-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center gap-4`}>
+            {works.map((item, index) => {
+              return <div key={index} className={`w-full rounded-2xl bg-black h-[50vh] lg:h-[60vh] relative overflow-hidden flex justify-center items-end`}>
+                <img src={item.image} className={`opacity-40 absolute h-full object-cover`} />
+                <div className={`w-full pb-5 h-auto flex flex-col justify-center items-center gap-5`}>
+                  <p className={`text-white z-20 w-full font-Michroma text-center text-xl`}>{item.title}</p>
+                   <div onClick={() => router.push(item.link)} className={`w-[90%] hover:opacity-70 duration-200 ease-in-out cursor-pointer bg-[#76fe00] h-auto flex justify-center items-center py-3 rounded-full relative`}>
+                      <p className={`text-black text-sm font-bold cursor-pointer`}>Visit</p>
+                       <span className={`text-[#76fe00] absolute rounded-full p-2 right-2 text-[12px] bg-black`}><FaLocationArrow /></span>
+                   </div>
                 </div>
-              })}
-            </div>
+              </div>
+            })}
           </div>
+
         </div>
+
 
         {/* freelancing section */}
         <div className={`w-full h-auto flex flex-col justify-start items-center py-5`}>
