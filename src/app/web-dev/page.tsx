@@ -20,7 +20,7 @@ function page() {
                 </div>
                 <div className={`w-[95%] h-auto py-5 mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center gap-6 overflow-auto`}>
                     {webProjects.map((list, index) => {
-                        return <div id="project" key={index} className={`w-[95%] overflow-hidden mb-5 mx-5 md:w-full rounded-2xl border border-black bg-zinc-900 flex flex-col justify-start items-center shadow-md hover:shadow-lg duration-150 ease-in-out pb-3`}>
+                        return <div key={index} className={`w-[95%] overflow-hidden mb-5 mx-5 md:w-full rounded-2xl border border-black bg-zinc-800 flex flex-col justify-start items-center shadow-md hover:shadow-lg duration-150 ease-in-out pb-3`}>
                             <div className={`w-full h-auto overflow-hidden rounded-b-xl`}>
                                 <img src={list.image} className={`h-full w-full object-cover`} />
                             </div>
@@ -40,5 +40,6 @@ function page() {
         </>
     )
 }
+
 
 export default page
