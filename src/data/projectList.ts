@@ -125,7 +125,22 @@ export const webProjects = [
         live: `https://pixel-labs-azure.vercel.app/`,
         deployed: true
     },
+    {
+        name: `OS theme portfolio`,
+        image: `/assets/os-theme.jpg`,
+        features: [
+            "Windows 11 and MacOS inspired theme",
+            "Windows and Mac micro interactions",
+            "Windows file manager with exact replica of details",
+            "MacOS terminal based AI for user queries",
+        ],
+        tech: `NextJs, TailwindCSS, Gemini API`,
+        github: `https://github.com/isudiptodas/OS_Theme_Portfolio`,
+        live: `https://os-theme.vercel.app/`,
+        deployed: true
+    },
 ]
+
 
 
 
