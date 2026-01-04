@@ -295,28 +295,6 @@ function page() {
             </div>
         </div>
 
-
-        {/* os theme portfolio */}
-        <div className={`w-full relative h-auto bg-[#080808] py-8 lg:py-10 px-5 flex flex-col justify-start items-center`}>
-          <div className={`w-full absolute top-0 py-3 rounded-b-4xl bg-white`}></div>
-
-          <h1 className={`w-full mb-7 mt-8 lg:mb-10 text-center font-Michroma font-semibold text-xl lg:text-3xl text-white opacity-35 leading-10`}>OS Inspired</h1>
-
-          <div className={`w-full h-auto flex flex-col md:flex-row justify-center items-center gap-5`}>
-            {/* macos */}
-            <div onClick={() => navigate('https://os-theme.vercel.app/macos')} className={`w-auto h-auto hover:bg-white group duration-200 ease-in-out border border-gray-500 cursor-pointer py-3 px-6 rounded-md flex justify-center items-center gap-2`}>
-              <span className={`text-2xl text-white group-hover:text-black duration-200 ease-in-out`}><FaApple /></span>
-              <p className={`text-white group-hover:text-black duration-200 ease-in-out font-semibold text-lg`}>MacOS</p>
-            </div>
-
-            {/* windows */}
-            <div onClick={() => navigate('https://os-theme.vercel.app/windows')} className={`w-auto h-auto hover:bg-blue-500 duration-200 ease-in-out border border-gray-500 cursor-pointer py-3 px-6 rounded-md flex justify-center items-center gap-2`}>
-              <span className={`text-2xl text-white`}><FaMicrosoft /></span>
-              <p className={`text-white font-semibold text-lg`}>Windows</p>
-            </div>
-          </div>
-        </div>
-
         <div className={`w-full bg-[#080808] py-7 md:py-12 flex justify-center items-center`}>
           <Link href='/cv_sudipto.pdf' download="/cv_sudipto.pdf" className={`w-auto px-5 py-2 hover:scale-95 hover:rounded-4xl duration-200 ease-in-out cursor-pointer bg-gradient-to-r from-blue-300 via-blue-500 to-blue-700 text-white font-Michroma text-sm md:text-lg font-light`}>Download CV</Link>
         </div>
@@ -337,28 +315,4 @@ function page() {
 }
 
 export default page
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
