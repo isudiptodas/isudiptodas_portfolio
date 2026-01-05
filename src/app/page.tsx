@@ -295,12 +295,12 @@ function page() {
             </div>
         </div>
 
-        <div className={`w-full bg-[#080808] py-7 md:py-12 flex justify-center items-center`}>
+        <div className={`w-full bg-[#080808] py-10 md:py-20 flex justify-center items-center`}>
           <Link href='/cv_sudipto.pdf' download="/cv_sudipto.pdf" className={`w-auto px-5 py-2 hover:scale-95 hover:rounded-4xl duration-200 ease-in-out cursor-pointer bg-gradient-to-r from-blue-300 via-blue-500 to-blue-700 text-white font-Michroma text-sm md:text-lg font-light`}>Download CV</Link>
         </div>
 
         {/* footer */}
-        <div className={`w-full h-auto py-10 flex justify-center items-center gap-5 lg:gap-8 bg-[#080808]`}>
+        <div className={`w-full h-auto pt-10 pb-16 flex justify-center items-center gap-5 lg:gap-8 bg-[#080808]`}>
           <span onClick={() => navigate('mailto:work.sudiptodas@gmail.com')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><BiLogoGmail /></span>
           <span onClick={() => navigate('mailto:isudiptodas01@outlook.com')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><PiMicrosoftOutlookLogoFill /></span>
           <span onClick={() => navigate('https://github.com/isudiptodas')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><FaGithub /></span>
@@ -315,6 +315,7 @@ function page() {
 }
 
 export default page
+
 
 
 
