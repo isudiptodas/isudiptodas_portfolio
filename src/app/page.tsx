@@ -299,6 +299,10 @@ function page() {
           <Link href='/cv_sudipto.pdf' download="/cv_sudipto.pdf" className={`w-auto px-5 py-2 hover:scale-95 hover:rounded-4xl duration-200 ease-in-out cursor-pointer bg-gradient-to-r from-blue-300 via-blue-500 to-blue-700 text-white font-Michroma text-sm md:text-lg font-light`}>Download CV</Link>
         </div>
 
+        <div className={`w-full bg-[#080808] flex justify-center items-center px-5 py-5`}>
+          <div className={`w-[80%] h-0.5 bg-gradient-to-r from-transparent via-white to-transparent`}></div>
+        </div>
+
         {/* footer */}
         <div className={`w-full h-auto pt-10 pb-16 flex justify-center items-center gap-5 lg:gap-8 bg-[#080808]`}>
           <span onClick={() => navigate('mailto:work.sudiptodas@gmail.com')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><BiLogoGmail /></span>
@@ -315,6 +319,7 @@ function page() {
 }
 
 export default page
+
 
 
 
