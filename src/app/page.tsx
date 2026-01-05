@@ -206,35 +206,35 @@ function page() {
           {/* grids */}
           <div className={`w-full h-auto py-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-items-center gap-5`}>
 
-            <div className={`bg-white/40 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
+            <div className={`bg-white/25 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
               <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>PROGRAMMING LANGUAGES</h3>
               <p className="w-full text-center mt-5 text-white text-sm">C++, Java</p>
             </div>
-            <div className={`bg-white/40 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
+            <div className={`bg-white/25 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
               <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>FRONTEND</h3>
               <p className="w-full text-center mt-5 text-white text-sm">HTML, CSS, JavaScript, TypeScript, TailwindCSS, ReactJs, NextJs</p>
             </div>
-            <div className={`bg-white/40 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
+            <div className={`bg-white/25 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
               <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>BACKEND</h3>
               <p className="w-full text-center mt-5 text-white text-sm">NodeJs, ExpressJs, SpringBoot, Supabase</p>
             </div>
-            <div className={`bg-white/40 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
+            <div className={`bg-white/25 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
               <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>DESIGN & MODELING</h3>
               <p className="w-full text-center mt-5 text-white text-sm">Canva, Figma, Affinity, Spline</p>
             </div>
-            <div className={`bg-white/40 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
+            <div className={`bg-white/25 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
               <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>DATABASES</h3>
               <p className="w-full text-center mt-5 text-white text-sm">MySQL, MongoDB, Datastax, NeonDB, Redis</p>
             </div>
-            <div className={`bg-white/40 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
+            <div className={`bg-white/25 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
               <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>OTHER TOOLS</h3>
               <p className="w-full text-center mt-5 text-white text-sm">ArcJet, Drizzle, Prisma</p>
             </div>
-            <div className={`bg-white/40 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
+            <div className={`bg-white/25 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
               <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>CLOUD</h3>
               <p className="w-full text-center mt-5 text-white text-sm">Docker, AWS (S3, EC2, DynamoDB, SES, IAM)</p>
             </div>
-            <div className={`bg-white/40 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
+            <div className={`bg-white/25 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
               <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>MESSAGING QUEUES</h3>
               <p className="w-full text-center mt-5 text-white text-sm">BullMQ</p>
             </div>
@@ -315,5 +315,6 @@ function page() {
 }
 
 export default page
+
 
 
