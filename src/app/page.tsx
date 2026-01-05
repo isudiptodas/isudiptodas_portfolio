@@ -300,7 +300,7 @@ function page() {
         </div>
 
         <div className={`w-full bg-[#080808] flex justify-center items-center px-5 py-5`}>
-          <div className={`w-[80%] h-[1px] rounded-full bg-gradient-to-r from-transparent via-white to-transparent`}></div>
+          <div className={`w-[80%] h-[1px] rounded-t-[50px] bg-gradient-to-r from-transparent via-white to-transparent`}></div>
         </div>
 
         {/* footer */}
@@ -319,6 +319,7 @@ function page() {
 }
 
 export default page
+
 
 
 
