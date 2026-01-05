@@ -295,12 +295,12 @@ function page() {
             </div>
         </div>
 
-        <div className={`w-full bg-[#080808] py-10 md:py-20 flex justify-center items-center`}>
+        <div className={`w-full bg-[#080808] py-10 md:pt-20 md:pb-10 flex justify-center items-center`}>
           <Link href='/cv_sudipto.pdf' download="/cv_sudipto.pdf" className={`w-auto px-5 py-2 hover:scale-95 hover:rounded-4xl duration-200 ease-in-out cursor-pointer bg-gradient-to-r from-blue-300 via-blue-500 to-blue-700 text-white font-Michroma text-sm md:text-lg font-light`}>Download CV</Link>
         </div>
 
         <div className={`w-full bg-[#080808] flex justify-center items-center px-5 py-5`}>
-          <div className={`w-[80%] h-[1px] rounded-t-[50px] bg-gradient-to-r from-transparent via-white to-transparent`}></div>
+          <div className={`w-[80%] h-[1px] bg-gradient-to-r from-transparent via-white to-transparent`}></div>
         </div>
 
         {/* footer */}
@@ -319,6 +319,7 @@ function page() {
 }
 
 export default page
+
 
 
 
