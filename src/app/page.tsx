@@ -219,8 +219,8 @@ function page() {
               <p className="w-full text-center mt-5 text-white text-sm">NodeJs, ExpressJs, SpringBoot, Supabase</p>
             </div>
             <div className={`bg-white/40 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
-              <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>DESIGN TOOLS</h3>
-              <p className="w-full text-center mt-5 text-white text-sm">Canva, Figma, Affinity</p>
+              <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>DESIGN & MODELING</h3>
+              <p className="w-full text-center mt-5 text-white text-sm">Canva, Figma, Affinity, Spline</p>
             </div>
             <div className={`bg-white/40 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
               <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>DATABASES</h3>
@@ -235,7 +235,7 @@ function page() {
               <p className="w-full text-center mt-5 text-white text-sm">Docker, AWS (S3, EC2, DynamoDB, SES, IAM)</p>
             </div>
             <div className={`bg-white/40 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
-              <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>Messaging Queues</h3>
+              <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>MESSAGING QUEUES</h3>
               <p className="w-full text-center mt-5 text-white text-sm">BullMQ</p>
             </div>
           </div>
@@ -315,4 +315,5 @@ function page() {
 }
 
 export default page
+
 
