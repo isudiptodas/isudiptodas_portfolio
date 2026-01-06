@@ -31,7 +31,7 @@ function page() {
                             })}
                             <div className={`w-full py-3 px-3 flex ${list.deployed ? "justify-between gap-4" : "justify-start"} items-center`}>
                                 <p onClick={() => navigate(list.github)} className={`${list.deployed ? "w-full" : "w-auto"} rounded-full px-4 py-2 cursor-pointer hover:opacity-75 duration-150 ease-in-out bg-black text-white font-semibold flex justify-center items-center text-[12px] gap-3`}>Github <span><FaGithub /></span></p>
-                                <p onClick={() => navigate(list?.live)} className={`${list.deployed ? "w-full" : "w-auto"} rounded-full px-4 py-2 cursor-pointer hover:opacity-75 duration-150 ease-in-out bg-[#77ff00] text-black font-semibold flex justify-center items-center text-[12px] gap-3 ${list.deployed ? "block" : "hidden"}`}>Live <span><FaLocationArrow /></span></p>
+                                <p onClick={() => navigate(list?.live)} className={`${list.deployed ? "w-full" : "w-auto"} rounded-full px-4 py-2 cursor-pointer inset-shadow-sm inset-shadow-green-800 active:opacity-70 hover:opacity-75 duration-200 ease-in-out bg-[#77ff00] text-black font-semibold flex justify-center items-center text-[12px] gap-3 ${list.deployed ? "block" : "hidden"}`}>Live <span><FaLocationArrow /></span></p>
                             </div>
                         </div>
                     })}
@@ -43,3 +43,4 @@ function page() {
 
 
 export default page
+
