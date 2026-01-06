@@ -199,7 +199,7 @@ function page() {
                 <img src={item.image} className={`opacity-40 absolute h-full object-cover`} />
                 <div className={`w-full pb-5 h-auto flex flex-col justify-center items-center gap-5`}>
                   <p className={`text-white z-20 w-full font-Michroma text-center text-xl`}>{item.title}</p>
-                   <div onClick={() => router.push(item.link)} className={`w-[90%] inset-shadow-sm inset-shadow-green-800 hover:opacity-70 duration-200 ease-in-out cursor-pointer bg-[#76fe00] h-auto flex justify-center items-center py-3 rounded-full relative`}>
+                   <div onClick={() => router.push(item.link)} className={`w-[90%] active:opacity-70 inset-shadow-sm inset-shadow-green-800 hover:opacity-70 duration-200 ease-in-out cursor-pointer bg-[#76fe00] h-auto flex justify-center items-center py-3 rounded-full relative`}>
                       <p className={`text-black text-sm font-bold cursor-pointer`}>Visit</p>
                        <span className={`text-[#76fe00] absolute rounded-full p-2 right-2 text-[12px] bg-black`}><FaLocationArrow /></span>
                    </div>
@@ -267,6 +267,7 @@ function page() {
 }
 
 export default page
+
 
 
 
