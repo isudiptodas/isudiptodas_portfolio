@@ -5,9 +5,6 @@ import Marquee from "react-fast-marquee";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import CountUp from 'react-countup';
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
-import { ScrollTrigger } from "gsap/all";
 import { FaApple } from "react-icons/fa";
 import { FaMicrosoft } from "react-icons/fa6";
 import { BiLogoGmail } from "react-icons/bi";
@@ -19,8 +16,6 @@ import { freelance } from "@/data/freelance";
 import { works } from "@/data/work";
 import { FaLocationArrow } from "react-icons/fa";
 import { useRouter } from "next/navigation";
-
-gsap.registerPlugin(ScrollTrigger);
 
 function page() {
 
@@ -48,62 +43,12 @@ function page() {
       window.open(`mailto:${link}`, '_blank');
     }
   }
-
-  const animate = () => {
-    /*
-    gsap.fromTo('#text-1', {
-      x: "-200",
-    }, {
-      x: "0",
-      duration: 1.4,
-      ease: "power2.inOut"
-    });
-    gsap.fromTo('#text-2', {
-      x: "200",
-    }, {
-      x: "0",
-      duration: 1.4,
-      ease: "power2.inOut"
-    });
-     */
-    gsap.fromTo('#quotes p', {
-      opacity: 0,
-    }, {
-      delay: 0.2,
-      opacity: 1,
-      duration: 1,
-      stagger: 0.3
-    })
-  }
-
-  /*
-  useGSAP(() => {
-
-    gsap.fromTo('#design', {
-      opacity: 0,
-      x: "-30",
-      scale: 0.7,
-    }, {
-      opacity: 1.1,
-      ease: "power2.inOut",
-      scale: 1,
-      x: 0,
-      duration: 1.7,
-      scrollTrigger: {
-        trigger: "#design",
-        start: "top 70%",
-        end: "bottom 80%",
-        scrub: true
-      }
-    });
-  });
-  */
   
   return (
     <>
 
       <div className={`absolute rounded-b-2xl ${loaded ? "-translate-y-full" : "translate-y-0"} duration-500 ease-in-out top-0 w-full h-screen bg-gradient-to-br from-black via-[#040b5d] to-[#0D1BC3] overflow-hidden z-40 flex justify-center items-center`}>
-        <p className={`font-Michroma text-[#B2FF6E] font-semibold text-lg lg:text-2xl`}><CountUp start={0} duration={3} end={100} onEnd={() => { setLoaded(true); animate() }} /></p>
+        <p className={`font-Michroma text-[#B2FF6E] font-semibold text-lg lg:text-2xl`}><CountUp start={0} duration={3} end={100} onEnd={() => { setLoaded(true); }} /></p>
       </div>
 
       <div className={`overflow-hidden ${loaded ? "block" : "hidden"} h-auto w-full flex flex-col justify-start items-center relative`}>
@@ -112,10 +57,10 @@ function page() {
         <div className={`w-full h-screen z-10 bg-[#080808] flex flex-col justify-center items-center relative overflow-hidden gap-3`}>
           <p className={`absolute left-1/2 -translate-x-1/2 top-7 font-Michroma text-[10px] text-white tracking-[5px]`}>ISUDIPTODAS</p>
 
-          <h1 id="text-1" className={`text-white text-start font-Cronde italic text-4xl sm:text-7xl w-full pl-12 md:pl-16 lg:pl-44 xl:pl-56 overflow-hidden`}>DESIGNER</h1>
-          <h1 id="text-2" className={`text-white text-end font-Zen-Dots text-3xl w-full sm:text-6xl pr-12 md:pr-16 lg:pr-44 xl:pr-56 overflow-hidden`}>DEVELOPER</h1>
+          <h1 className={`text-white text-start font-Cronde italic text-4xl sm:text-7xl w-full pl-12 md:pl-16 lg:pl-44 xl:pl-56 overflow-hidden`}>DESIGNER</h1>
+          <h1 className={`text-white text-end font-Zen-Dots text-3xl w-full sm:text-6xl pr-12 md:pr-16 lg:pr-44 xl:pr-56 overflow-hidden`}>DEVELOPER</h1>
 
-          <div id="quotes" className={`w-full absolute bottom-0 py-8 md:py-12 px-5 grid grid-cols-2 sm:grid-cols-4 justify-items-center gap-3`}>
+          <div className={`w-full absolute bottom-0 py-8 md:py-12 px-5 grid grid-cols-2 sm:grid-cols-4 justify-items-center gap-3`}>
             <p className={`text-white font-Michroma text-[8px] md:text-[10px] lg:text-sm cursor-pointer`}>WEB DEVELOPMENT</p>
             <p className={`text-white font-Michroma text-[8px] md:text-[10px] lg:text-sm cursor-pointer`}>GRAPHIC DESIGN</p>
             <p className={`text-white font-Michroma text-[8px] md:text-[10px] lg:text-sm cursor-pointer`}>VIDEO EDITING</p>
@@ -322,6 +267,7 @@ function page() {
 }
 
 export default page
+
 
 
 
