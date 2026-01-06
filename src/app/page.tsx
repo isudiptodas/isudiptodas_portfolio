@@ -213,7 +213,7 @@ function page() {
 
         {/* freelancing section */}
         <div className={`w-full h-auto flex flex-col justify-start items-center py-5`}>
-          <h1 className={`w-full mb-4 text-center bg-gradient-to-b from-zinc-900 via-zinc-500 to-white font-Michroma font-bold bg-clip-text text-transparent text-4xl md:text-5xl lg:text-4xl`}>WHAT I'M OFFERING</h1>
+          <h1 className={`w-full mb-4 text-center bg-gradient-to-b from-zinc-900 via-zinc-500 to-white font-Michroma font-bold bg-clip-text text-transparent text-xl md:text-2xl`}>WHAT I'M OFFERING</h1>
 
           <div className={`w-full h-auto pt-4 pb-5 px-5 lg:px-8 flex flex-col md:flex-row justify-start lg:justify-between items-center gap-5 lg:gap-10`}>
             {freelance.map((item) => {
@@ -267,6 +267,7 @@ function page() {
 }
 
 export default page
+
 
 
 
