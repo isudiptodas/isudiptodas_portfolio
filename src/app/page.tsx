@@ -24,7 +24,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 function page() {
 
-  const [loaded, setLoaded] = useState(false);
+  const [loaded, setLoaded] = useState(true);
   const [hiringVisible, setHiringVisible] = useState(false);
   const router = useRouter();
 
@@ -50,6 +50,7 @@ function page() {
   }
 
   const animate = () => {
+    /*
     gsap.fromTo('#text-1', {
       x: "-200",
     }, {
@@ -64,7 +65,7 @@ function page() {
       duration: 1.4,
       ease: "power2.inOut"
     });
-
+     */
     gsap.fromTo('#quotes p', {
       opacity: 0,
     }, {
@@ -75,6 +76,7 @@ function page() {
     })
   }
 
+  /*
   useGSAP(() => {
 
     gsap.fromTo('#design', {
@@ -95,7 +97,8 @@ function page() {
       }
     });
   });
-
+  */
+  
   return (
     <>
 
@@ -319,6 +322,7 @@ function page() {
 }
 
 export default page
+
 
 
 
