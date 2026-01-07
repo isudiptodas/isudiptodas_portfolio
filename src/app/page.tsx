@@ -57,7 +57,7 @@ function page() {
         <div className={`w-full h-screen z-10 bg-[#080808] flex flex-col justify-center items-center relative overflow-hidden gap-3`}>
           <p className={`absolute left-1/2 -translate-x-1/2 top-7 font-Michroma text-[10px] text-white tracking-[5px]`}>ISUDIPTODAS</p>
 
-          <h1 className={`text-white text-center font-Cronde italic text-5xl sm:text-8xl w-full overflow-hidden`}>DESIGNER</h1>
+          <h1 className={`text-white text-center font-Cronde text-5xl sm:text-8xl w-full overflow-hidden`}>DESIGNER</h1>
           <h1 className={`text-white text-center font-Zen-Dots text-3xl w-full sm:text-6xl overflow-hidden`}>DEVELOPER</h1>
 
           <div className={`w-full absolute bottom-0 py-8 md:py-12 px-5 grid grid-cols-2 sm:grid-cols-4 justify-items-center gap-3`}>
@@ -267,6 +267,7 @@ function page() {
 }
 
 export default page
+
 
 
 
