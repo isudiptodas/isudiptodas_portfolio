@@ -3,15 +3,28 @@
 import { documentList } from "@/data/documents";
 import { designList } from "@/data/photo-design";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 
 function page() {
+
+    function DesignContent(){
+
+    const [option, setOption] = useState('design');
+    const searchParams = useSearchParams();
 
     const openLink = (link: string) => {
         window.open(link, '_blank');
     }
 
-    const [option, setOption] = useState('design');
+    useEffect(() => {
+      const search = searchParams.get('type');
+      if (!search) {
+        setOption('design');
+        return;
+      }
+      setOption(search === 'document' ? 'document' : 'design');
+    }, []);
 
     return (
         <>
@@ -42,7 +55,18 @@ function page() {
 
             </div>
         </>
-    )
+     )
+    }
+
+    return (
+        <>
+          <Suspense fallback={<div className={`min-h-screen w-full bg-[#080808] flex justify-center items-center`}>Loading...</div>}>
+            <DesignContent />
+          </Suspense>
+        </>
+  )
+    
 }
 
-export default page
+
+export default page;
