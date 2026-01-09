@@ -1,5 +1,10 @@
 export const documentList = [
     {
+        name: `Vibe Error`,
+        thumbnail: `https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/documents_thumbnail/vibe-error.png`,
+        link: `https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/documents/Vibe%20Error.pdf`
+    },
+    {
         name: `The Art Of Web Development`,
         thumbnail: `https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/documents_thumbnail/web-development.png`,
         link: `https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/documents/The%20Art%20Of%20Web%20Development.pdf`
@@ -16,3 +21,4 @@ export const documentList = [
     },
 
 ]
+
