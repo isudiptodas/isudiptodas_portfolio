@@ -195,7 +195,7 @@ function page() {
           
           <div className={`w-full py-10 h-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center gap-4`}>
             {works.map((item, index) => {
-              return <div key={index} className={`w-full rounded-2xl bg-black h-[30vh] md:h-[50vh] lg:h-[60vh] relative overflow-hidden flex justify-center items-end`}>
+              return <div key={index} className={`w-full rounded-2xl bg-black h-[30vh] md:h-[50vh] relative overflow-hidden flex justify-center items-end`}>
                 <img src={item.image} className={`opacity-40 absolute h-full object-cover`} />
                 <div className={`w-full pb-5 h-auto flex flex-col justify-center items-center gap-5`}>
                   <p className={`text-white z-20 w-full font-Michroma text-center text-xl`}>{item.title}</p>
@@ -267,6 +267,7 @@ function page() {
 }
 
 export default page
+
 
 
 
