@@ -280,7 +280,7 @@ function page() {
                   <h2 className={`font-semibold text-xl text-black mt-3`}>{item.name}</h2>
                   <p className={`text-[12px] mt-1 lg:text-[14px] italic text-black opacity-65`}>{item.designation}</p>
                 </div>
-                <p onClick={() => navigate(item.linkedin)} className={`w-auto rounded-full px-3 py-1 bg-blue-500 border-[2px] border-blue-600 text-white flex justify-center items-center gap-2 text-[12px] ml-3 cursor-pointer`}>LinkedIn <FaLinkedin /></p>
+                <p onClick={() => navigate(item.linkedin)} className={`w-auto rounded-full px-3 py-1 bg-blue-500 inset-shadow-sm inset-shadow-blue-800 text-white flex justify-center items-center gap-2 text-[12px] ml-3 cursor-pointer`}>LinkedIn <FaLinkedin /></p>
                 <p className={`w-auto text-start text-[10px] text-black px-3 py-4 font-light`}>{item.feedback}</p>
               </div>
             })}
@@ -312,6 +312,7 @@ function page() {
 }
 
 export default page
+
 
 
 
