@@ -190,6 +190,10 @@ function page() {
           </div>
         </div>
 
+         <div className={`w-full bg-[#0D1BC3] h-12 flex justify-center items-center`}>
+           <div className={`h-full w-full bg-white rounded-t-4xl`}></div>
+         </div>
+
         {/* work */}
         <div className={`w-full h-auto px-5 lg:px-8 flex flex-col justify-start items-center pt-10`}>
           <h3 className={`text-black font-Michroma text-xl md:text-2xl w-full text-center font-semibold`}>EXPLORE WORK</h3>
@@ -287,6 +291,10 @@ function page() {
           </div>
         </div>
 
+        <div className={`w-full bg-[#080808] h-12 flex justify-center items-center`}>
+           <div className={`h-full w-full bg-white rounded-b-4xl`}></div>
+         </div>
+
 
         <div className={`w-full bg-[#080808] py-10 md:pt-20 md:pb-10 flex justify-center items-center`}>
           <Link href='/cv_sudipto.pdf' download="/cv_sudipto.pdf" className={`w-auto inset-shadow-sm inset-shadow-blue-800 px-5 py-2 hover:scale-95 hover:rounded-4xl duration-200 ease-in-out cursor-pointer bg-gradient-to-r from-blue-300 via-blue-500 to-blue-700 text-white font-Michroma text-sm md:text-lg font-light`}>Download CV</Link>
@@ -312,6 +320,7 @@ function page() {
 }
 
 export default page
+
 
 
 
