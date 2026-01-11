@@ -272,7 +272,7 @@ function page() {
 
         {/* testimonial popup */}
         <div onClick={() => setTestimonialVisible(false)} className={`w-full ${testimonialVisible ? "scale-100" : "scale-0"} duration-300 ease-in-out h-screen fixed inset-0 backdrop-blur-lg z-30 bg-white-40 flex justify-center items-center`}>
-          <div onClick={(e) => e.stopPropagation()} className={`w-[90%] md:w-[70%] rounded-lg overflow-y-auto bg-white max-h-[70vh] lg:max-h-[60vh] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-5 px-4 py-4`}>
+          <div onClick={(e) => e.stopPropagation()} className={`w-[90%] md:w-[70%] rounded-lg overflow-y-auto bg-gray-100 max-h-[70vh] lg:max-h-[60vh] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-5 px-4 py-4`}>
             {testimonials.map((item, index) => {
               return <div key={index} className={`w-ful cursor-pointer shadow-lg flex flex-col justify-start items-start rounded-lg mb-4`}>
                 <div className={`w-full mb-1 inset-shadow-sm px-3 pt-2 pb-3 rounded-lg flex flex-col justify-start items-start`}>
@@ -312,6 +312,7 @@ function page() {
 }
 
 export default page
+
 
 
 
