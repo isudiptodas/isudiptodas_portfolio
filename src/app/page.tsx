@@ -277,7 +277,7 @@ function page() {
               return <div key={index} className={`w-ful cursor-pointer shadow-lg flex flex-col justify-start items-start rounded-lg mb-4`}>
                 <div className={`w-full mb-1 inset-shadow-sm px-3 pt-2 pb-3 rounded-lg flex flex-col justify-start items-start`}>
                   <img src={item.image} className={`h-10 rounded-full md:h-12`} />
-                  <h2 className={`font-semibold text-xl text-black`}>{item.name}</h2>
+                  <h2 className={`font-semibold text-xl text-black mt-3`}>{item.name}</h2>
                   <p className={`text-[12px] mt-1 lg:text-[14px] italic text-black opacity-65`}>{item.designation}</p>
                 </div>
                 <p onClick={() => navigate(item.linkedin)} className={`w-auto rounded-full px-3 py-1 bg-blue-500 border-[2px] border-blue-600 text-white flex justify-center items-center gap-2 text-[12px] ml-3 cursor-pointer`}>LinkedIn <FaLinkedin /></p>
@@ -312,6 +312,7 @@ function page() {
 }
 
 export default page
+
 
 
 
