@@ -275,7 +275,7 @@ function page() {
           <div onClick={(e) => e.stopPropagation()} className={`w-[90%] md:w-[70%] rounded-xl overflow-y-auto bg-gray-200 max-h-[70vh] lg:max-h-[60vh] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-5 px-4 py-4`}>
             {testimonials.map((item, index) => {
               return <div key={index} className={`w-full bg-white cursor-pointer shadow-lg flex flex-col justify-start items-start rounded-xl mb-4`}>
-                <div className={`w-full mb-1 inset-shadow-sm px-3 pt-2 pb-3 rounded-lg flex flex-col justify-start items-start`}>
+                <div className={`w-full mb-1 inset-shadow-sm px-3 pt-4 pb-3 rounded-lg flex flex-col justify-start items-start`}>
                   <img src={item.image} className={`h-10 rounded-full md:h-12`} />
                   <h2 className={`font-semibold text-xl text-black mt-3`}>{item.name}</h2>
                   <p className={`text-[12px] mt-1 lg:text-[14px] italic text-black opacity-65`}>{item.designation}</p>
@@ -312,6 +312,7 @@ function page() {
 }
 
 export default page
+
 
 
 
