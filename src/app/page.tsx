@@ -247,7 +247,7 @@ function page() {
         {/* testimonial section */}
         <div className={`w-full h-auto bg-white flex flex-col justify-start items-center py-10`}>
           <h1 className={`w-full text-center font-Michroma font-bold text-black text-xl md:text-2xl`}>WHAT PEOPLE SAY</h1>
-          <p className={`w-full flex justify-center items-center text-[10px] md:text-[12px] gap-2 mt-2 mb-5`}> <span className="text-yellow-500 text-[14px]"><SiGooglegemini /></span> Read out feedback from my network <span className="text-yellow-500 text-lg"><SiGooglegemini /></span></p>
+          <p className={`w-full flex justify-center items-center text-[12px] md:text-[14px] gap-2 mt-2 mb-5`}> <span className="text-yellow-500 text-[14px]"><SiGooglegemini /></span> Read out feedback from my network <span className="text-yellow-500 text-[14px]"><SiGooglegemini /></span></p>
 
           <div className={`w-full h-auto flex flex-col justify-center items-center relative overflow-hidden pb-5 pt-5`}>
             <div className="h-full z-20 absolute left-0 w-[20%] lg:w-[30%] bg-gradient-to-r from-white to-transparent"></div>
@@ -312,6 +312,7 @@ function page() {
 }
 
 export default page
+
 
 
 
