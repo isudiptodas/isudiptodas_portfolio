@@ -149,7 +149,7 @@ function page() {
         </div>
 
         {/* tech stack */}
-        <div className={`w-full px-5 md:px-12 bg-[#0D1BC3] flex flex-col justify-start items-center gap-3 pb-10`}>
+        <div className={`w-full px-5 md:px-12 bg-[#0D1BC3] flex flex-col justify-start items-center gap-3 pt-5 pb-10`}>
           <h3 className={`text-white font-Michroma text-xl md:text-2xl w-full text-center font-semibold`}>TECH STACK WORKED WITH</h3>
 
           {/* grids */}
@@ -195,7 +195,7 @@ function page() {
          </div>
 
         {/* work */}
-        <div className={`w-full h-auto px-5 lg:px-8 flex flex-col justify-start items-center pt-5`}>
+        <div className={`w-full h-auto px-5 lg:px-8 flex flex-col justify-start items-center`}>
           <h3 className={`text-black font-Michroma text-xl md:text-2xl w-full text-center font-semibold`}>EXPLORE WORK</h3>
 
           <div className={`w-full py-10 h-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center gap-4`}>
@@ -320,6 +320,7 @@ function page() {
 }
 
 export default page
+
 
 
 
