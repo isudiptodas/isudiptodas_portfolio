@@ -5,8 +5,6 @@ import Marquee from "react-fast-marquee";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import CountUp from 'react-countup';
-import { FaApple } from "react-icons/fa";
-import { FaMicrosoft } from "react-icons/fa6";
 import { BiLogoGmail } from "react-icons/bi";
 import { PiMicrosoftOutlookLogoFill } from "react-icons/pi";
 import { FaGithub } from "react-icons/fa";
@@ -16,15 +14,18 @@ import { freelance } from "@/data/freelance";
 import { works } from "@/data/work";
 import { FaLocationArrow } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import { testimonials } from "@/data/testimonials";
+import { IoIosArrowForward } from "react-icons/io";
 
 function page() {
 
   const [loaded, setLoaded] = useState(true);
   const [hiringVisible, setHiringVisible] = useState(false);
+  const [testimonialVisible, setTestimonialVisible] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    if (hiringVisible) {
+    if (hiringVisible || testimonialVisible) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "auto";
@@ -33,7 +34,7 @@ function page() {
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, [hiringVisible]);
+  }, [hiringVisible, testimonialVisible]);
 
   const navigate = (link: string) => {
     if (link.startsWith(`https`)) {
@@ -43,7 +44,7 @@ function page() {
       window.open(`mailto:${link}`, '_blank');
     }
   }
-  
+
   return (
     <>
 
@@ -55,16 +56,16 @@ function page() {
 
         {/* hero section */}
         <div className={`w-full h-screen z-10 bg-[#080808] flex flex-col justify-center items-center relative overflow-hidden gap-3`}>
-          <p className={`absolute left-1/2 -translate-x-1/2 top-7 font-Michroma text-[10px] text-white tracking-[5px]`}>ISUDIPTODAS</p>
+          <p className={`absolute left-1/2 -translate-x-1/2 top-7 motion-opacity-in-0 motion-duration-[5s] font-Michroma text-[10px] text-white tracking-[5px]`}>ISUDIPTODAS</p>
 
-          <h1 className={`text-white text-center font-Cronde text-5xl sm:text-8xl w-full overflow-hidden`}>DESIGNER</h1>
-          <h1 className={`text-white text-center font-Zen-Dots text-3xl w-full sm:text-6xl overflow-hidden`}>DEVELOPER</h1>
+          <h1 className={`text-white motion-opacity-in-0 motion-blur-in-md text-center font-Cronde text-5xl sm:text-8xl w-full overflow-hidden`}>DESIGNER</h1>
+          <h1 className={`text-white motion-opacity-in-0 motion-blur-in-md text-center font-Zen-Dots text-3xl w-full sm:text-6xl overflow-hidden`}>DEVELOPER</h1>
 
           <div className={`w-full absolute bottom-0 py-8 md:py-12 px-5 grid grid-cols-2 sm:grid-cols-4 justify-items-center gap-3`}>
-            <p className={`text-white font-Michroma text-[8px] md:text-[10px] lg:text-sm cursor-pointer`}>WEB DEVELOPMENT</p>
-            <p className={`text-white font-Michroma text-[8px] md:text-[10px] lg:text-sm cursor-pointer`}>GRAPHIC DESIGN</p>
-            <p className={`text-white font-Michroma text-[8px] md:text-[10px] lg:text-sm cursor-pointer`}>VIDEO EDITING</p>
-            <p className={`text-white font-Michroma text-[8px] md:text-[10px] lg:text-sm cursor-pointer`}>DEVOPS</p>
+            <p className={`text-white motion-blur-in-md font-Michroma text-[8px] md:text-[10px] lg:text-sm cursor-pointer`}>WEB DEVELOPMENT</p>
+            <p className={`text-white motion-blur-in-md font-Michroma text-[8px] md:text-[10px] lg:text-sm cursor-pointer`}>GRAPHIC DESIGN</p>
+            <p className={`text-white motion-blur-in-md font-Michroma text-[8px] md:text-[10px] lg:text-sm cursor-pointer`}>VIDEO EDITING</p>
+            <p className={`text-white motion-blur-in-md font-Michroma text-[8px] md:text-[10px] lg:text-sm cursor-pointer`}>DEVOPS</p>
           </div>
         </div>
 
@@ -190,19 +191,19 @@ function page() {
         </div>
 
         {/* work */}
-        <div className={`w-full h-auto px-5 md:px-12 flex flex-col justify-start items-center pt-10`}>
+        <div className={`w-full h-auto px-5 lg:px-8 flex flex-col justify-start items-center pt-10`}>
           <h3 className={`text-black font-Michroma text-xl md:text-2xl w-full text-center font-semibold`}>EXPLORE WORK</h3>
-          
+
           <div className={`w-full py-10 h-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center gap-4`}>
             {works.map((item, index) => {
               return <div key={index} className={`w-full rounded-2xl bg-black h-[30vh] md:h-[50vh] relative overflow-hidden flex justify-center items-end`}>
                 <img src={item.image} className={`opacity-40 absolute h-full object-cover`} />
                 <div className={`w-full pb-5 h-auto flex flex-col justify-center items-center gap-5`}>
                   <p className={`text-white z-20 w-full font-Michroma text-center text-xl`}>{item.title}</p>
-                   <div onClick={() => router.push(item.link)} className={`w-[90%] active:opacity-70 inset-shadow-sm inset-shadow-green-800 hover:opacity-70 duration-200 ease-in-out cursor-pointer bg-[#76fe00] h-auto flex justify-center items-center py-3 rounded-full relative`}>
-                      <p className={`text-black text-sm font-bold cursor-pointer`}>Visit</p>
-                       <span className={`text-[#76fe00] absolute rounded-full p-2 right-2 text-[12px] bg-black`}><FaLocationArrow /></span>
-                   </div>
+                  <div onClick={() => router.push(item.link)} className={`w-[90%] active:opacity-70 inset-shadow-sm inset-shadow-green-800 hover:opacity-70 duration-200 ease-in-out cursor-pointer bg-[#76fe00] h-auto flex justify-center items-center py-3 rounded-full relative`}>
+                    <p className={`text-black text-sm font-bold cursor-pointer`}>Visit</p>
+                    <span className={`text-[#76fe00] absolute rounded-full p-2 right-2 text-[12px] bg-black`}><FaLocationArrow /></span>
+                  </div>
                 </div>
               </div>
             })}
@@ -213,11 +214,11 @@ function page() {
 
         {/* freelancing section */}
         <div className={`w-full h-auto flex flex-col justify-start items-center py-5`}>
-          <h1 className={`w-full mb-4 text-center bg-gradient-to-b from-zinc-900 via-zinc-500 to-white font-Michroma font-bold bg-clip-text text-transparent text-xl md:text-2xl`}>WHAT I'M OFFERING</h1>
+          <h1 className={`w-full mb-4 text-center font-Michroma font-bold text-black text-xl md:text-2xl`}>WHAT I'M OFFERING</h1>
 
           <div className={`w-full h-auto pt-4 pb-5 px-5 lg:px-8 flex flex-col md:flex-row justify-start lg:justify-between items-center gap-5 lg:gap-10`}>
             {freelance.map((item) => {
-              return <div key={item.topic} className={`w-full border border-black py-5 px-5 rounded-md hover:shadow-2xl shadow-md duration-200 ease-in-out cursor-default flex flex-col justify-start items-start`}>
+              return <div key={item.topic} className={`w-full border border-black py-5 px-5 rounded-xl hover:shadow-2xl shadow-md duration-200 ease-in-out cursor-default flex flex-col justify-start items-start`}>
                 <h1 className={`w-full text-start font-Zen-Dots text-black text-lg lg:text-xl`}>{item.topic}</h1>
                 <h1 className={`w-full mb-2 text-start font-Urbanist text-gray-600 text-sm lg:text-lg`}>{item.goodAt}</h1>
                 {item.list.map((line, index) => {
@@ -232,16 +233,60 @@ function page() {
 
         {/* hiring popup */}
         <div onClick={() => setHiringVisible(false)} className={`w-full ${hiringVisible ? "scale-100" : "scale-0"} duration-300 ease-in-out h-screen fixed backdrop-blur-xl bg-white/10 z-30 flex justify-center items-center`}>
-            <div className={`w-[90%] md:w-auto h-auto px-5 lg:px-8 py-5 lg:py-8 bg-white rounded-lg flex flex-col justify-center items-center`}>
-                <h1 className={`w-full text-center text-4xl lg:text-6xl font-Urbanist font-bold`}>Connect With Me</h1>
-                <h1 className={`w-full text-center text-sm lg:text-lg italic font-Urbanist`}>Let me build something great for you</h1>
+          <div className={`w-[90%] md:w-auto h-auto px-5 lg:px-8 py-5 lg:py-8 bg-white rounded-lg flex flex-col justify-center items-center`}>
+            <h1 className={`w-full text-center text-4xl lg:text-6xl font-Urbanist font-bold`}>Connect With Me</h1>
+            <h1 className={`w-full text-center text-sm lg:text-lg italic font-Urbanist`}>Let me build something great for you</h1>
 
-                <div className={`w-full py-5 flex justify-between items-center gap-3`}>
-                    <p onClick={() => window.open('mailto:isudiptodas01@outlook.com','_blank')} className={`w-full active:opacity-75 duration-150 ease-in-out py-2 lg:py-4 rounded-md flex justify-center items-center gap-2 bg-blue-500 text-white text-sm cursor-pointer`}><span><PiMicrosoftOutlookLogoFill/></span>Outlook</p>
-                    <p onClick={() => window.open('mailto:work.sudiptodas@gmail.com','_blank')} className={`w-full active:opacity-75 duration-150 ease-in-out py-2 lg:py-4 rounded-md flex justify-center items-center gap-2 bg-red-500 text-white text-sm cursor-pointer`}><span><BiLogoGmail/></span>Gmail</p>
-                </div>
+            <div className={`w-full py-5 flex justify-between items-center gap-3`}>
+              <p onClick={() => window.open('mailto:isudiptodas01@outlook.com', '_blank')} className={`w-full active:opacity-75 duration-150 ease-in-out py-2 lg:py-4 rounded-md flex justify-center items-center gap-2 bg-blue-500 text-white text-sm cursor-pointer`}><span><PiMicrosoftOutlookLogoFill /></span>Outlook</p>
+              <p onClick={() => window.open('mailto:work.sudiptodas@gmail.com', '_blank')} className={`w-full active:opacity-75 duration-150 ease-in-out py-2 lg:py-4 rounded-md flex justify-center items-center gap-2 bg-red-500 text-white text-sm cursor-pointer`}><span><BiLogoGmail /></span>Gmail</p>
             </div>
+          </div>
         </div>
+
+        {/* testimonial section */}
+        <div className={`w-full h-auto bg-white flex flex-col justify-start items-center py-10`}>
+          <h1 className={`w-full text-center font-Michroma font-bold text-black text-xl md:text-2xl`}>WHAT PEOPLE SAY</h1>
+          <p className={`w-full flex justify-center items-center text-[10px] md:text-[12px] gap-2 mt-2 mb-5`}> <span className="text-yellow-500 text-[14px]"><SiGooglegemini /></span> Read out feedback from my network <span className="text-yellow-500 text-lg"><SiGooglegemini /></span></p>
+
+          <div className={`w-full h-auto flex flex-col justify-center items-center relative overflow-hidden pb-5`}>
+            <div className="h-full z-20 absolute left-0 w-[20%] lg:w-[30%] bg-gradient-to-r from-white to-transparent"></div>
+
+            <Marquee>
+              {testimonials.map((item, index) => {
+                return <div key={index} className={`w-[70vw] md:w-[40vw] xl:w-[30vw] cursor-pointer mx-4 z-10 shadow-md flex flex-col justify-start items-start rounded-lg pb-3`}>
+                  <div className={`w-full mb-1 shadow-lg inset-shadow-sm px-3 pt-2 pb-3 rounded-lg flex flex-col justify-start items-start`}>
+                    <h2 className={`font-semibold text-xl text-black`}>{item.name}</h2>
+                    <p className={`text-[12px] mt-2 lg:text-sm italic text-black opacity-65`}>{item.designation}</p>
+                  </div>
+                  <p className={`w-auto text-start text-[10px] lg:text-[12px] text-black px-3 py-4 font-light`}>{item.feedback}</p>
+                </div>
+              })}
+            </Marquee>
+
+            <p onClick={() => setTestimonialVisible(true)} className={`w-auto mt-5 text-center text-black text-[12px] cursor-pointer px-4 py-2 rounded-xl bg-gray-100 duration-300 ease-in-out flex justify-center items-center gap-2`}>View indivisual cards <IoIosArrowForward /></p>
+
+            <div className="h-full z-20 absolute right-0 w-[20%] lg:w-[30%] bg-gradient-to-l from-white to-transparent"></div>
+          </div>
+        </div>
+
+        {/* testimonial popup */}
+        <div onClick={() => setTestimonialVisible(false)} className={`w-full ${testimonialVisible ? "scale-100" : "scale-0"} duration-300 ease-in-out h-screen fixed inset-0 backdrop-blur-lg z-30 bg-white-40 flex justify-center items-center`}>
+          <div onClick={(e) => e.stopPropagation()} className={`w-[90%] md:w-[70%] rounded-lg overflow-y-auto bg-white max-h-[70vh] lg:max-h-[60vh] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-5 px-4 py-4`}>
+            {testimonials.map((item, index) => {
+              return <div key={index} className={`w-ful cursor-pointer shadow-lg flex flex-col justify-start items-start rounded-lg mb-4`}>
+                <div className={`w-full mb-1 inset-shadow-sm px-3 pt-2 pb-3 rounded-lg flex flex-col justify-start items-start`}>
+                  <img src={item.image} className={`h-10 rounded-full md:h-12`} />
+                  <h2 className={`font-semibold text-xl text-black`}>{item.name}</h2>
+                  <p className={`text-[12px] mt-1 lg:text-[14px] italic text-black opacity-65`}>{item.designation}</p>
+                </div>
+                <p onClick={() => navigate(item.linkedin)} className={`w-auto rounded-full px-3 py-1 bg-blue-500 border-[2px] border-blue-600 text-white flex justify-center items-center gap-2 text-[12px] ml-3 cursor-pointer`}>LinkedIn <FaLinkedin /></p>
+                <p className={`w-auto text-start text-[10px] text-black px-3 py-4 font-light`}>{item.feedback}</p>
+              </div>
+            })}
+          </div>
+        </div>
+
 
         <div className={`w-full bg-[#080808] py-10 md:pt-20 md:pb-10 flex justify-center items-center`}>
           <Link href='/cv_sudipto.pdf' download="/cv_sudipto.pdf" className={`w-auto inset-shadow-sm inset-shadow-blue-800 px-5 py-2 hover:scale-95 hover:rounded-4xl duration-200 ease-in-out cursor-pointer bg-gradient-to-r from-blue-300 via-blue-500 to-blue-700 text-white font-Michroma text-sm md:text-lg font-light`}>Download CV</Link>

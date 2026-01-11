@@ -31,7 +31,7 @@ function page() {
             <div className={`w-full bg-[#080808] relative h-auto flex flex-col justify-start items-center overflow-hidden`}>
                 <p className={`absolute left-1/2 -translate-x-1/2 top-7 font-Michroma text-[10px] text-white tracking-[5px]`}>ISUDIPTODAS</p>
                 <div className={`w-full h-auto z-50 flex justify-center items-center px-5 fixed bottom-8`}>
-                    <Link href='/' className={`w-auto px-5 py-3 rounded-full text-white font-Michroma text-[10px] md:text-sm backdrop-blur-3xl bg-white/25`}>Exit Studio</Link>
+                    <Link href='/' className={`w-auto px-5 py-3 rounded-full text-white font-Michroma text-[10px] md:text-sm backdrop-blur-3xl bg-white/25`}>Exit Section</Link>
                 </div>
 
                 <div className={`w-auto mt-20 xl:mt-28 flex justify-center items-center gap-3 rounded-full border border-gray-300 p-1`}>

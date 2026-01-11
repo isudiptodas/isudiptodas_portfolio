@@ -35,7 +35,7 @@ export const testimonials = [
                delivered the work ahead of schedule. His commitment to quality and efficiency is impressive, and I have no doubt he will achieve great success in his career.`,
     linkedin: "https://www.linkedin.com/in/pkumarmani24",
     designation: "Application Developer, IBM",
-    image: `/assets/testimonials/pritam-kumar-mani.jpg`
+    image: `/assets/testimonials/pritam-kumar-mani.png`
   },
   {
     name: "Debaleena Dutta",
