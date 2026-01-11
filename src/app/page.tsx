@@ -252,7 +252,7 @@ function page() {
           <div className={`w-full h-auto flex flex-col justify-center items-center relative overflow-hidden pb-5 pt-5`}>
             <div className="h-full z-20 absolute left-0 w-[20%] lg:w-[30%] bg-gradient-to-r from-white to-transparent"></div>
 
-            <Marquee>
+            <Marquee speed={70}>
               {testimonials.map((item, index) => {
                 return <div key={index} className={`w-[70vw] md:w-[40vw] xl:w-[30vw] cursor-pointer mx-4 z-10 shadow-md flex flex-col justify-start items-start rounded-lg pb-3`}>
                   <div className={`w-full mb-1 shadow-lg inset-shadow-sm px-3 pt-2 pb-3 rounded-lg flex flex-col justify-start items-start`}>
@@ -312,6 +312,7 @@ function page() {
 }
 
 export default page
+
 
 
 
