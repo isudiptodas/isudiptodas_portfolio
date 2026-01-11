@@ -195,7 +195,7 @@ function page() {
          </div>
 
         {/* work */}
-        <div className={`w-full h-auto px-5 lg:px-8 flex flex-col justify-start items-center pt-10`}>
+        <div className={`w-full h-auto px-5 lg:px-8 flex flex-col justify-start items-center pt-5`}>
           <h3 className={`text-black font-Michroma text-xl md:text-2xl w-full text-center font-semibold`}>EXPLORE WORK</h3>
 
           <div className={`w-full py-10 h-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center gap-4`}>
@@ -249,7 +249,7 @@ function page() {
         </div>
 
         {/* testimonial section */}
-        <div className={`w-full h-auto bg-white flex flex-col justify-start items-center py-10`}>
+        <div className={`w-full h-auto bg-white flex flex-col justify-start items-center pt-10 pb-5`}>
           <h1 className={`w-full text-center font-Michroma font-bold text-black text-xl md:text-2xl`}>WHAT PEOPLE SAY</h1>
           <p className={`w-full flex justify-center items-center text-[12px] md:text-[14px] gap-2 mt-2 mb-5`}> <span className="text-yellow-500 text-[14px]"><SiGooglegemini /></span> Read out feedback from my network <span className="text-yellow-500 text-[14px]"><SiGooglegemini /></span></p>
 
@@ -320,6 +320,7 @@ function page() {
 }
 
 export default page
+
 
 
 
