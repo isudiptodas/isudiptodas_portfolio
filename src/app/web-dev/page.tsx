@@ -4,6 +4,7 @@ import { webProjects } from "@/data/projectList";
 import Link from "next/link";
 import { FaLocationArrow } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
+import { FaLightbulb } from "react-icons/fa";
 
 function page() {
 
@@ -33,6 +34,14 @@ function page() {
                                 <p onClick={() => navigate(list.github)} className={`${list.deployed ? "w-full" : "w-auto"} rounded-full px-4 py-2 cursor-pointer hover:opacity-75 duration-150 ease-in-out bg-black text-white font-semibold flex justify-center items-center text-[12px] gap-3`}>Github <span><FaGithub /></span></p>
                                 <p onClick={() => navigate(list?.live)} className={`${list.deployed ? "w-full" : "w-auto"} rounded-full px-4 py-2 cursor-pointer inset-shadow-sm inset-shadow-green-800 active:opacity-70 hover:opacity-75 duration-200 ease-in-out bg-[#77ff00] text-black font-semibold flex justify-center items-center text-[12px] gap-3 ${list.deployed ? "block" : "hidden"}`}>Live <span><FaLocationArrow /></span></p>
                             </div>
+                            <div className={`h-px w-[95%] bg-gray-500 my-2`}></div>
+                            <div className={`w-full flex justify-between items-start gap-3`}>
+                               <span className={`text-sm text-yellow-500 p-2 rounded-full bg-zinc-900`}> <FaLightbulb /> </span>
+                                <div className={`w-full flex flex-col justify-start items-start`}>
+                                  <p className={`w-full text-start text-white text-lg font-semibold`}>Idea behind <p>{list.name}</p></p>
+                                  <p className={`w-full text-white text-[12px] text-start `}>{list.idea}</p>
+                                </div>
+                            </div>
                         </div>
                     })}
                 </div>
@@ -43,4 +52,5 @@ function page() {
 
 
 export default page
+
 
