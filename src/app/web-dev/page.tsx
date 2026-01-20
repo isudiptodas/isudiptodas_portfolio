@@ -38,7 +38,7 @@ function page() {
                             <div className={`w-full px-3 flex justify-between items-start gap-3`}>
                                <span className={`text-sm text-yellow-400 p-2 rounded-full bg-zinc-900`}> <FaLightbulb /> </span>
                                 <div className={`w-full flex flex-col justify-start items-start`}>
-                                  <p className={`w-full text-start text-white text-lg font-semibold`}>Idea behind <p className={`capitalize`}>{list.name}</p></p>
+                                  <p className={`w-full text-start text-white text-lg font-semibold flex justify-start items-center gap-1`}>Idea behind <p className={`capitalize`}>{list.name}</p></p>
                                   <p className={`w-full text-white text-[10px] text-start `}>{list.idea}</p>
                                 </div>
                             </div>
@@ -52,6 +52,7 @@ function page() {
 
 
 export default page
+
 
 
 
