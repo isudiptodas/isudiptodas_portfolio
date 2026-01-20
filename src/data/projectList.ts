@@ -127,6 +127,8 @@ export const webProjects = [
             "Real time image generation with aspect ratio selection",
             "4 text encryption styles with password protection"
         ],
+        idea: `Again, started as a timepass project but ended up adding exciting unplanned features like :
+        perplexity like web search, multi aspect image generation, cloud file sharing with 24hr validity and so on.`,
         tech: `NextJs, TailwindCSS, Gemini API, Supabase, Google Search API, Node Cron`,
         github: `https://github.com/isudiptodas/Ripple-AI-Smart_Search_Explorer`,
         live: `https://ripple-ai-six.vercel.app/`,
@@ -141,6 +143,9 @@ export const webProjects = [
             "No heavy dependency or CLI installation needed",
             "Select, copy code & paste in your codebase",
         ],
+        idea: `The idea was simple, everytime whenever I started a new project I had to manually create each and every
+        element like : buttons, cards, carousels, navbars. So I decided to make a UI library and store frequently used
+        components, not only for me but for anyone whoever want to use and made it open source.`,
         tech: `NextJs, TailwindCSS, Framer Motion`,
         github: `https://github.com/isudiptodas/Pixel-Labs-Component_UI_Library`,
         live: `https://pixel-labs-azure.vercel.app/`,
@@ -155,12 +160,16 @@ export const webProjects = [
             "Windows file manager with exact replica of details",
             "MacOS terminal based AI for user queries",
         ],
+        idea: `This is the first time, I copied someone else's idea and tried to implement it in my way. Saw on linkedin 
+        someone built his portfolio in MacOS theme and I loved that concept and I built for my own. And later added windows11
+        styled theme.`,
         tech: `NextJs, TailwindCSS, Gemini API`,
         github: `https://github.com/isudiptodas/OS_Theme_Portfolio`,
         live: `https://os-theme.vercel.app/`,
         deployed: true
     },
 ]
+
 
 
 
