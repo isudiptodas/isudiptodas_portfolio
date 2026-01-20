@@ -312,6 +312,9 @@ function page() {
           <span onClick={() => navigate('https://www.linkedin.com/in/sudiptodas-developer')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><FaLinkedin /></span>
           <span onClick={() => navigate('https://www.x.com/isudiptodas')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><FaSquareXTwitter /></span>
         </div>
+        <div className={`bg-[#080808] w-full h-auto flex justify-center items-center py-4`}>
+          <p className={`w-full text-center text-white text-[8px] opacity-70 font-Michroma`}>Designed and developed by Sudipto</p>
+        </div>
 
       </div>
 
@@ -320,6 +323,7 @@ function page() {
 }
 
 export default page
+
 
 
 
