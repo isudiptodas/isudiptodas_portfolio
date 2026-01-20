@@ -305,7 +305,7 @@ function page() {
         </div>
 
         {/* footer */}
-        <div className={`w-full h-auto pt-10 pb-16 flex justify-center items-center gap-5 lg:gap-8 bg-[#080808]`}>
+        <div className={`w-full h-auto pt-10 pb-5 flex justify-center items-center gap-5 lg:gap-8 bg-[#080808]`}>
           <span onClick={() => navigate('mailto:work.sudiptodas@gmail.com')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><BiLogoGmail /></span>
           <span onClick={() => navigate('mailto:isudiptodas01@outlook.com')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><PiMicrosoftOutlookLogoFill /></span>
           <span onClick={() => navigate('https://github.com/isudiptodas')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><FaGithub /></span>
@@ -313,7 +313,7 @@ function page() {
           <span onClick={() => navigate('https://www.x.com/isudiptodas')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><FaSquareXTwitter /></span>
         </div>
         <div className={`bg-[#080808] w-full h-auto flex justify-center items-center py-4`}>
-          <p className={`w-full text-center text-white text-[8px] opacity-70 font-Michroma`}>Designed and developed by Sudipto</p>
+          <p className={`w-full text-center text-white text-[8px] md:text-[10px] opacity-70`}>Designed and developed by Sudipto</p>
         </div>
 
       </div>
@@ -323,6 +323,7 @@ function page() {
 }
 
 export default page
+
 
 
 
