@@ -90,7 +90,8 @@ export const webProjects = [
         features: [
             "256 bit encrypted password manager",
             "Account recovery with two step verification",
-            "Store usernames, passwords, links securely"
+            "Store usernames, passwords, links securely",
+            "Generate random passwords based on parameters"
         ],
         idea: `Maybe the time when I finished my first full stack project, I got to know the term cryptography in college,
         and from there I got an idea to build a project to implement cryptography concepts and with that thought 
@@ -169,6 +170,7 @@ export const webProjects = [
         deployed: true
     },
 ]
+
 
 
 
