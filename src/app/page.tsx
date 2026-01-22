@@ -61,8 +61,8 @@ function page() {
           <h1 className={`text-white motion-opacity-in-0 motion-blur-in-md text-center font-Cronde text-5xl sm:text-8xl w-full overflow-hidden`}>DESIGNER</h1>
           <h1 className={`text-white motion-opacity-in-0 motion-blur-in-md text-center font-Zen-Dots text-3xl w-full sm:text-6xl overflow-hidden`}>DEVELOPER</h1>
 
-          <div className={`w-auto flex justify-center items-center gap-2 px-3 py-2 rounded-xl bg-zinc-800`}>
-            <div className={`rounded-full bg-green-500 p-0.5`}></div>
+          <div className={`w-auto flex justify-center items-center gap-2 px-3 py-2 rounded-lg bg-zinc-900`}>
+            <div className={`rounded-full bg-green-500 p-1`}></div>
             <p className={`text-white text-[10px] md:text-[12px] lg:text-[14px] `}>Available for work</p>
           </div>
           
@@ -328,6 +328,7 @@ function page() {
 }
 
 export default page
+
 
 
 
