@@ -258,8 +258,17 @@ function page() {
 
 
         {/* testimonial popup */}
-        <div onClick={() => setTestimonialVisible(false)} className={`w-full ${testimonialVisible ? "translate-y-0" : "translate-y-full"} duration-500 ease-in-out h-screen fixed inset-0 backdrop-blur-lg z-30 bg-zinc-950 flex justify-center items-center`}>
-          <div onClick={(e) => e.stopPropagation()} className={`w-[90%] lg:w-[70%] rounded-xl overflow-y-auto max-h-[70vh] lg:max-h-[60vh] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-5 px-2 py-10 relative`}>
+        <div onClick={() => setTestimonialVisible(false)} style={{
+      background: "#000000",
+      backgroundImage: `
+        radial-gradient(circle at 1px 1px, rgba(139, 92, 246, 0.2) 1px, transparent 0),
+        radial-gradient(circle at 1px 1px, rgba(59, 130, 246, 0.18) 1px, transparent 0),
+        radial-gradient(circle at 1px 1px, rgba(236, 72, 153, 0.15) 1px, transparent 0)
+      `,
+      backgroundSize: "20px 20px, 30px 30px, 25px 25px",
+      backgroundPosition: "0 0, 10px 10px, 15px 5px",
+    }} className={`w-full ${testimonialVisible ? "translate-y-0" : "translate-y-full"} duration-500 ease-in-out h-screen fixed inset-0 z-30 flex justify-center items-center`}>
+          <div onClick={(e) => e.stopPropagation()} className={`w-[90%] lg:w-[70%] rounded-xl overflow-y-auto max-h-[70vh] lg:max-h-[60vh] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-5 px-2 py-10 bg-transparent`}>
            
             {testimonials.map((item, index) => {
               return <div key={index} className={`w-full cursor-pointer shadow-lg bg-zinc-900 flex flex-col justify-start items-start rounded-xl mb-4`}>
@@ -307,6 +316,7 @@ function page() {
 }
 
 export default page
+
 
 
 
