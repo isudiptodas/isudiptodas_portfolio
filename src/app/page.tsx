@@ -134,7 +134,7 @@ function page() {
             </Marquee>
           </div>
 
-          <motion.div initial={{ opacity: 0, scale:0 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 2 }} className={`pt-16 pb-10 lg:pt-28 lg:pb-16 px-5 w-full z-20 md:px-12 flex flex-col justify-start items-start gap-4`}>
+          <motion.div initial={{ opacity: 0, scale:0 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className={`pt-16 pb-10 lg:pt-28 lg:pb-16 px-5 w-full z-20 md:px-12 flex flex-col justify-start items-start gap-4`}>
             <h3 className={`text-white font-Michroma text-xl md:text-2xl w-full text-start font-semibold`}>ABOUT ME</h3>
             <p className={`text-white text-[10px] md:text-sm w-full text-start`}>I’m a passionate full-stack developer with over 2 years of hands
               on experience on MERN stack, NextJS, SpringBoot specializing in building dynamic and responsive user interfaces.
@@ -156,10 +156,10 @@ function page() {
 
         {/* tech stack */}
         <div className={`w-full px-5 md:px-12 bg-[#0D1BC3] flex flex-col justify-start items-center gap-3 pt-5 pb-10`}>
-          <motion.h3  initial={{ opacity: 0, scale:0 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 2 }} className={`text-white font-Michroma text-xl md:text-2xl w-full text-center font-semibold`}>TECH STACK WORKED WITH</motion.h3>
+          <motion.h3  initial={{ opacity: 0, scale:0 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className={`text-white font-Michroma text-xl md:text-2xl w-full text-center font-semibold`}>TECH STACK WORKED WITH</motion.h3>
 
           {/* grids */}
-          <motion.div initial={{ opacity: 0, scale:0 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 2 }} className={`w-full h-auto py-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-items-center gap-5`}>
+          <motion.div initial={{ opacity: 0, scale:0 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className={`w-full h-auto py-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-items-center gap-5`}>
 
             <div className={`bg-white/25 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
               <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>PROGRAMMING LANGUAGES</h3>
@@ -202,11 +202,11 @@ function page() {
 
         {/* work */}
         <div className={`w-full h-auto px-5 lg:px-8 flex flex-col justify-start items-center`}>
-          <motion.h3 initial={{ opacity: 0, scale: 0 }} whileInView={{ opacity: 1, scale: 1}} viewport={{ once: true }} transition={{ duration: 2 }} className={`text-black font-Michroma text-xl md:text-2xl w-full text-center font-semibold`}>EXPLORE WORK</motion.h3>
+          <motion.h3 initial={{ opacity: 0, scale: 0 }} whileInView={{ opacity: 1, scale: 1}} viewport={{ once: true }} transition={{ duration: 0.8 }} className={`text-black font-Michroma text-xl md:text-2xl w-full text-center font-semibold`}>EXPLORE WORK</motion.h3>
 
           <div className={`w-full py-10 h-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center gap-4`}>
             {works.map((item, index) => {
-              return <motion.div initial={{ opacity: 0, scale: 0 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 2 }} key={index} className={`w-full rounded-2xl bg-black h-[30vh] md:h-[50vh] relative overflow-hidden flex justify-center items-end`}>
+              return <motion.div initial={{ opacity: 0, scale: 0 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }} key={index} className={`w-full rounded-2xl bg-black h-[30vh] md:h-[50vh] relative overflow-hidden flex justify-center items-end`}>
                 <img src={item.image} className={`opacity-40 absolute h-full object-cover`} />
                 <div className={`w-full pb-5 h-auto flex flex-col justify-center items-center gap-5`}>
                   <p className={`text-white z-20 w-full font-Michroma text-center text-xl`}>{item.title}</p>
@@ -224,11 +224,11 @@ function page() {
 
         {/* freelancing section */}
         <div className={`w-full h-auto flex flex-col justify-start items-center py-5`}>
-          <motion.h1 initial={{ opacity: 0, scale: 0 }} whileInView={{ opacity: 1, scale: 1}} viewport={{ once: true }} transition={{ duration: 2 }} className={`w-full mb-4 text-center font-Michroma font-bold text-black text-xl md:text-2xl`}>WHAT I'M OFFERING</motion.h1>
+          <motion.h1 initial={{ opacity: 0, scale: 0 }} whileInView={{ opacity: 1, scale: 1}} viewport={{ once: true }} transition={{ duration: 0.8 }} className={`w-full mb-4 text-center font-Michroma font-bold text-black text-xl md:text-2xl`}>WHAT I'M OFFERING</motion.h1>
 
           <div className={`w-full h-auto pt-4 pb-5 px-5 lg:px-8 flex flex-col md:flex-row justify-start lg:justify-between items-center gap-5 lg:gap-10`}>
             {freelance.map((item) => {
-              return <motion.div initial={{ opacity: 0, scale: 0 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 2 }} key={item.topic} className={`w-full border border-black py-5 px-5 rounded-xl hover:shadow-2xl shadow-md duration-200 ease-in-out cursor-default flex flex-col justify-start items-start`}>
+              return <motion.div initial={{ opacity: 0, scale: 0 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }} key={item.topic} className={`w-full border border-black py-5 px-5 rounded-xl hover:shadow-2xl shadow-md duration-200 ease-in-out cursor-default flex flex-col justify-start items-start`}>
                 <h1 className={`w-full text-start font-Zen-Dots text-black text-lg lg:text-xl`}>{item.topic}</h1>
                 <h1 className={`w-full mb-2 text-start font-Urbanist text-gray-600 text-sm lg:text-lg`}>{item.goodAt}</h1>
                 {item.list.map((line, index) => {
@@ -256,10 +256,10 @@ function page() {
 
         {/* testimonial section */}
         <div className={`w-full h-auto bg-white flex flex-col justify-start items-center pt-10 pb-5`}>
-          <motion.h1 initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 2 }} className={`w-full text-center font-Michroma font-bold text-black text-xl md:text-2xl`}>WHAT PEOPLE SAY</motion.h1>
-          <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 2 }} className={`w-full flex justify-center items-center text-[12px] md:text-[14px] gap-2 mt-2 mb-5`}> <span className="text-yellow-500 text-[14px]"><SiGooglegemini /></span> Read out feedback from my network <span className="text-yellow-500 text-[14px]"><SiGooglegemini /></span></motion.p>
+          <motion.h1 initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className={`w-full text-center font-Michroma font-bold text-black text-xl md:text-2xl`}>WHAT PEOPLE SAY</motion.h1>
+          <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className={`w-full flex justify-center items-center text-[12px] md:text-[14px] gap-2 mt-2 mb-5`}> <span className="text-yellow-500 text-[14px]"><SiGooglegemini /></span> Read out feedback from my network <span className="text-yellow-500 text-[14px]"><SiGooglegemini /></span></motion.p>
 
-          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 2 }} className={`w-full h-auto flex flex-col justify-center items-center relative overflow-hidden pb-5 pt-5`}>
+          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className={`w-full h-auto flex flex-col justify-center items-center relative overflow-hidden pb-5 pt-5`}>
             <div className="h-full z-20 absolute left-0 w-[20%] lg:w-[30%] bg-gradient-to-r from-white to-transparent"></div>
 
             <Marquee speed={70}>
@@ -331,6 +331,7 @@ function page() {
 }
 
 export default page
+
 
 
 
