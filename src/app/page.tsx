@@ -16,6 +16,7 @@ import { FaLocationArrow } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { testimonials } from "@/data/testimonials";
 import { IoIosArrowForward } from "react-icons/io";
+import { motion } from 'framer-motion';
 
 function page() {
 
@@ -61,11 +62,11 @@ function page() {
           <h1 className={`text-white motion-opacity-in-0 motion-blur-in-md text-center font-Cronde text-5xl sm:text-8xl w-full overflow-hidden`}>DESIGNER</h1>
           <h1 className={`text-white motion-opacity-in-0 motion-blur-in-md text-center font-Zen-Dots text-3xl w-full sm:text-6xl overflow-hidden`}>DEVELOPER</h1>
 
-          <div className={`w-auto motion-blur-in-md flex justify-center items-center gap-2 px-3 py-2 rounded-lg bg-zinc-900`}>
+          <div className={`w-auto mt-1 lg:mt-2 motion-blur-in-md flex justify-center items-center gap-2 px-3 py-2 rounded-lg bg-zinc-900`}>
             <div className={`rounded-full bg-green-500 p-1`}></div>
             <p className={`text-white text-[10px] md:text-[12px] lg:text-[14px] `}>Available for work</p>
           </div>
-          
+
           <div className={`w-full absolute bottom-0 py-8 md:py-12 px-5 grid grid-cols-2 sm:grid-cols-4 justify-items-center gap-3`}>
             <p className={`text-white motion-blur-in-md font-Michroma text-[8px] md:text-[10px] lg:text-sm cursor-pointer`}>WEB DEVELOPMENT</p>
             <p className={`text-white motion-blur-in-md font-Michroma text-[8px] md:text-[10px] lg:text-sm cursor-pointer`}>GRAPHIC DESIGN</p>
@@ -133,7 +134,7 @@ function page() {
             </Marquee>
           </div>
 
-          <div className={`pt-16 pb-10 lg:pt-28 lg:pb-16 px-5 w-full z-20 md:px-12 flex flex-col justify-start items-start gap-4`}>
+          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 2 }} className={`pt-16 pb-10 lg:pt-28 lg:pb-16 px-5 w-full z-20 md:px-12 flex flex-col justify-start items-start gap-4`}>
             <h3 className={`text-white font-Michroma text-xl md:text-2xl w-full text-start font-semibold`}>ABOUT ME</h3>
             <p className={`text-white text-[10px] md:text-sm w-full text-start`}>I’m a passionate full-stack developer with over 2 years of hands
               on experience on MERN stack, NextJS, SpringBoot specializing in building dynamic and responsive user interfaces.
@@ -150,15 +151,15 @@ function page() {
               Beside this, I also have a lot of interest in photography, cinematography, editing, storytelling and making digital designs.
             </p>
 
-          </div>
+          </motion.div>
         </div>
 
         {/* tech stack */}
         <div className={`w-full px-5 md:px-12 bg-[#0D1BC3] flex flex-col justify-start items-center gap-3 pt-5 pb-10`}>
-          <h3 className={`text-white font-Michroma text-xl md:text-2xl w-full text-center font-semibold`}>TECH STACK WORKED WITH</h3>
+          <motion.h3 initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 2 }} className={`text-white font-Michroma text-xl md:text-2xl w-full text-center font-semibold`}>TECH STACK WORKED WITH</motion.h3>
 
           {/* grids */}
-          <div className={`w-full h-auto py-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-items-center gap-5`}>
+          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 2 }} className={`w-full h-auto py-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-items-center gap-5`}>
 
             <div className={`bg-white/25 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
               <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>PROGRAMMING LANGUAGES</h3>
@@ -192,20 +193,20 @@ function page() {
               <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>MESSAGING QUEUES</h3>
               <p className="w-full text-center mt-5 text-white text-sm">BullMQ</p>
             </div>
-          </div>
+          </motion.div>
         </div>
 
-         <div className={`w-full bg-[#0D1BC3] h-12 flex justify-center items-center`}>
-           <div className={`h-full w-full bg-white rounded-t-4xl`}></div>
-         </div>
+        <div className={`w-full bg-[#0D1BC3] h-12 flex justify-center items-center`}>
+          <div className={`h-full w-full bg-white rounded-t-4xl`}></div>
+        </div>
 
         {/* work */}
         <div className={`w-full h-auto px-5 lg:px-8 flex flex-col justify-start items-center`}>
-          <h3 className={`text-black font-Michroma text-xl md:text-2xl w-full text-center font-semibold`}>EXPLORE WORK</h3>
+          <motion.h3 initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 2 }} className={`text-black font-Michroma text-xl md:text-2xl w-full text-center font-semibold`}>EXPLORE WORK</motion.h3>
 
           <div className={`w-full py-10 h-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center gap-4`}>
             {works.map((item, index) => {
-              return <div key={index} className={`w-full rounded-2xl bg-black h-[30vh] md:h-[50vh] relative overflow-hidden flex justify-center items-end`}>
+              return <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 2 }} key={index} className={`w-full rounded-2xl bg-black h-[30vh] md:h-[50vh] relative overflow-hidden flex justify-center items-end`}>
                 <img src={item.image} className={`opacity-40 absolute h-full object-cover`} />
                 <div className={`w-full pb-5 h-auto flex flex-col justify-center items-center gap-5`}>
                   <p className={`text-white z-20 w-full font-Michroma text-center text-xl`}>{item.title}</p>
@@ -214,7 +215,7 @@ function page() {
                     <span className={`text-[#76fe00] absolute rounded-full p-2 right-2 text-[12px] bg-black`}><FaLocationArrow /></span>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             })}
           </div>
 
@@ -223,11 +224,11 @@ function page() {
 
         {/* freelancing section */}
         <div className={`w-full h-auto flex flex-col justify-start items-center py-5`}>
-          <h1 className={`w-full mb-4 text-center font-Michroma font-bold text-black text-xl md:text-2xl`}>WHAT I'M OFFERING</h1>
+          <motion.h1 initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 2 }} className={`w-full mb-4 text-center font-Michroma font-bold text-black text-xl md:text-2xl`}>WHAT I'M OFFERING</motion.h1>
 
           <div className={`w-full h-auto pt-4 pb-5 px-5 lg:px-8 flex flex-col md:flex-row justify-start lg:justify-between items-center gap-5 lg:gap-10`}>
             {freelance.map((item) => {
-              return <div key={item.topic} className={`w-full border border-black py-5 px-5 rounded-xl hover:shadow-2xl shadow-md duration-200 ease-in-out cursor-default flex flex-col justify-start items-start`}>
+              return <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 2 }} key={item.topic} className={`w-full border border-black py-5 px-5 rounded-xl hover:shadow-2xl shadow-md duration-200 ease-in-out cursor-default flex flex-col justify-start items-start`}>
                 <h1 className={`w-full text-start font-Zen-Dots text-black text-lg lg:text-xl`}>{item.topic}</h1>
                 <h1 className={`w-full mb-2 text-start font-Urbanist text-gray-600 text-sm lg:text-lg`}>{item.goodAt}</h1>
                 {item.list.map((line, index) => {
@@ -235,7 +236,7 @@ function page() {
                 })}
                 <p className={`w-full py-2 text-start flex justify-start items-center gap-2 text-sm lg:text-lg`}><span className={`font-bold`}>$</span> Contact for pricing details</p>
                 <p onClick={() => setHiringVisible(true)} className={`w-full py-3 mt-2 rounded-md bg-black text-white font-semibold text-center text-sm cursor-pointer active:opacity-75 duration-200 ease-in-out`}>Work with me</p>
-              </div>
+              </motion.div>
             })}
           </div>
         </div>
@@ -255,10 +256,10 @@ function page() {
 
         {/* testimonial section */}
         <div className={`w-full h-auto bg-white flex flex-col justify-start items-center pt-10 pb-5`}>
-          <h1 className={`w-full text-center font-Michroma font-bold text-black text-xl md:text-2xl`}>WHAT PEOPLE SAY</h1>
-          <p className={`w-full flex justify-center items-center text-[12px] md:text-[14px] gap-2 mt-2 mb-5`}> <span className="text-yellow-500 text-[14px]"><SiGooglegemini /></span> Read out feedback from my network <span className="text-yellow-500 text-[14px]"><SiGooglegemini /></span></p>
+          <motion.h1 initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 2 }} className={`w-full text-center font-Michroma font-bold text-black text-xl md:text-2xl`}>WHAT PEOPLE SAY</motion.h1>
+          <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 2 }} className={`w-full flex justify-center items-center text-[12px] md:text-[14px] gap-2 mt-2 mb-5`}> <span className="text-yellow-500 text-[14px]"><SiGooglegemini /></span> Read out feedback from my network <span className="text-yellow-500 text-[14px]"><SiGooglegemini /></span></motion.p>
 
-          <div className={`w-full h-auto flex flex-col justify-center items-center relative overflow-hidden pb-5 pt-5`}>
+          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 2 }} className={`w-full h-auto flex flex-col justify-center items-center relative overflow-hidden pb-5 pt-5`}>
             <div className="h-full z-20 absolute left-0 w-[20%] lg:w-[30%] bg-gradient-to-r from-white to-transparent"></div>
 
             <Marquee speed={70}>
@@ -276,29 +277,34 @@ function page() {
             <p onClick={() => setTestimonialVisible(true)} className={`w-auto mt-5 text-center text-black text-[12px] cursor-pointer px-4 py-2 rounded-xl bg-gray-100 duration-300 ease-in-out flex justify-center items-center gap-2`}>View indivisual cards <IoIosArrowForward /></p>
 
             <div className="h-full z-20 absolute right-0 w-[20%] lg:w-[30%] bg-gradient-to-l from-white to-transparent"></div>
-          </div>
+          </motion.div>
         </div>
 
+
         {/* testimonial popup */}
-        <div onClick={() => setTestimonialVisible(false)} className={`w-full ${testimonialVisible ? "scale-100" : "scale-0"} duration-300 ease-in-out h-screen fixed inset-0 backdrop-blur-lg z-30 bg-white-40 flex justify-center items-center`}>
-          <div onClick={(e) => e.stopPropagation()} className={`w-[90%] md:w-[70%] rounded-xl overflow-y-auto bg-gray-200 max-h-[70vh] lg:max-h-[60vh] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-5 px-2 py-2`}>
+        <div onClick={() => setTestimonialVisible(false)} className={`w-full ${testimonialVisible ? "translate-y-0" : "translate-y-full"} duration-500 ease-in-out h-screen fixed inset-0 backdrop-blur-lg z-30 bg-zinc-950 flex justify-center items-center`}>
+          <div onClick={(e) => e.stopPropagation()} className={`w-[90%] lg:w-[70%] rounded-xl overflow-y-auto max-h-[70vh] lg:max-h-[60vh] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-5 px-2 py-10 relative`}>
+            
+            <div className={`w-full h-[15vh] bg-linear-to-b from-zinc-950 to-transparent fixed top-[15%]`}></div>
+            <div className={`w-full h-[15vh] bg-linear-to-t from-zinc-950 to-transparent fixed bottom-[15%]`}></div>
+            
             {testimonials.map((item, index) => {
-              return <div key={index} className={`w-full bg-white cursor-pointer shadow-lg flex flex-col justify-start items-start rounded-xl mb-4`}>
+              return <div key={index} className={`w-full cursor-pointer shadow-lg bg-zinc-900 flex flex-col justify-start items-start rounded-xl mb-4`}>
                 <div className={`w-full mb-1 inset-shadow-sm px-3 pt-4 pb-3 rounded-lg flex flex-col justify-start items-start`}>
                   <img src={item.image} className={`h-10 rounded-full md:h-12`} />
-                  <h2 className={`font-semibold text-xl text-black mt-3`}>{item.name}</h2>
-                  <p className={`text-[12px] mt-1 lg:text-[14px] italic text-black opacity-65`}>{item.designation}</p>
+                  <h2 className={`font-semibold text-xl text-white mt-3`}>{item.name}</h2>
+                  <p className={`text-[12px] mt-1 italic text-white opacity-65`}>{item.designation}</p>
                 </div>
                 <p onClick={() => navigate(item.linkedin)} className={`w-auto rounded-full px-3 py-1 bg-blue-500 inset-shadow-sm inset-shadow-blue-800 text-white flex justify-center items-center gap-2 text-[12px] ml-3 cursor-pointer`}>LinkedIn <FaLinkedin /></p>
-                <p className={`w-auto text-start text-[10px] text-black px-3 py-4 font-light`}>{item.feedback}</p>
+                <p className={`w-auto text-start text-[10px] text-white px-3 py-4 font-light`}>{item.feedback}</p>
               </div>
             })}
           </div>
         </div>
 
         <div className={`w-full bg-[#080808] h-12 flex justify-center items-center`}>
-           <div className={`h-full w-full bg-white rounded-b-4xl`}></div>
-         </div>
+          <div className={`h-full w-full bg-white rounded-b-4xl`}></div>
+        </div>
 
 
         <div className={`w-full bg-[#080808] py-10 md:pt-20 md:pb-10 flex justify-center items-center`}>
@@ -328,34 +334,5 @@ function page() {
 }
 
 export default page
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
