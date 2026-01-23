@@ -4,6 +4,7 @@ import { SiGooglegemini } from "react-icons/si";
 import Marquee from "react-fast-marquee";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import CountUp from 'react-countup';
 import { BiLogoGmail } from "react-icons/bi";
 import { PiMicrosoftOutlookLogoFill } from "react-icons/pi";
 import { FaGithub } from "react-icons/fa";
@@ -330,6 +331,7 @@ function page() {
 }
 
 export default page
+
 
 
 
