@@ -12,6 +12,7 @@ import { FaLinkedin } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { freelance } from "@/data/freelance";
 import { works } from "@/data/work";
+import { techStackList } from "@/data/techStack";
 import { FaLocationArrow } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import { testimonials } from "@/data/testimonials";
@@ -161,6 +162,15 @@ function page() {
           {/* grids */}
           <motion.div initial={{ opacity: 0, scale:0 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className={`w-full h-auto py-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-items-center gap-5`}>
 
+            {
+              techStackList.map((item, index) => {
+                return <div key={index} className={`bg-white/25 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
+                         <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>{item.title}</h3>
+                         <p className="w-full text-center mt-5 text-white text-sm">{item.items}</p>
+                       </div>
+              })
+            }
+            {/*
             <div className={`bg-white/25 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
               <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>PROGRAMMING LANGUAGES</h3>
               <p className="w-full text-center mt-5 text-white text-sm">C++, Java</p>
@@ -193,6 +203,7 @@ function page() {
               <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>MESSAGING QUEUES</h3>
               <p className="w-full text-center mt-5 text-white text-sm">BullMQ</p>
             </div>
+            */}
           </motion.div>
         </div>
 
@@ -331,6 +342,7 @@ function page() {
 }
 
 export default page
+
 
 
 
