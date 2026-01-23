@@ -259,15 +259,17 @@ function page() {
 
         {/* testimonial popup */}
         <div onClick={() => setTestimonialVisible(false)} style={{
-      background: "#000000",
-      backgroundImage: `
-        radial-gradient(circle, rgba(255, 255, 255, 0.2) 1.5px, transparent 1.5px)
-      `,
-      backgroundSize: "30px 30px",
-      backgroundPosition: "0 0",
-    }} className={`w-full ${testimonialVisible ? "translate-y-0" : "translate-y-full"} duration-500 ease-in-out h-screen fixed inset-0 z-30 flex justify-center items-center`}>
+              background: "#000000",
+              backgroundImage: `
+              radial-gradient(circle, rgba(255, 255, 255, 0.2) 1.5px, transparent 1.5px)`,
+              backgroundSize: "30px 30px",
+              backgroundPosition: "0 0",
+         }} className={`w-full ${testimonialVisible ? "translate-y-0" : "translate-y-full"} duration-500 ease-in-out h-screen fixed inset-0 z-30 flex justify-center items-center`}>
+
+          <p onClick={() => setTestimonialVisible(false)} className={`w-auto absolute bottom-10 left-1/2 -translate-y-1/2 px-5 py-3 rounded-full text-white font-Michroma text-[10px] md:text-sm backdrop-blur-3xl bg-white/25`}>Close</p>
+          
           <div onClick={(e) => e.stopPropagation()} className={`w-[90%] lg:w-[70%] rounded-xl overflow-y-auto max-h-[70vh] lg:max-h-[60vh] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-5 px-2 py-10 bg-transparent`}>
-           
+                  
             {testimonials.map((item, index) => {
               return <div key={index} className={`w-full cursor-pointer shadow-lg bg-zinc-900 flex flex-col justify-start items-start rounded-xl mb-4`}>
                 <div className={`w-full mb-1 inset-shadow-sm px-3 pt-4 pb-3 rounded-lg flex flex-col justify-start items-start`}>
@@ -314,6 +316,7 @@ function page() {
 }
 
 export default page
+
 
 
 
