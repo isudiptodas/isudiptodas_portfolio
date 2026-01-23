@@ -271,7 +271,7 @@ function page() {
           <div onClick={(e) => e.stopPropagation()} className={`w-[90%] lg:w-[80%] rounded-xl overflow-y-auto max-h-[80vh] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-5 px-2 py-5 bg-transparent`}>
                   
             {testimonials.map((item, index) => {
-              return <div key={index} className={`w-full border-2 border-[#0D1BC3] cursor-pointer shadow-lg bg-zinc-900 flex flex-col justify-start items-start rounded-xl mb-4`}>
+              return <div key={index} className={`w-full border border-blue-500 cursor-pointer shadow-lg bg-zinc-900 flex flex-col justify-start items-start rounded-xl mb-4`}>
                 <div className={`w-full mb-1 inset-shadow-sm px-3 pt-4 pb-3 rounded-lg flex flex-col justify-start items-start`}>
                   <img src={item.image} className={`h-10 rounded-full md:h-12`} />
                   <h2 className={`font-semibold text-xl text-white mt-3`}>{item.name}</h2>
@@ -316,6 +316,7 @@ function page() {
 }
 
 export default page
+
 
 
 
