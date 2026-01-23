@@ -1,34 +1,34 @@
 export const techStackList = [
   {
-    title: "Programming Languages",
+    title: "PROGRAMMING LANGUAGES",
     items: "C++, Java",
   },
   {
-    title: "Frontend",
+    title: "FRONTEND",
     items: "HTML, CSS, JavaScript, TypeScript, TailwindCSS, ReactJs, NextJs",
   },
   {
-    title: "Backend",
+    title: "BACKEND",
     items: "NodeJs, ExpressJs, SpringBoot, Supabase",
   },
   {
-    title: "Design & Modeling",
+    title: "DESIGN & MODELING",
     items: "Canva, Figma, Affinity, Spline",
   },
   {
-    title: "Databases",
+    title: "DATABASES",
     items: "MySQL, MongoDB, Datastax, NeonDB, Redis",
   },
   {
-    title: "Other Tools",
+    title: "OTHER TOOLS",
     items: "ArcJet, Drizzle, Prisma",
   },
   {
-    title: "Cloud",
-    items: "Docker, AWS S3, AWS EC2, DynamoDB, SES, IAM",
+    title: "CLOUD",
+    items: "Docker, AWS (S3, EC2, DynamoDB, IAM, SES)",
   },
   {
-    title: "Messaging Queues",
+    title: "MESSAGING QUEUES",
     items: "BullMQ",
   },
 ];
