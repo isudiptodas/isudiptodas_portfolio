@@ -1,4 +1,8 @@
 export const imageList = [
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/rabbit-1.jpg',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/rabbit-2.jpg',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/afternoon-cat-1.jpg',
+'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/afternoon-cat-2.jpg',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/pink-sky.jpg',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/howrah-winter-morning.jpg',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/photography/kolkata-city.jpg',
@@ -92,6 +96,7 @@ export const designList = [
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/the-weeknd.png',
 'https://lfjakrpqbidggevkatwm.supabase.co/storage/v1/object/public/design_work/zayn.png',
 ];
+
 
 
 
