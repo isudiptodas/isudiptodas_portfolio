@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import { testimonials } from "@/data/testimonials";
 import { IoIosArrowForward } from "react-icons/io";
 import { motion } from 'framer-motion';
+import { FaExternalLinkAlt } from "react-icons/fa";
 
 function page() {
 
@@ -135,7 +136,7 @@ function page() {
             </Marquee>
           </div>
 
-          <motion.div initial={{ opacity: 0, scale:0 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className={`pt-16 pb-10 lg:pt-28 lg:pb-16 px-5 w-full z-20 md:px-12 flex flex-col justify-start items-start gap-4`}>
+          <motion.div initial={{ opacity: 0, scale: 0 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className={`pt-16 pb-10 lg:pt-28 lg:pb-16 px-5 w-full z-20 md:px-12 flex flex-col justify-start items-start gap-4`}>
             <h3 className={`text-white font-Michroma text-xl md:text-2xl w-full text-start font-semibold`}>ABOUT ME</h3>
             <p className={`text-white text-[10px] md:text-sm w-full text-start`}>I’m a passionate full-stack developer with over 2 years of hands
               on experience on MERN stack, NextJS, SpringBoot specializing in building dynamic and responsive user interfaces.
@@ -157,16 +158,16 @@ function page() {
 
         {/* tech stack */}
         <div className={`w-full px-5 md:px-12 bg-[#0D1BC3] flex flex-col justify-start items-center gap-3 pt-5 pb-10`}>
-          <motion.h3  initial={{ opacity: 0, scale:0 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className={`text-white font-Michroma text-xl md:text-2xl w-full text-center font-semibold`}>TECH STACK WORKED WITH</motion.h3>
+          <motion.h3 initial={{ opacity: 0, scale: 0 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className={`text-white font-Michroma text-xl md:text-2xl w-full text-center font-semibold`}>TECH STACK WORKED WITH</motion.h3>
 
           {/* grids */}
           <div className={`w-full h-auto py-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-items-center gap-5`}>
             {
               techStackList.map((item, index) => {
-                return <motion.div initial={{ opacity: 0, scale:0 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }} key={index} className={`bg-white/25 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
-                         <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>{item.title}</h3>
-                         <p className="w-full text-center mt-5 text-white text-sm">{item.items}</p>
-                       </motion.div>
+                return <motion.div initial={{ opacity: 0, scale: 0 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }} key={index} className={`bg-white/25 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
+                  <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>{item.title}</h3>
+                  <p className="w-full text-center mt-5 text-white text-sm">{item.items}</p>
+                </motion.div>
               })
             }
           </div>
@@ -178,7 +179,7 @@ function page() {
 
         {/* work */}
         <div className={`w-full h-auto px-5 lg:px-8 flex flex-col justify-start items-center`}>
-          <motion.h3 initial={{ opacity: 0, scale: 0 }} whileInView={{ opacity: 1, scale: 1}} viewport={{ once: true }} transition={{ duration: 0.8 }} className={`text-black font-Michroma text-xl md:text-2xl w-full text-center font-semibold`}>EXPLORE WORK</motion.h3>
+          <motion.h3 initial={{ opacity: 0, scale: 0 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className={`text-black font-Michroma text-xl md:text-2xl w-full text-center font-semibold`}>EXPLORE WORK</motion.h3>
 
           <div className={`w-full py-10 h-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center gap-4`}>
             {works.map((item, index) => {
@@ -200,7 +201,7 @@ function page() {
 
         {/* freelancing section */}
         <div className={`w-full h-auto flex flex-col justify-start items-center py-5`}>
-          <motion.h1 initial={{ opacity: 0, scale: 0 }} whileInView={{ opacity: 1, scale: 1}} viewport={{ once: true }} transition={{ ease: "easeInOut", duration: 0.8 }} className={`w-full mb-4 text-center font-Michroma font-bold text-black text-xl md:text-2xl`}>WHAT I'M OFFERING</motion.h1>
+          <motion.h1 initial={{ opacity: 0, scale: 0 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ ease: "easeInOut", duration: 0.8 }} className={`w-full mb-4 text-center font-Michroma font-bold text-black text-xl md:text-2xl`}>WHAT I'M OFFERING</motion.h1>
 
           <div className={`w-full h-auto pt-4 pb-5 px-5 lg:px-8 flex flex-col md:flex-row justify-start lg:justify-between items-center gap-5 lg:gap-10`}>
             {freelance.map((item) => {
@@ -218,15 +219,27 @@ function page() {
         </div>
 
         {/* hiring popup */}
-        <div onClick={() => setHiringVisible(false)} className={`w-full ${hiringVisible ? "scale-100" : "scale-0"} duration-300 ease-in-out h-screen fixed backdrop-blur-xl bg-white/10 z-30 flex justify-center items-center`}>
-          <div className={`w-[90%] md:w-auto h-auto px-5 lg:px-8 py-5 lg:py-8 bg-white rounded-lg flex flex-col justify-center items-center`}>
-            <h1 className={`w-full text-center text-4xl lg:text-6xl font-Urbanist font-bold`}>Connect With Me</h1>
-            <h1 className={`w-full text-center text-sm lg:text-lg italic font-Urbanist`}>Let me build something great for you</h1>
+        <div style={{
+          background: "#000000",
+          backgroundImage: `
+              radial-gradient(circle, rgba(255, 255, 255, 0.2) 1.5px, transparent 1.5px)`,
+          backgroundSize: "30px 30px",
+          backgroundPosition: "0 0",
+        }} onClick={() => setHiringVisible(false)} className={`w-full ${hiringVisible ? "translate-y-0" : "translate-y-full"} duration-500 ease-in-out h-screen fixed z-30 flex justify-center items-center`}>
+          <div className={`w-[90%] md:w-1/2 h-auto px-3 lg:px-5 py-5 bg-black border border-blue-900 bg-linear-to-b from-zinc-950 to-[#010133] rounded-xl lg:rounded-2xl flex flex-col justify-center items-center`}>
+            <h1 className={`w-full text-start text-white text-2xl lg:text-3xl font-Urbanist font-bold`}>Connect With Me</h1>
+            <p className={`w-full text-start font-light text-white text-sm lg:text-lg italic font-Urbanist`}>Let me build something great for you</p>
 
-            <div className={`w-full py-5 flex justify-between items-center gap-3`}>
-              <p onClick={() => window.open('mailto:isudiptodas01@outlook.com', '_blank')} className={`w-full active:opacity-75 duration-150 ease-in-out py-2 lg:py-4 rounded-md flex justify-center items-center gap-2 bg-blue-500 text-white text-sm cursor-pointer`}><span><PiMicrosoftOutlookLogoFill /></span>Outlook</p>
-              <p onClick={() => window.open('mailto:work.sudiptodas@gmail.com', '_blank')} className={`w-full active:opacity-75 duration-150 ease-in-out py-2 lg:py-4 rounded-md flex justify-center items-center gap-2 bg-red-500 text-white text-sm cursor-pointer`}><span><BiLogoGmail /></span>Gmail</p>
+            <div className={`w-full py-3 flex justify-between items-center gap-3`}>
+              <p onClick={() => window.open('mailto:isudiptodas01@outlook.com', '_blank')} className={`w-full active:opacity-75 duration-150 ease-in-out py-2 lg:py-3 rounded-md flex justify-center items-center gap-2 bg-linear-to-b from-blue-400 via-blue-700 to-blue-900 text-white text-sm cursor-pointer`}><span><PiMicrosoftOutlookLogoFill /></span>Outlook</p>
+              <p onClick={() => window.open('mailto:work.sudiptodas@gmail.com', '_blank')} className={`w-full active:opacity-75 duration-150 ease-in-out py-2 lg:py-3 rounded-md flex justify-center items-center gap-2 bg-linear-to-b from-red-400 via-red-700 to-red-900 text-white text-sm cursor-pointer`}><span><BiLogoGmail /></span>Gmail</p>
             </div>
+
+            <p className={`w-full text-start text-white text-[12px] lg:text-sm opacity-65 my-3 font-Urbanist`}>Or</p>
+
+            <h1 className={`w-full text-start text-white text-2xl lg:text-3xl font-Urbanist font-bold`}>Book a free 1:1 session</h1>
+            <p className={`w-full text-start font-light text-white text-sm lg:text-lg italic font-Urbanist`}>Let's discuss about a new idea</p>
+            <p onClick={() => window.open('https://cal.com/sudipto-das-rrmeav/quick-call')} className={`w-full rounded-md active:opacity-70 duration-200 ease-in-out text-sm mt-2 py-2 lg:py-3 bg-white text-black flex justify-center items-center gap-2 hover:gap-4 cursor-pointer`}>Schedule call <FaExternalLinkAlt /></p>
           </div>
         </div>
 
@@ -259,17 +272,17 @@ function page() {
 
         {/* testimonial popup */}
         <div onClick={() => setTestimonialVisible(false)} style={{
-              background: "#000000",
-              backgroundImage: `
+          background: "#000000",
+          backgroundImage: `
               radial-gradient(circle, rgba(255, 255, 255, 0.2) 1.5px, transparent 1.5px)`,
-              backgroundSize: "30px 30px",
-              backgroundPosition: "0 0",
-         }} className={`w-full ${testimonialVisible ? "translate-y-0" : "translate-y-full"} duration-500 ease-in-out h-screen fixed inset-0 z-30 flex justify-center items-center`}>
+          backgroundSize: "30px 30px",
+          backgroundPosition: "0 0",
+        }} className={`w-full ${testimonialVisible ? "translate-y-0" : "translate-y-full"} duration-500 ease-in-out h-screen fixed inset-0 z-30 flex justify-center items-center`}>
 
-          <p onClick={() => setTestimonialVisible(false)} className={`w-auto absolute bottom-12 left-1/2 -translate-x-1/2 px-5 py-3 rounded-full text-white font-Michroma text-[10px] md:text-sm backdrop-blur-3xl bg-white/25`}>Close</p>
-          
+          <p onClick={() => setTestimonialVisible(false)} className={`w-auto absolute bottom-12 left-1/2 -translate-x-1/2 px-5 py-3 rounded-full text-white font-Michroma text-[10px] md:text-sm backdrop-blur-3xl bg-white/25 cursor-pointer`}>Close</p>
+
           <div onClick={(e) => e.stopPropagation()} className={`w-[90%] lg:w-[80%] rounded-xl overflow-y-auto max-h-[80vh] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-5 px-2 py-5 bg-transparent`}>
-                  
+
             {testimonials.map((item, index) => {
               return <div key={index} className={`w-full border border-blue-900 bg-linear-to-b from-zinc-950 to-[#010133] cursor-pointer shadow-lg flex flex-col justify-start items-start rounded-xl mb-4`}>
                 <div className={`w-full mb-1 inset-shadow-sm px-3 pt-4 pb-3 rounded-lg flex flex-col justify-start items-start`}>
