@@ -1,5 +1,24 @@
 export const webProjects = [
     {
+        name: `MediLab`,
+        image: `/assets/medilab.png`,
+        features: [
+            "Complete end to end healthcare management",
+            "Email reminders for appointments",
+            "Account recovery with email based OTP",
+            "AI disease detection",
+            "Medical report analysis",
+            "Doctor appointment booking",
+        ],
+        idea: `On a random evening I thought of learning messaging queues and automated email sending by building a small project, 
+               and one of my friend suggested me to make a healthcare platform (because he needed it for college) and yeah I made it.
+               For him so that he impresses the faculty and for me so that I can learn some cool complex stuff.`,
+        tech: `ReactJs, TailwindCSS, NodeJs, ExpressJs, MongoDb, Gemini API, BullMQ, Redis, Node Cron, Arcjet, Zustand`,
+        github: `https://github.com/isudiptodas/MediLab-Healthcare_Management_Platform`,
+        live: ``,
+        deployed: false
+    },
+    {
         name: `learnfinity`,
         image: `/assets/learnfinity.png`,
         features: [
@@ -170,6 +189,7 @@ export const webProjects = [
         deployed: true
     },
 ]
+
 
 
 
