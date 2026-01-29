@@ -13,7 +13,7 @@ export const webProjects = [
         idea: `On a random evening I thought of learning messaging queues and automated email sending by building a small project, 
                and one of my friend suggested me to make a healthcare platform (because he needed it for college) and yeah I made it.
                For him so that he impresses the faculty and for me so that I can learn some cool complex stuff.`,
-        tech: `ReactJs, TailwindCSS, NodeJs, ExpressJs, MongoDb, Gemini API, BullMQ, Redis, Node Cron, Arcjet, Zustand`,
+        tech: `ReactJs, TailwindCSS, NodeJs, ExpressJs, MongoDb, Gemini API, BullMQ, Redis, Node Cron, Arcjet, Zustand, Docker`,
         github: `https://github.com/isudiptodas/MediLab-Healthcare_Management_Platform`,
         live: ``,
         deployed: false
@@ -189,6 +189,7 @@ export const webProjects = [
         deployed: true
     },
 ]
+
 
 
 
