@@ -226,7 +226,7 @@ function page() {
           backgroundSize: "30px 30px",
           backgroundPosition: "0 0",
         }} onClick={() => setHiringVisible(false)} className={`w-full ${hiringVisible ? "translate-y-0" : "translate-y-full"} duration-500 ease-in-out h-screen fixed z-30 flex justify-center items-center`}>
-          <div className={`w-[90%] md:w-1/2 h-auto px-3 lg:px-5 py-5 bg-black border border-blue-900 bg-linear-to-b from-zinc-950 to-[#010133] rounded-xl lg:rounded-2xl flex flex-col justify-center items-center`}>
+          <div onClick={(e) => e.stopPropagation()} className={`w-[90%] md:w-1/2 xl:w-[35%] h-auto px-3 lg:px-5 py-5 bg-black border border-blue-900 bg-linear-to-b from-zinc-950 to-[#010133] rounded-xl lg:rounded-2xl flex flex-col justify-center items-center`}>
             <h1 className={`w-full text-start text-white text-2xl lg:text-3xl font-Urbanist font-bold`}>Connect With Me</h1>
             <p className={`w-full text-start font-light text-white text-sm lg:text-lg italic font-Urbanist`}>Let me build something great for you</p>
 
@@ -329,6 +329,7 @@ function page() {
 }
 
 export default page
+
 
 
 
