@@ -199,7 +199,7 @@ function page() {
         </div>
 
 
-        {/* freelancing section */}
+        {/* freelancing section 
         <div className={`w-full h-auto flex flex-col justify-start items-center py-5`}>
           <motion.h1 initial={{ opacity: 0, y: 100 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ ease: "easeInOut", duration: 0.8 }} className={`w-full mb-4 text-center font-Michroma font-bold text-black text-xl md:text-2xl`}>WHAT I'M OFFERING</motion.h1>
 
@@ -216,9 +216,9 @@ function page() {
               </motion.div>
             })}
           </div>
-        </div>
+        </div> */}
 
-        {/* hiring popup */}
+        {/* hiring popup 
         <div style={{
           background: "#000000",
           backgroundImage: `
@@ -241,7 +241,7 @@ function page() {
             <p className={`w-full text-start font-light text-white text-sm lg:text-lg italic font-Urbanist`}>Let's discuss about a new idea</p>
             <p onClick={() => window.open('https://cal.com/sudipto-das-rrmeav/quick-call')} className={`w-full rounded-md active:opacity-70 duration-200 ease-in-out text-sm mt-2 py-2 lg:py-3 bg-white text-black flex justify-center items-center gap-2 hover:gap-4 cursor-pointer`}>Schedule call <FaExternalLinkAlt /></p>
           </div>
-        </div>
+        </div>  */}
 
         {/* testimonial section */}
         <div className={`w-full h-auto bg-white flex flex-col justify-start items-center pt-10 pb-5`}>
@@ -329,6 +329,7 @@ function page() {
 }
 
 export default page
+
 
 
 
