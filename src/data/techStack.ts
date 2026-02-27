@@ -25,10 +25,11 @@ export const techStackList = [
   },
   {
     title: "CLOUD",
-    items: "Docker, AWS (S3, EC2, DynamoDB, IAM, SES)",
+    items: "Docker, AWS (S3, EC2, DynamoDB, IAM, VPC, EKS), Kubernetes, Jenkins, Prometheus, Grafana",
   },
   {
     title: "MESSAGING QUEUES",
     items: "BullMQ",
   },
 ];
+
