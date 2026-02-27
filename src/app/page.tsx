@@ -166,7 +166,7 @@ function page() {
               techStackList.map((item, index) => {
                 return <motion.div initial={{ opacity: 0, y: 100 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} key={index} className={`bg-white/25 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
                   <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>{item.title}</h3>
-                  <p className="w-full text-center mt-5 text-white text-sm">{item.items}</p>
+                  <p className="w-full text-center mt-5 text-white text-[12px]">{item.items}</p>
                 </motion.div>
               })
             }
@@ -329,6 +329,7 @@ function page() {
 }
 
 export default page
+
 
 
 
