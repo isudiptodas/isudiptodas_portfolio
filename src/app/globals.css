@@ -102,14 +102,14 @@ html, .sidebar, .content{
   padding: 10px;
   border-radius: 8px;
   overflow-x: auto;
-  background: #0d1117;
+  background: #121a26;
   color: #c9d1d9;
 }
 
 /* Inline code */
 .inline-code,
 .markdown :not(pre) > code {
-  background: #0d1117;
+  background: #121a26;
   color: #c9d1d9;
   padding: 2px 6px;
   border-radius: 4px;
@@ -124,3 +124,4 @@ html, .sidebar, .content{
   border-top: 1px solid #e5e7eb;
 
 }
+
