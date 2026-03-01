@@ -45,15 +45,15 @@ tags:
    - Copy IPv4 and open in new tab with :8080 -> http://ipv4-address:8080
    - Create jenkins account
    - Connect EC2 with local machine or use AWS terminal :
-     - navigate to `.ssh` folder
-     - run command : `ssh-keygen`
+     - navigate to .ssh folder
+     - run command : ssh-keygen
      - Store private key on safe place
      - Copy public key (will use later)
 3. On agent :
    - Install jdk latest
    - Install kubectl, aws cli
    - Create a role for EC2 to communicate with EKS and attach the policy with agent EC2
-   - Navigate to `.ssh` folder > `authorized_keys`
+   - Navigate to .ssh folder > authorized_keys
    - Paste master public key on authorized_keys
    - Save and exit
 
@@ -122,3 +122,4 @@ tags:
 ---
 
 ## After this setup your production pipeline is ready and now you can add your custom pipeline steps which you want to perform on each code push
+
