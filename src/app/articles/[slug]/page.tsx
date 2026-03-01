@@ -13,9 +13,9 @@ type ArticleListItem = {
     tags: string[];
 };
 
-export default async function Page({ params } : { params: { slug: string } }) {
+export default async function Page({ params } : any) {
 
-    const { slug } = params;
+    const slug = params.slug;
     const res = await axios.get(`https://your-api.com/article/id?slug=${encodeURIComponent(slug)}`);
     const article: ArticleListItem = res.data;
 
@@ -47,6 +47,7 @@ export default async function Page({ params } : { params: { slug: string } }) {
         </>
     )
 }
+
 
 
 
