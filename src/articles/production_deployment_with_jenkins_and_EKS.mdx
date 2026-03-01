@@ -46,7 +46,7 @@ tags:
    - Create jenkins account
    - Connect EC2 with local machine or use AWS terminal :
      - navigate to .ssh folder
-     - run command : ssh-keygen
+     - run command : `ssh-keygen`
      - Store private key on safe place
      - Copy public key (will use later)
 3. On agent :
@@ -79,7 +79,7 @@ tags:
 
 1. Open github > repo you want to connect > repo settings
 2. Webhooks > add webhook
-3. url : http://ipv4-address:8080/github-webhook/ (IPv4 should not change that's why elastic IP is recommended)
+3. url : `http://ipv4-address:8080/github-webhook/` (IPv4 should not change that's why elastic IP is recommended)
 4. Content type : application/json
 5. SSL verification : disable
 6. Check event type
@@ -122,4 +122,5 @@ tags:
 ---
 
 ## After this setup your production pipeline is ready and now you can add your custom pipeline steps which you want to perform on each code push
+
 
