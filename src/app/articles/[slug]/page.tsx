@@ -16,9 +16,9 @@ type ArticleListItem = {
 export default async function Page({ params } : any) {
 
     const slug = params.slug;
-    const res = await axios.get(`https://your-api.com/article/id?slug=${encodeURIComponent(slug)}`);
+    const res = await axios.get(`https://isudiptodas-portfolio.vercel.app/api/article/id?slug=${encodeURIComponent(slug)}`);
     const article: ArticleListItem = res.data;
-
+    console.log(slug);
     return (
         <>
             <div className={`w-full bg-[#080808] relative min-h-screen flex flex-col justify-start items-center overflow-hidden`}>
@@ -47,7 +47,6 @@ export default async function Page({ params } : any) {
         </>
     )
 }
-
 
 
 
