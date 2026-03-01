@@ -1,0 +1,108 @@
+---
+title: Use these 4 ways to reduce your docker image size and build time
+author: Sudipto Das
+date: 1 Mar, 2026
+featured: true
+tags:
+  - Docker
+---
+
+# Use these 4 ways to reduce your docker image size and build time
+
+## 1. Minimal base image
+
+In docker the base images are way too heavy and in most cases we don't really need an entire runtime or OS to run our application, so instead of adding a huge base image and choose some minimal versions.
+
+---
+
+### *Image options :*
+
+| Size | Variant | Includes |
+|--|--|--|
+| Base | Bullseye, Bookworm, Trixie | Full OS & Tools |
+| Slim | Bullseye, Bookworm, Trixie | Smaller OS & fewer tools |
+| Alpine | N/A | Minimal OS & very little tools |
+
+### *Variant info :*
+
+- Bullseye - stable (older)
+- Bookworm - stable (current)
+- Trixie - unstable (newer)
+
+---
+
+## 2. Layered caching
+
+In dockerfile, every line runs as a new layer and if any layer is already present and unchanged then it is good that we skip that step and move on to the next layer (step).
+For example :
+
+```Dockerfile
+FROM node:22-bookworm-slim
+WORKDIR /app
+COPY . .
+RUN npm install
+EXPOSE 5000
+CMD [ "npm", "start" ]
+```
+
+Now this is the normal way and it's fine, but we can do much better than this.
+
+```Dockerfile
+FROM node:22-bookworm-slim
+WORKDIR /app
+#copy dependency files and install command before copying everything else
+COPY package*.json ./
+RUN npm install
+COPY . .
+EXPOSE 5000
+CMD [ "npm", "start" ]
+```
+
+Now you may say what will change just with this modification.
+Well, before this change whenever docker build runs it executes each line one by one even if it has the required dependencies and those are never changed (in most cases dependencies never change much) so even if we have the dependencies, docker still runs those 2 lines extra and after this modification first docker will copy all package json files (will check internally, if file content changed then copy otherwise skip) and same for RUN npm install (if dependency has changed then install the new one otherwise skip this layer).
+Now it may seem like just a small update but in real life scenarios or in production environments these small micro improvements makes the build more optimized and less time consuming.
+
+---
+
+## 3. Multistage build
+
+In production we can't just upload our react, typescript or framework code, that is a bad practice and not sensible. Instead we build out project and deploy the static files and multistage builds helps us to separate the process.
+
+1. **Building stage :** build the project and generate static fikes (HTML, CSS, JS) which the browser understands.
+2. **Deploy stage :** here the actual build stuff gets deployed.
+
+For example :
+
+```Dockerfile
+#build the project with required dependencies
+FROM node:22-alpine AS build
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+#run the build with minimal image
+FROM nginx:alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+---
+
+## 4. Use .dockerignore file
+
+Just like we have a .gitignore file to remove files from git commit, similarly we have .dockerignore which will mark out files & folders explicitly to get included during image build.
+
+Use it like this :
+1. Create a .dockerignore file.
+2. List the files or folders you want to exclude during build.
+
+```
+node_modules
+dist/
+.env
+.env.local
+.git
+.vscode
+```
