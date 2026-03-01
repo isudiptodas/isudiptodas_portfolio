@@ -36,9 +36,9 @@ export default async function Page({ params } : any) {
                         })}
                     </div>
 
-                    <hr className={`w-full h-px bg-gray-400 mt-5`} />
+                    <hr className={`w-full h-0.5 bg-gray-400 mt-3`} />
 
-                    <div className={`w-full pt-5 pb-10 text-start text-white text-sm`}>
+                    <div className={`w-full pb-10 text-start text-white text-sm`}>
                         <MarkdownRenderer content={article?.content as string} />
                     </div>
                 </div>
@@ -47,6 +47,7 @@ export default async function Page({ params } : any) {
         </>
     )
 }
+
 
 
 
