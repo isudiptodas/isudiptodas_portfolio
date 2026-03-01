@@ -19,12 +19,23 @@ import { testimonials } from "@/data/testimonials";
 import { IoIosArrowForward } from "react-icons/io";
 import { motion } from 'framer-motion';
 import { FaExternalLinkAlt } from "react-icons/fa";
+import axios from "axios";
+
+type ArticleListItem = {
+  slug: string;
+  title: string;
+  author: string;
+  date: string;
+  featured: boolean;
+  tags: string[];
+};
 
 function page() {
 
   const [loaded, setLoaded] = useState(true);
   const [hiringVisible, setHiringVisible] = useState(false);
   const [testimonialVisible, setTestimonialVisible] = useState(false);
+  const [allArticles, setAllArticles] = useState<ArticleListItem[] | []>([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -38,6 +49,20 @@ function page() {
       document.body.style.overflow = "auto";
     };
   }, [hiringVisible, testimonialVisible]);
+
+  useEffect(() => {
+    const fetchAllArticles = async () => {
+      try {
+        const res = await axios.get(`/api/article`);
+        setAllArticles(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    fetchAllArticles();
+  }, []);
+
 
   const navigate = (link: string) => {
     if (link.startsWith(`https`)) {
@@ -136,7 +161,7 @@ function page() {
             </Marquee>
           </div>
 
-          <motion.div initial={{ opacity: 0, y: 100 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className={`pt-16 pb-10 lg:pt-28 lg:pb-16 px-5 w-full z-20 md:px-12 flex flex-col justify-start items-start gap-4`}>
+          <motion.div initial={{ opacity: 0, y: 100 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className={`pt-16 pb-10 lg:pt-28 lg:pb-16 px-5 w-full z-20 md:px-12 flex flex-col justify-start items-start gap-4`}>
             <h3 className={`text-white font-Michroma text-xl md:text-2xl w-full text-start font-semibold`}>ABOUT ME</h3>
             <p className={`text-white text-[10px] md:text-sm w-full text-start`}>I’m a passionate full-stack developer with over 2 years of hands
               on experience on MERN stack, NextJS, SpringBoot specializing in building dynamic and responsive user interfaces.
@@ -158,13 +183,13 @@ function page() {
 
         {/* tech stack */}
         <div className={`w-full px-5 md:px-12 bg-[#0D1BC3] flex flex-col justify-start items-center gap-3 pt-5 pb-10`}>
-          <motion.h3 initial={{ opacity: 0, y: 100 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className={`text-white font-Michroma text-xl md:text-2xl w-full text-center font-semibold`}>TECH STACK WORKED WITH</motion.h3>
+          <motion.h3 initial={{ opacity: 0, y: 100 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className={`text-white font-Michroma text-xl md:text-2xl w-full text-center font-semibold`}>TECH STACK WORKED WITH</motion.h3>
 
           {/* grids */}
           <div className={`w-full h-auto py-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-items-center gap-5`}>
             {
               techStackList.map((item, index) => {
-                return <motion.div initial={{ opacity: 0, y: 100 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} key={index} className={`bg-white/25 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
+                return <motion.div initial={{ opacity: 0, y: 100 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} key={index} className={`bg-white/25 w-full pt-6 pb-8 px-4 flex flex-col justify-start items-center`}>
                   <h3 className={`w-full text-center font-Michroma font-bold text-[#76fe00] text-sm`}>{item.title}</h3>
                   <p className="w-full text-center mt-5 text-white text-[12px]">{item.items}</p>
                 </motion.div>
@@ -179,11 +204,11 @@ function page() {
 
         {/* work */}
         <div className={`w-full h-auto px-5 lg:px-8 flex flex-col justify-start items-center`}>
-          <motion.h3 initial={{ opacity: 0, y: 100 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className={`text-black font-Michroma text-xl md:text-2xl w-full text-center font-semibold`}>EXPLORE WORK</motion.h3>
+          <motion.h3 initial={{ opacity: 0, y: 100 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className={`text-black font-Michroma text-xl md:text-2xl w-full text-center font-semibold`}>EXPLORE WORK</motion.h3>
 
           <div className={`w-full py-10 h-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center gap-4`}>
             {works.map((item, index) => {
-              return <motion.div initial={{ opacity: 0, y: 100 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} key={index} className={`w-full rounded-2xl bg-black h-[30vh] md:h-[50vh] relative overflow-hidden flex justify-center items-end`}>
+              return <motion.div initial={{ opacity: 0, y: 100 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} key={index} className={`w-full rounded-2xl bg-black h-[30vh] md:h-[50vh] relative overflow-hidden flex justify-center items-end`}>
                 <img src={item.image} className={`opacity-40 absolute h-full object-cover`} />
                 <div className={`w-full pb-5 h-auto flex flex-col justify-center items-center gap-5`}>
                   <p className={`text-white z-20 w-full font-Michroma text-center text-xl`}>{item.title}</p>
@@ -243,12 +268,33 @@ function page() {
           </div>
         </div>  */}
 
+        {/* articles section */}
+        <div className={`w-full flex flex-col justify-start items-center py-5 bg-white`}>
+          <motion.h1 initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className={`w-full text-center font-Michroma font-bold text-black text-xl md:text-2xl`}>FEATURED ARTICLES</motion.h1>
+
+          <div className={`w-full px-5 lg:px-8 pt-8 pb-3 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 justify-items-center gap-4`}>
+            {allArticles.map((item, index) => {
+              return <motion.div onClick={() => router.push(`/articles/${item.slug}`)} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.5 }} key={index} className={`w-full cursor-pointer hover:rounded-2xl duration-200 ease-in-out ${item.featured ? "block" : "hidden"} flex flex-col justify-start items-center py-5 px-3 bg-linear-to-br from-gray-100 to-gray-200`}>
+                <h3 className={`w-full text-start text-black font-semibold text-sm`}>{item.title}</h3>
+                <p className={`w-full mb-2 text-start font-light text-black text-[10px] lg:text-[12px] font-mono my-2`}>{item.author} • {item.date}</p>
+                <div className={`w-full flex flex-wrap justify-start items-start gap-3`}>
+                  {item.tags.map((tag, index) => {
+                    return <span key={index} className={`w-auto px-2 py-1 border border-zinc-500 shrink-0 text-[8px] md:text-[12px] font-mono text-black`}>{tag}</span>
+                  })}
+                </div>
+              </motion.div>
+            })}
+          </div>
+
+          <Link href='/articles' className={`w-auto text-[12px] my-2 px-3 py-1 mt-2 rounded-b-xl border-b border-zinc-500 cursor-pointer`}>View all</Link>
+        </div>
+
         {/* testimonial section */}
         <div className={`w-full h-auto bg-white flex flex-col justify-start items-center pt-10 pb-5`}>
-          <motion.h1 initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className={`w-full text-center font-Michroma font-bold text-black text-xl md:text-2xl`}>WHAT PEOPLE SAY</motion.h1>
-          <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className={`w-full flex justify-center items-center text-[12px] md:text-[14px] gap-2 mt-2 mb-5`}> <span className="text-yellow-500 text-[14px]"><SiGooglegemini /></span> Read out feedback from my network <span className="text-yellow-500 text-[14px]"><SiGooglegemini /></span></motion.p>
+          <motion.h1 initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className={`w-full text-center font-Michroma font-bold text-black text-xl md:text-2xl`}>WHAT PEOPLE SAY</motion.h1>
+          <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className={`w-full flex justify-center items-center text-[12px] md:text-[14px] gap-2 mt-2 mb-5`}> <span className="text-yellow-500 text-[14px]"><SiGooglegemini /></span> Read out feedback from my network <span className="text-yellow-500 text-[14px]"><SiGooglegemini /></span></motion.p>
 
-          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className={`w-full h-auto flex flex-col justify-center items-center relative overflow-hidden pb-5 pt-5`}>
+          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className={`w-full h-auto flex flex-col justify-center items-center relative overflow-hidden pb-5 pt-5`}>
             <div className="h-full z-20 absolute left-0 w-[20%] lg:w-[30%] bg-gradient-to-r from-white to-transparent"></div>
 
             <Marquee speed={70}>
