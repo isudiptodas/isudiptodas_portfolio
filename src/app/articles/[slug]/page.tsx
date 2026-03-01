@@ -1,10 +1,7 @@
-'use client'
 
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import axios from "axios";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { Metadata } from "next";
 
 type ArticleListItem = {
     slug: string;
@@ -22,24 +19,11 @@ type PageProps = {
     };
 };
 
-function page({ params }: PageProps) {
+async function page({ params }: PageProps) {
 
-    const [article, setArticle] = useState<ArticleListItem | null>(null);
     const { slug } = params;
-
-    useEffect(() => {
-        const fetchAllArticles = async () => {
-            try {
-                const res = await axios.get(`/api/article/id?slug=${encodeURIComponent(params.slug)}`);
-                setArticle(res.data);
-            } catch (err) {
-                console.log(err);
-            }
-        }
-
-        fetchAllArticles();
-    }, []);
-
+    const res = await axios.get(`https://your-api.com/article/id?slug=${encodeURIComponent(slug)}`);
+    const article: ArticleListItem = res.data;
 
     return (
         <>
@@ -72,4 +56,5 @@ function page({ params }: PageProps) {
 
 
 export default page;
+
 
