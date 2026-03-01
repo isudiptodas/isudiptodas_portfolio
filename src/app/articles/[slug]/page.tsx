@@ -28,7 +28,7 @@ export default async function Page({ params } : any) {
                 </div>
 
                 <div className={`w-full px-5 py-5 md:w-[70%] xl:w-[60%] h-auto flex flex-col justify-start items-center mt-16`}>
-                    <h2 className={`w-full text-2xl text-start font-semibold text-white`}>{article?.title}</h2>
+                    {/* <h2 className={`w-full text-2xl text-start font-semibold text-white`}>{article?.title}</h2> */}
                     <p className={`w-full text-start font-light text-white text-[10px] lg:text-[12px] font-mono my-2`}>{article?.author} • {article?.date}</p>
                     <div className={`w-full flex flex-wrap justify-start items-start gap-3`}>
                         {article?.tags.map((tag, index) => {
@@ -47,6 +47,7 @@ export default async function Page({ params } : any) {
         </>
     )
 }
+
 
 
 
