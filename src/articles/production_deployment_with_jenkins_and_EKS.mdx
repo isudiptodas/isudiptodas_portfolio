@@ -1,0 +1,136 @@
+
+---
+title: Production deployment setup on AWS for Kubernetes with Jenkins CI/CD pipeline
+author: Sudipto Das
+date: 28 Feb, 2026
+featured: true
+tags:
+  - AWS EKS
+  - Kubernetes
+  - Jenkins CI/CD
+  - Docker
+---
+
+<h1>Production deployment setup on AWS for Kubernetes with Jenkins CI/CD pipeline</h1>
+<h2>Architecture :</h2>
+<ol>
+  <li>Developer will push new code on github</li>
+  <li>Jenkins CI/CD webhook will be triggered</li>
+  <li>Pipeline will start</li>
+  <ul>
+    <li>Secure env values with jenkins credential manager</li>
+    <li>Conditional dependency installation (storage cache)</li>
+    <li>Image scan for vulnerabilities and issues</li>
+    <li>EKS image update rollout confirmation</li>
+    <li>Auto rollback in case image updation fails</li>
+    <li>Email alert post pipeline execution</li>
+  </ul>
+  <li>Cloud managed Kubernetes with AWS EKS</li>
+  <li>Load balancing using AWS ELB</li>
+</ol>
+###
+<h2>Production setup</h2>
+<p><b>Requirements : AWS account, Docker Hub account</b></p>
+***
+<h2><b>STEP 1 : Jenkins nodes configure</b></h2>
+<ol>
+  <li>Create two EC2 instances (master, agent)</li>
+  <li>On master : </li>
+  <ul>
+    <li>Install jdk latest</li>
+    <li>Install jenkins</li>
+    <li>Attach elastic IP (optional but recommended)</li>
+    <li>Add inbound rule for port : 8080</li>
+    <li>Copy IPv4 and open in new tab with :8080 -> http://ipv4-address:8080</li>
+    <li>Create jenkins account</li>
+    <li>Connect EC2 with local machine or use AWS terminal : </li>
+    <ul>
+      <li>navigate to <i>.ssh</i> folder </li>
+      <li>run command : <i>ssh-keygen</i></li>
+      <li>Store private key on safe place</li>
+      <li>Copy public key (will use later)</li>
+    </ul>
+  </ul>
+  <li>On agent : </li>
+  <ul>
+    <li>Install jdk latest</li>
+    <li>Install kubectl, aws cli</li>
+    <li>Create a role for EC2 to communicate with EKS and attach the policy with agent EC2</li>
+    <li>Navigate to <i>.ssh</i> folder > <i>authorized_keys</i> </li>
+    <li>Paste master public key on authorized_keys</li>
+    <li>Save and exit</li>
+  </ul>
+</ol>
+<h2><b>STEP 2 : Connect agent node with jenkins master</b></h2>
+<ol>
+  <li>Copy agent node username (ubuntu)</li>
+  <li>Copy private IP (if master and agent are within same VPC) otherwise allocate elastic IP for agent and copy IPv4</li>
+  <li>In jenkins dashboard :</li>
+  <ul>
+    <li>Settings > credentials > add global credentials > type : ssh with username & private key</li>
+    <li>Add username : ubuntu</li>
+    <li>Add host : private IP</li>
+    <li>Add secret/private key : master private key</li>
+    <li>Save and exit</li>
+  </ul>
+  <li>Again on settings : </li>
+  <ul>
+    <li>Manage nodes</li>
+    <li>Add a new agent/node</li>
+    <li>Enter basic details</li>
+    <li>Add authentication method and select from global credentials</li>
+    <li>Save and exit</li>
+  </ul>
+  <li>Now master can run jobs on agent 🎉</li>
+</ol>
+<h2><b>STEP 3 : Connect github webhook trigger</b></h2>
+<ol>
+  <li>Open github > repo you want to connect > repo settings</li>
+  <li>Webhooks > add webhook</li>
+  <li>url : http://ipv4-address:8080/github-webhook/ (IPv4 should not change that's why elastic IP is recommended)</li>
+  <li>Content type : application/json</li>
+  <li>SSL verification : disable</li>
+  <li>Check event type</li>
+  <li>Save and exit</li>
+  <li>Webhook connected 🎉</li>
+</ol>
+<h2><b>STEP 4 : Webhook trigger jenkins pipeline</b></h2>
+<ol>
+  <li>Jenkins dashboard > new item > pipeline</li>
+  <li>Select git scm polling</li>
+  <li>Add repo url, branch, pipeline file script path (Jenkinsfile)</li>
+  <li>Add authentication method : username with password or (personal access tokens)</li>
+  <li>Save and exit</li>
+  <li>Pipeline created and will only trigger on github code changes 🎉</li>
+</ol>
+<h2><b>STEP 5 : AWS EKS Setup with nodegroups</b></h2>
+<ol>
+  <li>Create cluster in aws console with VPC settings and subnets (recommended : min. 3 subnets, 1 public, 2 private)</li>
+  <li>Attach a role for EKS with EKSClusterPolicy </li>
+  <li>Create one or desired number of nodegroup and select private subnets</li>
+  <li>Specs : atleast t3.small / t3.medium with 20GB storage and 3 nodes. (for small deployments use 1 node)</li>
+  <li>Attach roles and policy to nodegroup : </li>
+  <ul>
+    <li>IAM > roles > select EC2</li>
+    <li>Attach policy EC2WorkerNode, ContainerRegistry, CNI</li>
+    <li>Save and exit</li>
+  </ul>
+  <li>Attach this role to the nodegroup</li>
+  <li>Nodegroups created 🎉</li>
+  </ol>
+  
+  <h2><b>STEP 6 : Authenticate EC2 jenkins agent with EKS</b></h2>
+  <ol>
+  <li>On jenkins agent EC2 : </li>
+  <ul>
+    <li>Select IAM role and find ARN</li>
+    <li>Copy ARN > navigate to EKS > cluster > select cluster > access</li>
+    <li>Create a new principle access role and add the ARN</li>
+    <li>Add policy of EKSClusterAdminPolicy</li>
+    <li>Save and exit</li>
+  </ul>
+  <li>Now jenkins EC2 can make access to EKS cluster and run commands</li>
+<li>Done 🎉</li>
+  </ol>
+<hr/>
+<h2>After this setup your production pipeline is ready and now you can add your custom pipeline steps which you want to perform on each code push</h2>
