@@ -19,7 +19,7 @@ type PageProps = {
     };
 };
 
-async function page({ params }: PageProps) {
+export default async function Page({ params }: PageProps) {
 
     const { slug } = params;
     const res = await axios.get(`https://your-api.com/article/id?slug=${encodeURIComponent(slug)}`);
@@ -53,8 +53,5 @@ async function page({ params }: PageProps) {
         </>
     )
 }
-
-
-export default page;
 
 
