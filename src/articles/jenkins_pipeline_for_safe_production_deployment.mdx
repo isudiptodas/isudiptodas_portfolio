@@ -33,7 +33,7 @@ For setup refer this : [Production Setup with Jenkins CI/CD & AWS EKS](https://i
 
 ## #1 Secure environment values
 
-```
+```Jenkins
 environment {
         MONGODB_TEST_URL = credentials('MONGODB_TEST_URL')
         REDIS_HOST = credentials('REDIS_HOST')
@@ -53,7 +53,7 @@ The reason is I don't want things to behave different on production so to preven
 
 ## #2 Install dependency
 
-```
+```Jenkins
 stage('Install dependency') {
             steps {
                 dir('backend') {
@@ -91,7 +91,7 @@ On first pipeline run, jenkins stores cache (project files & dependencies) insid
 
 ## #3 Running tests
 
-```
+```Jenkins
 stage('Run test') {
             steps {
                 dir('backend') {
@@ -107,7 +107,7 @@ In this stage we are simply running the test to make sure everything works fine 
 
 ## #4 Building docker image
 
-```
+```Jenkins
 stage('Build image') {
             steps {
                 dir('backend') {
@@ -126,7 +126,7 @@ If you look carefully you will notice we are performing everything inside our ba
 
 ## #5 Image security scan
 
-```
+```Jenkins
 stage('Scan image') {
             steps {
                 echo 'Starting image scanning...'
@@ -140,7 +140,7 @@ Now in this step we are performing a security scan for the image before deployin
 
 ## #6 Image push on registry
 
-```
+```Jenkins
 stage('Push to registry') {
             steps {
                 withCredentials([usernamePassword(
@@ -162,7 +162,7 @@ Now in this stage we are pushing the image to dockerhub, only if there is no iss
 
 ## #7 Deployment on AWS EKS
 
-```
+```Jenkins
 stage('Update EKS deployment') {
              steps {
                  script {
@@ -192,7 +192,7 @@ If everything works perfectly then it will take less than **180s** but if it tak
 
 ## #8 Email alerts on pipeline execution
 
-```
+```Jenkins
 post {
         success {
             mail to: env.USER_EMAIL,
@@ -257,7 +257,7 @@ The email ID and all of the required setup was already configured in jenkins cre
 
 ## Final completed pipeline
 
-```
+```Jenkins
 pipeline {  
         
     agent { label 'worker_agent' }
@@ -407,9 +407,6 @@ pipeline {
         }
     }
 }
-
-
-
 
 ```
 
