@@ -1,0 +1,422 @@
+---
+title: With this Jenkins pipeline I ensured my deployments won't break the production
+author: Sudipto Das
+date: 2 Mar, 2026
+featured: true
+tags:
+  - Docker
+  - Kubernetes
+  - Jenkins CI/CD
+---
+
+# With this Jenkins pipeline I ensured my deployments won't break the production
+
+Before moving forward here's something which you need to understand. We create pipelines not just for any random reason but to make things simpler and automate a process and by keeping this in mind I have created this pipeline which will ensure my application will not break in production after deployment. But how ? let's see !
+
+## Prerequisites
+If you want to understand what's happening here then there are some concepts which you need to know although in this article everything is simplified still it's a plus point if you already had an understanding of :
+
+ - How CI/CD works
+ - Jenkins basic
+ - Docker
+ - Kubernetes (optional)
+
+## Planned requirements
+
+ 1. The code which runs perfectly on my machine should also run on production without issue.
+ 2. The pipeline should be not very slow to perform tasks.
+ 3. Even in case anything breaks after deployment or the new deployment fails I want to rollback to my previous version.
+
+
+Now in this article I will not show the setup, I will move forward with the actual pipeline code.
+For setup refer this : [Production Setup with Jenkins CI/CD & AWS EKS](https://isudiptodas-portfolio.vercel.app/articles/production_deployment_with_jenkins_and_EKS)
+
+## #1 Secure environment values
+
+```
+environment {
+        MONGODB_TEST_URL = credentials('MONGODB_TEST_URL')
+        REDIS_HOST = credentials('REDIS_HOST')
+        REDIS_PORT = credentials('REDIS_PORT')
+        REDIS_PASSWORD = credentials('REDIS_PASSWORD')
+        REDIS_USERNAME = credentials('REDIS_USERNAME')
+        DOCKER_USERNAME = credentials('DOCKER_USERNAME')
+        IMAGE_NAME = "${DOCKER_USERNAME}/cloudvault-backend:${BUILD_NUMBER}"
+        USER_EMAIL = credentials('ALERT_EMAIL')
+    }
+```
+
+Now here at very first I am adding a global environment block and these are just like any of our application `.env` values and these are already set in jenkins credentials manager and by this method we are making it available globally in our pipeline and when our pipeline will start jenkins will automatically inject these values wherever necessary.
+
+### Why this step ?
+The reason is I don't want things to behave different on production so to prevent that I have written some test cases and I will run a test in the pipeline to check if everything works perfectly and for running the test I will need these environment values.
+
+## #2 Install dependency
+
+```
+stage('Install dependency') {
+            steps {
+                dir('backend') {
+                    sh '''
+                        if [ ! -d node_modules ]; then
+                            echo "node_modules not found. Running npm install."
+                            npm install
+
+                        elif [ package.json -nt node_modules ]; then
+                            echo "package.json changed. Running npm install."
+                            npm install
+
+                        else
+                            echo "Using cached dependency"
+                        fi
+                    '''
+                }
+            }
+        }
+```
+
+Now here this is the first stage where we're installing dependencies.
+
+**Is it required ?**
+Yes, ofcourse, without your app dependencies you cannot run tests.
+
+**Why `dir('backend')`?**
+Because I want this pipeline only for the backend code.
+
+**What is the use of `sh` ?**
+sh means shell, it will run on shell and inside shell there is a condition which checks that is my dependency list or files changed or not, if not then don't need to install dependency use it from cache otherwise run `npm install` and download dependency. It is not strictly needed but recommended to make the pipeline a little faster and reduce installing new dependencies every time.
+
+**NOTE:**
+On first pipeline run, jenkins stores cache (project files & dependencies) inside the machine on a specified workspace on which it runs the pipeline and we are refering that cache here.
+
+## #3 Running tests
+
+```
+stage('Run test') {
+            steps {
+                dir('backend') {
+                    sh '''
+                    npm test
+                    '''
+                    echo 'Test successful'
+                }
+            }
+        }
+```
+In this stage we are simply running the test to make sure everything works fine and if anything breaks or test fails the pipeline will fail and deployment will be cancelled.
+
+## #4 Building docker image
+
+```
+stage('Build image') {
+            steps {
+                dir('backend') {
+                    echo 'Starting image build...'
+                    sh 'docker build -t $IMAGE_NAME .'
+                    echo 'Build successful'
+                }
+            }
+        }
+```
+
+This step is the continuation and will only run if the tests are passed and by building a docker image of this application we will push it to a registry (Dockerhub) from which our kubernetes deployment will use it.
+
+**How we are even building it ? Where is the `Dockerfile` ?**
+If you look carefully you will notice we are performing everything inside our backend folder and the dockerfile is inside the backend folder.
+
+## #5 Image security scan
+
+```
+stage('Scan image') {
+            steps {
+                echo 'Starting image scanning...'
+                sh 'trivy image --exit-code 1 --severity HIGH,CRITICAL $IMAGE_NAME'
+                echo 'Scan completed'
+            }
+        }
+```
+
+Now in this step we are performing a security scan for the image before deploying to ensure that no bugs or vulnerabilities goes in production. And we are scanning for HIGH & CRITICAL issues and if any such issue encounters then it will exit the pipeline and the pipeline will stop.
+
+## #6 Image push on registry
+
+```
+stage('Push to registry') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'DOCKERHUB_CREDS',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    echo 'Pushing image to registry...'
+                    sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
+                    sh 'docker push $IMAGE_NAME'
+                    echo 'Image pushed to registry'
+                    sh 'docker logout'
+                }
+            }
+        }
+```
+
+Now in this stage we are pushing the image to dockerhub, only if there is no issues or bugs after image scan. And after pushing we are also logging out which is again a recommended way to do operations on registry.
+
+## #7 Deployment on AWS EKS
+
+```
+stage('Update EKS deployment') {
+             steps {
+                 script {
+                      try {
+                        sh '''
+                           kubectl set image deployment/cloudvault-backend cloudvault=$IMAGE_NAME
+                           kubectl rollout status deployment/cloudvault-backend --timeout=180s
+                        '''
+                     } catch (Exception e) {
+                        sh '''
+                           kubectl rollout undo deployment/cloudvault-backend
+                           kubectl rollout status deployment/cloudvault-backend --timeout=180s
+                        '''
+                     echo "Deployment failed and rolled back to previous build"
+                    }     
+                 }
+             }
+        }
+```
+
+This is the final stage of pipeline and here is two things to consider one is `try` block and a `catch` block.
+
+I already have a **deployment** on EKS and its name is **cloudvault-backend** and the image which is running inside of it referenced as **cloudvault**.
+
+Now in `try` block I am trying to update the image with the new image that I have just tested, build, and it will update and wait for upto **180s** for a confirmation.
+If everything works perfectly then it will take less than **180s** but if it takes more time or if the updation fails then it will fall in `catch` block and in this block I am rolling back to it's previous image version so that even if my new deployment failed still my users will keep using my application without downtime.
+
+## #8 Email alerts on pipeline execution
+
+```
+post {
+        success {
+            mail to: env.USER_EMAIL,
+            subject: "SUCCESS ! Pipeline #${BUILD_NUMBER} executed",
+            body: """
+                Cloudvault backend pipeline executed successfully.
+
+                Build Number : ${BUILD_NUMBER}
+                View full logs here:
+                ${BUILD_URL}
+                """
+        }
+        
+        failure {
+
+            script {
+            def reason = "Failure reason unavailable. Please check logs."
+
+            try {
+                reason = currentBuild.rawBuild.getLog(10).join('\n')
+            } catch (e) {
+                
+            }
+            
+            mail to: env.USER_EMAIL,
+            subject: "ERROR ! Pipeline #${BUILD_NUMBER} stopped",
+            body: """
+                   Cloudvault backend pipeline stopped due to error.
+                   Build Number : ${BUILD_NUMBER}
+                   Failed Stage : ${STAGE_NAME}
+
+                   Failure Reason (last log lines):
+                   ${reason}
+
+                   View full logs here:
+                   ${BUILD_URL}
+                 """
+            }
+        }
+
+        always {
+            echo 'Pipeline execution completed'
+        }
+    }
+```
+Now at the end we are declaring two things one is `success` and one is `failure`.
+If everything works perfectly then the success mail will get triggered otherwise the failure mail.
+
+**`success`**
+In this block we are simply notifying the user that the pipeline has successfully executed along with the build number and URL.
+
+**`failure`**
+Here we are runnung a script first by which we are trying to get the last error logs and then sending the necessary information to the user on mail.
+
+**What are these BUILD_NUMBER, BUILD_URL, STAGE_NAME ?** 
+
+These are reserved keywords in jenkins and help us to identify the current pipeline metadata.
+
+**How we are even sending the mail to user ? Where is the email ID ?** 
+
+The email ID and all of the required setup was already configured in jenkins credentials manager and is declared in this pipeline environment block to inject in runtime.
+
+## Final completed pipeline
+
+```
+pipeline {  
+        
+    agent { label 'worker_agent' }
+    
+    environment {
+        MONGODB_TEST_URL = credentials('MONGODB_TEST_URL')
+        REDIS_HOST = credentials('REDIS_HOST')
+        REDIS_PORT = credentials('REDIS_PORT')
+        REDIS_PASSWORD = credentials('REDIS_PASSWORD')
+        REDIS_USERNAME = credentials('REDIS_USERNAME')
+        DOCKER_USERNAME = credentials('DOCKER_USERNAME')
+        IMAGE_NAME = "${DOCKER_USERNAME}/cloudvault-backend:${BUILD_NUMBER}"
+        USER_EMAIL = credentials('ALERT_EMAIL')
+    }
+    
+    stages {
+
+        stage('Install dependency') {
+            steps {
+                dir('backend') {
+                    sh '''
+                        if [ ! -d node_modules ]; then
+                            echo "node_modules not found. Running npm install."
+                            npm install
+
+                        elif [ package.json -nt node_modules ]; then
+                            echo "package.json changed. Running npm install."
+                            npm install
+
+                        else
+                            echo "Using cached dependency"
+                        fi
+                    '''
+                }
+            }
+        }
+        
+        stage('Run test') {
+            steps {
+                dir('backend') {
+                    sh '''
+                    npm test
+                    '''
+                    echo 'Test successful'
+                }
+            }
+        }
+        
+        stage('Build image') {
+            steps {
+                dir('backend') {
+                    echo 'Starting image build...'
+                    sh 'docker build -t $IMAGE_NAME .'
+                    echo 'Build successful'
+                }
+            }
+        }
+        
+        stage('Scan image') {
+            steps {
+                echo 'Starting image scanning...'
+                sh 'trivy image --exit-code 1 --severity HIGH,CRITICAL $IMAGE_NAME'
+                echo 'Scan completed'
+            }
+        }
+        
+        stage('Push to registry') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'DOCKERHUB_CREDS',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    echo 'Pushing image to registry...'
+                    sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
+                    sh 'docker push $IMAGE_NAME'
+                    echo 'Image pushed to registry'
+                    sh 'docker logout'
+                }
+            }
+        }
+        
+        
+        stage('Update EKS deployment') {
+             steps {
+                 script {
+                      try {
+                        sh '''
+                           kubectl set image deployment/cloudvault-backend cloudvault=$IMAGE_NAME
+                           kubectl rollout status deployment/cloudvault-backend --timeout=180s
+                        '''
+                     } catch (Exception e) {
+                        sh '''
+                           kubectl rollout undo deployment/cloudvault-backend
+                           kubectl rollout status deployment/cloudvault-backend --timeout=180s
+                        '''
+                     echo "Deployment failed and rolled back to previous build"
+                    }     
+                 }
+             }
+        }
+        
+    }
+
+    post {
+        success {
+            mail to: env.USER_EMAIL,
+            subject: "SUCCESS ! Pipeline #${BUILD_NUMBER} executed",
+            body: """
+                Cloudvault backend pipeline executed successfully.
+
+                Build Number : ${BUILD_NUMBER}
+                View full logs here:
+                ${BUILD_URL}
+                """
+        }
+        
+        failure {
+
+            script {
+            def reason = "Failure reason unavailable. Please check logs."
+
+            try {
+                reason = currentBuild.rawBuild.getLog(10).join('\n')
+            } catch (e) {
+                
+            }
+            
+            mail to: env.USER_EMAIL,
+            subject: "ERROR ! Pipeline #${BUILD_NUMBER} stopped",
+            body: """
+                   Cloudvault backend pipeline stopped due to error.
+                   Build Number : ${BUILD_NUMBER}
+                   Failed Stage : ${STAGE_NAME}
+
+                   Failure Reason (last log lines):
+                   ${reason}
+
+                   View full logs here:
+                   ${BUILD_URL}
+                 """
+            }
+        }
+
+        always {
+            echo 'Pipeline execution completed'
+        }
+    }
+}
+
+
+
+
+```
+
+## What achieved through this pipeline ?
+
+1. Secure key injection on runtime
+2. Fast testing with cached dependency
+3. Security scan before deployment
+4. Auto rollback without downtime
+5. User alerting on pipeline execution with metadata
