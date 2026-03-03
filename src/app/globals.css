@@ -44,7 +44,7 @@ html, .sidebar, .content{
   font-size: 2rem;
   margin: 2rem 0 1rem;
   font-weight: 700;
-  line-height: 1.1;
+  line-height: 1.15;
 }
 
 .markdown h2 {
@@ -126,6 +126,7 @@ html, .sidebar, .content{
   color: #127cff;
   text-decoration: underline;
 }
+
 
 
 
