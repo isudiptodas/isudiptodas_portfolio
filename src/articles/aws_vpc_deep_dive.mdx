@@ -1,0 +1,114 @@
+---
+title: A deep dive into AWS VPC
+author: Sudipto Das
+date: 4 Mar, 2026
+featured: false
+tags:
+  - AWS
+  - Networking
+---
+
+# A deep dive into AWS VPC
+Before jumping right into the AWS VPC concepts, there are certain things which you need to keep in mind.
+
+If you are completely new to networking concepts like CIDR blocks, IP addresses, subnets, then I should say this overall thing will be a bit tricky for you.
+
+Although I will try to make it very much simpler, but still I would recommend you should at least have a basic knowledge of how the Internet works.
+
+In this article, we are going to cover these following concepts.
+- AWS VPC entire overview 
+- Subnets
+- How subnets work
+- Private and public subnets
+- What is an Internet gateway 
+- What is a NAT gateway 
+- How route tables work
+
+Now you may ask that what is the need of understanding the VPC concept of AWS? Why I can't just simply ignore or skip it? Will I not be able to understand the rest of the concepts like EC2, S3, DynamoDB, Cloudwatch if I don't understand VPC now or what is special about VPC?
+
+Now answering this question, there is a very simple thing you need to understand if you want to know how to ride a bike.Then first you need to understand what is a bike, what are the components of a bike, how the bike engine starts, what is a clutch, what is a brake, what is a gear, what is accelerator. And then step by step, block by block you learn how to ride the bike.
+
+Similarly in AWS and not specifically in AWS but in any cloud provider be it Google Cloud Platform or Microsoft Azure or Oracle Cloud you can definitely use different services but VPC or Virtual Private Cloud on networking is such a concept which will help you in your entire cloud journey. It is like a first stepping stone or the building block.
+
+## 1. What is VPC ?
+Starting from the very first question, what exactly is a VPC or a Virtual Private Cloud?In AWS, as the name suggests, Virtual Private Cloud means a cloud which is private. Means it is under your control. You can manage all of its networks, its subnets, its route tables and everything. It is under your control. And in AWS or any cloud provider VPC are created under any region.
+
+## 2. Regions
+Regions are geographical locations under which different availability zones are there.
+
+## 3. Availability zones
+Availability zones are nothing special, but you can consider them as data centers around the globe and in different regions there are different availability zones and availability zones considered as data centers.
+
+AWS infrastructure is present around the globe and one of them are also present in Asia Pacific under which you will see many regions, for example `ap-south-1 Mumbai`, `ap-south-2 Hyderabad`, `ap-southeast-1 Singapore`.
+
+## 4. CIDR range
+Now talking about CIDR blocks.You can understand them in a way that in a virtual private cloud or a cloud which is under your control, a specific part of Internet which is reserved for you. Inside that you will do many operations. You have to download some files, you can run some virtual machines, you can monitor logs, you name it. And you have to assign IP addresses to your any workload. For that you need to have a certain range under which IPV4 addresses will be allocated and that range is called a CIDR block. That means you are telling AWS that keep this much IP addresses reserved for me and my resources in future.
+
+You can identify a CIDR block by a very simple thing. While creating a VPC you will see you have to enter a CIDR range which will end with `xx.xx.xx.xx/<any-number>`.
+
+For example you can choose a number from 0 up to 32.
+
+You can choose from 0 to 32. It is of general speaking or the general idea, but AWS only allows you to pick a number of minimum 16 or you can go up to highest 28, not more than that.
+
+### How should I select CIDR ?
+Now you may ask that how should I select a CIDR range? Well to answer this question, first you need to make sure that what is the purpose of your VPC making. If you are making a VPC just for learning and not very high power compute or work resources then you can select from 20 or 22 or maybe 18. But if you are planning to make a VPC for production or in future you will need high power resources or you will need to manage a lot of processes then you should consider allocating more IP addresses and go with 16.
+
+### How the CIDR range works ?
+Now you may ask a question that I am telling you to select a range from 16 to 18 or 20 or 22. But actually how much IP is allocating to me if I am selecting these random numbers. So let me tell you, these numbers are not just random. You are allocating by keeping every consideration in mind. To remember the CIDR block ranges and the IP that you are getting allocated, remember only one thing.
+
+- The more you will increase the number of the range, the less number of IP you will get allocated.
+
+- And the more you will decrease the number, the more number of IP you will get allocated.
+
+
+### Why do I even need a CIDR range ?
+Now if you are reading till this then one more important question should come in your mind. And that is why I should even need to create a CIDR block like can't I just skip it and why is it so mandatory? The answer is very simple.
+
+When you want to ride a bike, first you need to make sure you have enough petrol in your bike, otherwise you can't really use it. You'll have a bike, but it will of no use just like this making a virtual private cloud will get you nothing If you want to do any computing or run any service or perform any task, you have to assign a CIDR range because most of the services in AWS internally uses IP addresses for many ways. Some of the very common ways is that either they need to communicate with the outer world. Or the outer world Internet needs to access them, so IP addresses is mandatory so you cannot skip this.
+
+## 5. Subnets
+Subnets are another important and very much crucial part in VPC .You can understand this by a simple analogy. Think of it is like a virtual private cloud is like an apartment and subnets are like individual rooms in that apartment.
+
+And in AWS, whatever task you will perform, you will perform under these subnets. Either you will make a Kubernetes cluster, or you will make an EC2 instance, or you will perform any task, behind the scenes internally or explicitly all of this will revolve around subnets.
+
+## 6. Route Tables
+Now coming to the part of route tables. As the name suggests, route tables mean you can understand with the name that any kind of routing performs here. OK, fine. Now what kind of routing and what is the actual working that is happening in here ?
+
+Route tables are individual tables, and these tables are attached with a subnet and that table defines that your subnet is private or public, and a route table is responsible for defining routes. For example :
+- You can make a request on which IP
+- Your request can go to the which part of the Internet
+- Who can access your machine or your IP address from outside world
+
+These all things revolves around route tables.
+
+## 7. Private & public subnets
+A public subnet is a subnet which is open to all. That means from that subnet you can send request to the outside world or anyone from the outside world can mame request to your subnet.
+
+And a private subnet on the other hand is a subnet where you can send requests to the outside world, but no one can make request to your subnet, making it very much secure and private on your virtual private cloud particularly.
+
+Now how it actually gets decided that my subnet is private or public ? How should I know it ? You can know your subnet is private or public with a very simple step. If a subnet or the route table that is attached to a subnet pointing to a Internet gateway, that means that subnet is public and if a subnet and the route table attached to it has a route that is pointing to a NAT gateway that means that subnet is a private.
+
+## 8. Internet Gateway
+As you know that when you create a virtual private cloud, that means inside that cloud whatever you will do or perform that is private means it has no access to the other clouds or Internet. But you will definitely need Internet access for downloading packages, deploying any resources or making your services accessible. For that you need Internet access Now Internet Gateway is a resource that lets you send request outside your VPC and it also allow you that anyone from outside your VPC can send or make request inside your VPC.
+
+## 9. NAT Gateway
+On the other hand, a NAT Gateway or Network Address Translation Gateway works as a one way barrier. That means. You can access any resources of the Internet which you will allow. Either you can go on a particular location of the Internet or you can go anywhere. You have to specify that, but nobody can make request inside your VPC.
+
+***
+
+Without any confusion, if you want to remember this concept, then you need to understand this analogy very simply.
+
+Suppose you have created a subnet and you have attached a route table with the subnet and in that route table, if there is a NAT gateway then the subnet is private and if there is a Internet gateway then the subnet is public
+
+You can think of it is like your VPC is an entire city and that city is covered with barriers and huge and massive walls. But you need to decide that I need to go any part of the Internet or someone should make request or someone should enter my city. In that cases NAT gateway or Internet gateway comes in the place.
+
+Internet gateway allows that anyone from the city can go outside and even anyone from outside the city can enter in this city. This is the work of Internet Gateway. It works as a two way gate.
+
+On the other hand, NAT Gateway performs one thing that. I will allow you to go outside from this city or this Internet, but nobody can able to enter this VPC.
+
+This is the actual difference between a NAT gateway and an internet gateway. And this thing only makes a subnet public or private.
+
+***
+### In AWS you will find more than 200 resources and even in AWS networking you will find a lot of concepts, but in day-to-day life or in most of the cases you will need to know about these concepts very well and if you have a good grasp in these concepts then you can easily manage any network resource.
+
+### And additionally no matter whatever cloud platform you will choose to learn either it is AWS or Microsoft Azure or Oracle Cloud or Google Cloud Platform. These concepts are fundamental building blocks of networking to work in any cloud provider. So these concepts will remain same only there may be the names will be different for some resources, otherwise the concepts will be entirely same.
