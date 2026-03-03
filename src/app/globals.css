@@ -44,19 +44,21 @@ html, .sidebar, .content{
   font-size: 2rem;
   margin: 2rem 0 1rem;
   font-weight: 700;
-  line-height: 1.15;
+  line-height: 1.2;
 }
 
 .markdown h2 {
   font-size: 1.5rem;
   margin: 1.75rem 0 1rem;
   font-weight: 600;
+  line-height: 1.2;
 }
 
 .markdown h3 {
   font-size: 1.25rem;
   margin: 1.5rem 0 0.75rem;
   font-weight: 600;
+  line-height: 1.2;
 }
 
 .markdown p {
@@ -126,6 +128,7 @@ html, .sidebar, .content{
   color: #127cff;
   text-decoration: underline;
 }
+
 
 
 
