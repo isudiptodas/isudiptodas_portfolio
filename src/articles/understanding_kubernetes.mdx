@@ -1,0 +1,124 @@
+
+---
+title: Understanding Kubernetes the easiest way
+author: Sudipto Das
+date: 5 Mar, 2026
+featured: false
+tags:
+  - Kubernetes
+---
+
+# Understanding Kubernetes the easiest way
+Kubernetes is an open-source container orchestration and deployment platform.
+
+Well, to fully understand the internal working of Kubernetes, you should be familiar with certain concepts like : 
+- Containerization 
+- One containerization tool, for example docker
+- What problem there is in docker that kubernetes is solving?
+
+These three things are not mandatory, but it will be essential if you have understanding of these 3. Even though in this article I will make sure you will know each and everything from scratch.
+
+Now, starting from very basic at first, in the smaller picture we have docker. And we all know docker is essentially used for containerizing my whole application and it's all dependencies so that we can run it in any environment. That is the overall picture of docker and the overall process is called containerization. Now here comes a big thing. In real life cases of production, you don't really deal with only one container or one application. Rather, you need to deal with multiple containers, sometimes 5, sometimes 10, or even at sometimes hundreds of different environments. So the real question is, you can manage one container, 2 container, You can manage up to five containers manually. But will it be possible for you to manage multiple containers, suppose n number of containers manually ? Well not, it would become a nightmare for you.
+
+And **Kubernetes** is solving this very particular problem to manage multiple containers for you.
+
+## How Kubernetes is actually used ?
+There are a number of ways by which you can run Kubernetes. Some popular ones are : 
+1. Minikube : Minikube is like everything compact and you have been given everything on a platter. You just need to start and deploy your applications.
+2. Second we have kind which means Kubernetes in docker and yeah you can run Kubernetes in docker as well.
+3. Now moving to our advanced option in AWS you can use EKS which is Elastic Kubernetes service managed by AWS.
+
+Now you may ask that is this the only three option we can use? Well, there are a lot of more options as well, but these are the only few options which are popular and mostly preferred by beginners or even at some point advanced people.
+
+Although you have a lot of options and other than that one option is also there which is not actually preferred in real production and that is setting out virtual machines in cloud environment and set up everything manually. But in real life one thing is highly recommended and preferred and that is you should use a cloud managed Kubernetes service. Either it is of EKS of Amazon Web Services or Google Kubernetes Engine or Microsoft Azure Kubernetes. So that you can solely focus on deploying and managing your applications and not the internal architecture.
+
+Now the architecture which we will discuss in this article will be same across any system you will work on. Either you will work on AWS EKS or Minikube or kind it doesn't really matter. The architecture will remain completely same.
+
+![vpc-diagram](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/kubernetes-architecture.jpg)
+
+## 1. Cluster
+While working with Kubernetes start by imagining that first you will need to create a cluster for yourself. And no matter what you are using either minikube kind or EKS, you have to create a cluster because everything will be intact in your cluster and without a cluster you can't really proceed. A cluster is like a boundary or a wall under which your every Kubernetes operation will perform.
+
+And inside your cluster you will typically find 2 very important divisions. First one is control plane and the second one is worker plane.
+
+## 2. Control Plane
+A control plane is like a brain of a Kubernetes cluster. You can remember by just a simple analogy whatever you will work on Kubernetes, your work will be mostly on the worker plan and the control plane is for the Kubernetes. Kubernetes will internally manages everything and where does it all manages ? It manages in the control plane.
+
+You will find different small individual resources inside this plane and together they make the control plane accessible and the brain of the Kubernetes system. Let's learn them one by one.
+
+### Kube API Server :
+At very first we have a cube API server. You can understand this by one simple analogy, and that is the control plane is like a house and the Kube API Server is like an entry door. And without a cube API server, no resources, no services, no network call will happen and no communication will be done in your Kubernetes cluster. So every resources, every operation, every request should first pass through the Kube API server.
+
+### ETCD : 
+Every system needs some memory so that it can track the state of the system. Just like that in Kubernetes control plane there is a key value paired database which is ETCD. It tracks literally everything in a Kubernetes cluster. What is the current Kubernetes state ? What it requires ? How many pods, deployments, services are running ? How many services or any resources are down ? This is the single source of truth in Kubernetes control plane and without the ETCD your Kubernetes control plane can't really make any decision.
+
+### Scheduler :
+Scheduler is responsible for assigning nodes to the pods. It will check that which pods are still in pending state or still they don't have any assigned nodes and then it will make decisions and. assign nodes to the pods.
+Again, in a very simple way you can understand this by thinking it as scheduler is like a person, it will look for which pods are still in pending state or they are not started yet or they are not a part of any nodes. So now they will make decision and they will figure it out that on which node they should start and run
+
+### Control Manager
+Control Manager. As the name suggests, its main duty is to manage, but manage what ? It is responsible for managing the state of the system. It constantly compares the desired state with the current state of the cluster and if it founds the desired state is not matching the current state, then it will try to match it.
+
+For example, think of it is like while creating a deployment we have mentioned we need 3 pods. So in my desired state now the deployment pods number will become three. But in my current state the pods are running is only one for now. Control manager will try to match it by assigning 2 more pods. And just like this, whenever any pod will go down or any pod will crash, it will again match and it will see that the desired state is not equal to the current state, so it will reassign a different pod. And this is not only for pods but any other resource.
+
+
+## 3. Worker Plane
+Control plane is managed by Kubernetes. On the other hand, worker plane is managed by you and you are responsible for any operation starting from allocating storage, memory, how many pods will run ? How many containers will run on each pod ? how will you expose a service ? You are responsible for all of this.
+
+Worker plane runs on only one high level concept and that is nodes (virtual machines). Your applications will always run on nodes.
+
+Now inside of a single node we have 3 important components :
+
+### Kubelet :
+You can understand Kubelet as of a messenger which talks to the Kube API server of the control plane constantly and reporting about the health of the pods, the actual number of pods and also informing about the desired number of pods. Making sure every pods will run correctly without any error.
+
+### Kube Proxy :
+Kube Proxy manages the networking and acts as a traffic controller on each individual node. It ensures that whenever a service was created every traffic will route to the correct pod, making access easy.
+
+### CRI (Container Runtime Interface)
+Container Runtime Interface or CNI is like an outer layer under which all of your deployments and applications run.
+
+It is required because your applications in worker nodes will be deployed as a containerized application, so kubernetes can't directly access your application, so it needs a container runtime interface by which it can communicate with your application. So for that we have different options like containerd, CRI-O.
+
+***
+And now finally inside the container runtime interface your applications run, even though now also there are many layers of your how your application will run. You can either run your application in pods directly which are the smallest unit to be deployed in Kubernetes. Well it is not recommended that you run pods directly instead you should run your applications by deployments. So you should create a deployment then in the deployments you should specify the desired number of replicasets (pods) and deployment will create the pods automatically for you and it will also manage them.
+***
+Now after learning all the Kubernetes components, now you should learn about Kubernetes objects which are actually responsible for deploying your applications.
+
+Now there might be a question that Isn't this all ? Why do I need to learn any objects now ? So the simple answer is Kubernetes components actually run the Kubernetes system, but the Kubernetes objects tell the system what to run. That means your Kubernetes cluster will definitely run your applications, but the Kubernetes objects are responsible for telling the system that which application to run, which service to expose, which config map to use, and if you don't have the the Kubernetes objects, then your system will have no use.
+
+## 4. Pods
+Pods are the smallest unit to be deployed in Kubernetes, and inside a pod your actual application runs as a container image. You can deploy a single container or multiple containers in a pod, but usually it is preferred to run one container inside a pod.
+
+## 5. Deployments
+Deployments are just a way of running pods with any desired number of sets and with auto healing capabilities and they also allow you to manage multiple containers inside a pod.
+
+Now if you are thinking that if I can deploy my application in a pod, why do I even need a deployment ? So the answer is deployment has a superpower, that means you can deploy your application in 1 pod, 2 pod or 3 pod manually and if any of your pod goes down you will not able to know and that server will become slow, or maybe at some point you will face downtime.
+
+But while creating a deployment, you can specify a number of limits. For example, you can specify replicasets or desired pod number as 3, 5, 10 or any number and deployment will make sure that much number of pods are available no matter what. If any pod gets crashed or goes down, another new pod will automatically spin up making your application will always be healthy with no downtime.
+
+## 6. Services
+When you deploy your application, your applications are inside your cluster or in a node. But if you want to make your applications accessible throughout the Internet, you should expose it with a service. Because without a service no one can really access or use your application. Then it will be of no use.
+
+Services in Kubernetes are of different types. It can be : 
+- ClusterIP
+- Nodeport 
+- Loadbalancer
+- Ingress
+
+## 7. ConfigMap
+You can think Configmap as non sensitive data which are stored in key value pairs as plain text, nothing fancy.
+
+## 8. Secrets
+Secrets, on the other hand, are sensitive data which are also stored in key value pairs but in base64 encoded format. Secrets are just like and `.env` variables of our application. If our application uses any sensitive data as variables, then in runtime Kubernetes deployment internally injects them in the application by the match labels that you will provide during deployment creation which will match the secret.
+
+![vpc-diagram](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/kubernetes-objects.jpg)
+
+- Pods are running in deployments
+- Deployment 1 is using both ConfigMap and Secrets while deployment 2 is just using ConfigMap
+- Both the deployments are exposed to the internet via a loadbalancer service
+- All of this happening inside a node
+
+***
+Now these covers the 70% of actual real-world use cases of k8s objects. If you want to learn more in depth about Kubernetes you can check out any YouTube video or refer the official documentation page of k8s, although this article is more than enough for you to start your hands dirty on Kubernetes.
+
