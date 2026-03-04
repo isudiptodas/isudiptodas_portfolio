@@ -45,7 +45,7 @@ function page() {
                     <Link href='/' className={`w-auto px-5 py-3 rounded-full text-white font-Michroma text-[10px] md:text-sm backdrop-blur-3xl bg-white/25`}>Exit Section</Link>
                 </div>
 
-                <div className={`w-full mt-16 px-5 lg:px-8 pt-8 pb-3 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 justify-items-center gap-4`}>
+                <div className={`w-full mt-16 px-5 lg:px-8 pt-8 pb-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 justify-items-center gap-4`}>
                     {allArticles.map((item, index) => {
                         return <div onClick={() => router.push(`/articles/${item.slug}`)} key={index} className={`w-full cursor-pointer hover:rounded-2xl duration-200 ease-in-out flex flex-col justify-start items-center py-5 px-3 bg-linear-to-br from-zinc-800 to-zinc-900`}>
                             <h3 className={`w-full text-start text-white font-semibold text-sm`}>{item.title}</h3>
@@ -68,5 +68,6 @@ function page() {
 
 
 export default page;
+
 
 
