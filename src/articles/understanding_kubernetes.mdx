@@ -33,7 +33,7 @@ Although you have a lot of options and other than that one option is also there 
 
 Now the architecture which we will discuss in this article will be same across any system you will work on. Either you will work on AWS EKS or Minikube or kind it doesn't really matter. The architecture will remain completely same.
 
-![vpc-diagram](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/kubernetes-architecture.jpg)
+![kubernetes-architecture](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/kubernetes-architecture.jpg)
 
 ## 1. Cluster
 While working with Kubernetes start by imagining that first you will need to create a cluster for yourself. And no matter what you are using either minikube kind or EKS, you have to create a cluster because everything will be intact in your cluster and without a cluster you can't really proceed. A cluster is like a boundary or a wall under which your every Kubernetes operation will perform.
@@ -111,7 +111,7 @@ You can think Configmap as non sensitive data which are stored in key value pair
 ## 8. Secrets
 Secrets, on the other hand, are sensitive data which are also stored in key value pairs but in base64 encoded format. Secrets are just like and `.env` variables of our application. If our application uses any sensitive data as variables, then in runtime Kubernetes deployment internally injects them in the application by the match labels that you will provide during deployment creation which will match the secret.
 
-![vpc-diagram](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/kubernetes-objects.jpg)
+![kubernetes-objects](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/kubernetes-objects.jpg)
 
 - Pods are running in deployments
 - Deployment 1 is using both ConfigMap and Secrets while deployment 2 is just using ConfigMap
