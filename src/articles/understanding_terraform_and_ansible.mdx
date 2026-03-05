@@ -1,0 +1,116 @@
+---
+title: Understanding Terraform and Ansible with setup
+author: Sudipto Das
+date: 6 Mar, 2026
+featured: false
+tags:
+  - Terraform
+  - Ansible
+  - IaC
+  - Automation
+---
+
+# Understanding Terraform and Ansible with setup
+
+> In this article only the steps are written and not commands. It is recommended that you should use commands from official documentation site as it may change over time so it is good to use from the latest source.
+
+***
+First of all, before starting the overall setup process of terraform and Ansible, it is highly recommended to know that how you can use Ansible and terraform. What are the ways of use and how they actually work together.
+
+## Terraform
+Terraform is an infrastructure as code tool which is used to provision cloud infrastructure.
+
+That means whatever infrastructure you create in AWS, Google Cloud Platform, Microsoft Azure or even in your local machine manually, now you can automate it with Terraform by just writing some simple line of codes. And Terraform uses HCL or Hashicorp Configuration Language for writing the codes.
+
+## Ansible
+Ansible is a configuration management tool which is used to automate tasks and processes across different servers.
+
+## Analogy
+
+Here goes a very simple example which will help you understand the importance of Terraform and Ansible. Suppose in AWS you want to create 10 EC2 machines and on every EC2 machine you want to install NGINX, docker and deploy a static HTML page.
+
+Or in future you may realize that you need more servers, so you will again have to create some more servers and again run the same process of installing docker and nginx and then deploying the HTML page in that. Or you may think that you have to delete some packages from certain servers and you need to install some different packages entirely to run a Java based application.
+
+**Without Terraform & Ansible**:
+You will go in the AWS console, then in the EC2 section and then you will manually create 10 EC2 servers. Or you can simplify it by just mentioning the amount of servers you will need while creation. Then you will connect to each individual EC2 machine with ssh and install the required softwares and then you will deploy the static HTML page.
+And in case of future work, you will again do it manually by creating EC2 machines, by going to the AWS console, then repeating the same task over and over again. And even for deleting and installing some different packages and running a java application, you again have to SSH into those machines individually.
+
+**With Terraform & Ansible**:
+You will just need one EC2 machine where terraform is installed along with AWS CLI which you will use to create multiple servers on your AWS. Alternatively, without an EC2 machine, you can also use your own local machine. Whatever suits you. And one more machine where you will run Ansible to automate stuff.
+
+Now you just have to write a code where you will specify what AWS resources you need, what will be its type, its storage, its security group and everything that you needed to configure from the AWS console. You just have to write a one time code for that along with you can also specify the count or the number of instances you want.
+
+And after writing the code file, you will just apply the file and terraform within minutes will create your entire servers in your AWS provider in just one click. Also if you want to delete them, you don't have to go to AWS console, you can just destroy the terraform service and terraform will delete all your servers again in one click
+
+.And now if you want to do the configuration task where you need to install some packages, deploy a static website or in future you need to make some changes for that Ansible comes in. In Ansible you will just define some playbooks and you will specify the servers where you need to perform the action and again with one command those playbooks will run on the specified servers and Ansible will perform the exact same things in all of the connected servers in one click.
+
+***
+**Terraform** - Tell me what you and where you need in a code file and I will create them for you.
+**Ansible** - Tell me what task or configuration you want to perform on the servers and I will do that all at once.
+***
+
+## Terraform setup
+
+### In local
+1. Search in browser for `Terraform install` and navigate to the official Hashicorp website and you will find packages for MacOS, Windows from where you can simply download them and run in your machine.
+2. You'll need to install AWS CLI, which will be required for terraform to provision the cloud infrastructure. Simply search for `AWS CLI install` and you'll find the official aws documentation for the latest commands and steps.
+3. After installing everything you will need to configure AWS CLI on your local machine and for that you will need access keys and secret access keys from your AWS console and for creating them you need to make an IAM user with the required permissions. For learning purpose you can give ***AdministratorAccess*** to the IAM user, but it is not recommended for production. So you should always give those permissions of the resources which you will actually use.
+4. After all of the above steps are completed, now you can just create any code file with the extension `.tf` which stands for Terraform file and then write code and start creating cloud infrastructure.
+
+### In EC2 machine
+1. In browser simply search for `Terraform install for linux`. Then you will find the official Hashicorp documentation site for Linux install. Just go there and follow the steps along with latest commands.
+2. After installing Terraform, now you have to create a way by which your terraform EC2 machine will need to make a communication with the AWS console. For that you have two options, either you can choose AWS CLI and configure with your access keys (not recommended for EC2 machines). Another way is by creating a role for that EC2 machine and attaching policies for EC2 or whatever resources you'll be need to manage with Terraform.
+3. After you have set up a communication medium between the Terraform EC2 machine and your AWS console, now you can simply start writing code files and apply them and you will see the changes in your AWS console.
+
+***
+## Ansible setup
+You can use Ansible in both your local machine and in EC2 machine. But it is recommended to use ansible in a EC2 machine, so we will move forward with that process.
+
+> These installation commands may change in future so it is always recommended to use from the official and latest source.
+
+```bash
+sudo apt update && sudo apt upgrade -y
+sudo apt install software-properties-common
+
+sudo add-apt-repository --yes --update ppa:ansible/ansible
+
+#Install Ansible
+sudo apt install ansible -y
+
+#Validate Ansible:
+ansible ---version 
+```
+By running these commands you can make sure Ansible will be installed on your server and also you can validate it.
+
+**Next steps :**
+After the installation part is over. Now your Ansible is ready for configuration and automation. But technically it will not work until and unless you will specify that on which servers you need to run these configurations.
+
+Now from here you need to understand 3 concepts :
+
+- **Inventory** : Inventory in very simple terms, is just a file which tells Ansible that here are the list of available servers on which you can run playbooks or configurations.
+- **Groups** : Groups are logical separation of servers list. You can make as many groups as you want and you can put different servers on different groups.
+- **Playbooks** : Playbooks are just configuration files which are written in YAML syntax. In a playbook you simply define in YAML syntax what configuration or steps you need to perform on a specific server, and after running the playbook command ansible runs those commands on the specified servers.
+
+If you have 10 servers or 20 servers and you want to make some configuration in all those servers then you have to copy all of their IPv4 addresses and add them in an inventory file under a group of any name you like.
+
+> When you install ansible an inventory list gets created on location `/etc/ansible/hosts` (by default if using ubuntu), you can use that as well but only for learning and for real-life cases in production it is recommended to make separate inventory files.
+
+After you have added all the IP addresses of the servers on which you want to perform the configurations. Now you have to set up a connection from SSH to all the servers so that ansible can perform automation on that servers.
+
+**NOTE** : Understand this very carefully. You have only one EC2 machine where you have installed ansible and from that machine ansible will perform all the automation on different servers.
+
+To do automation on all the servers, Ansible will need a way to communicate because whenever Ansible will try to communicate on the servers, those servers will ask that ***"wait, who are you ? Are you even allowed to make changes in my server ?"***
+
+And we'll solve this issue by using SSH communication medium where we will generate a public and private key in the master machine or the actual EC2 machine where the Ansible is installed and we will copy the public key in all the servers where we want to perform the automation. And whenever ansible playbook will run and it will try to perform the automation, it will first authenticate using SSH and if it succeeds then the automation will run successfully.
+
+- To generate keys : run `ssh-keygen`
+- To copy public key on any server : run `ssh-copy-id user@hostname` for example : `ssh-copy-id ubuntu@10.2.4.12` (if using ubuntu).
+
+***Now you may ask a question. Where should I run the command `ssh-keygen` ? Or if I run the command `ssh-keygen` and then I run `ssh-copy-id` command, how it will copy the public key ? How it will internally work ?***
+
+You usually run the `ssh-keygen` command under the **.ssh** folder in your machine.
+
+And after running the command, when you run `ssh-copy-id` with the hostname and user, internally it looks for public keys in the **.ssh** folder and it will automatically copy the public key and paste on the destination server.
+
+Now after following all the steps, you are ready to perform infrastructure management and automation with Terraform and Ansible.
+You can now perform your task by writing code for creating and managing infrastructure and even playbooks (yml files) for Ansible perform automation.
