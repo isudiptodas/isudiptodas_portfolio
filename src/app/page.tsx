@@ -275,18 +275,18 @@ function page() {
           <div className={`w-full px-5 lg:px-8 pt-8 pb-3 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 justify-items-center gap-4`}>
             {allArticles.map((item, index) => {
               return <motion.div onClick={() => router.push(`/articles/${item.slug}`)} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.5 }} key={index} className={`w-full cursor-pointer hover:rounded-2xl duration-200 ease-in-out ${item.featured ? "block" : "hidden"} flex flex-col justify-start items-center py-5 px-3 bg-linear-to-br from-gray-100 to-gray-200 active:bg-gray-300`}>
-                <h3 className={`w-full text-start text-black font-semibold text-sm`}>{item.title}</h3>
-                <p className={`w-full mb-2 text-start font-light text-black text-[10px] lg:text-[12px] font-mono my-2`}>{item.author} • {item.date}</p>
+                <h3 className={`w-full text-start text-black font-semibold text-sm select-none`}>{item.title}</h3>
+                <p className={`w-full mb-2 text-start font-light text-black text-[10px] lg:text-[12px] select-none font-mono my-2`}>{item.author} • {item.date}</p>
                 <div className={`w-full flex flex-wrap justify-start items-start gap-3`}>
                   {item.tags.map((tag, index) => {
-                    return <span key={index} className={`w-auto px-2 py-1 border border-zinc-500 shrink-0 text-[8px] md:text-[12px] font-mono text-black`}>{tag}</span>
+                    return <span key={index} className={`w-auto select-none px-2 py-1 border border-zinc-500 shrink-0 text-[8px] md:text-[12px] font-mono text-black`}>{tag}</span>
                   })}
                 </div>
               </motion.div>
             })}
           </div>
 
-          <Link href='/articles' className={`w-auto text-[12px] my-2 px-3 py-1 mt-2 rounded-b-xl border-b border-zinc-500 cursor-pointer`}>View all</Link>
+          <Link href='/articles' className={`w-auto text-sm my-2 px-5 py-1 mt-2 rounded-b-xl border-b border-zinc-500 cursor-pointer select-none`}>View all</Link>
         </div>
 
         {/* testimonial section */}
@@ -375,6 +375,7 @@ function page() {
 }
 
 export default page
+
 
 
 
