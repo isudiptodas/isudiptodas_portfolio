@@ -136,6 +136,17 @@ html, .sidebar, .content{
   margin: 1.5rem auto;
 }
 
+.markdown blockquote {
+  border-left: 4px solid #52525b;
+  padding-left: 16px;
+  margin: 20px 0;
+  color: #d4d4d8;
+  font-style: italic;
+}
+
+.markdown blockquote p {
+  margin: 0;
+}
 
 
 
