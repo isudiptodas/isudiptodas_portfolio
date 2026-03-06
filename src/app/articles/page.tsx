@@ -56,7 +56,7 @@ function page() {
     useEffect(() => {
         const filtered = allArticles.filter((item) => {
             return item.tags.some((tag) => {
-                return tag.toLowerCase().includes(searchTerm.toLowerCase())
+                return tag.toLowerCase().includes(searchTerm.toLowerCase().trim())
             });
         });
 
@@ -109,6 +109,7 @@ function page() {
 
 
 export default page;
+
 
 
 
