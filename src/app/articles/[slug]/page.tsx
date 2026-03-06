@@ -15,16 +15,16 @@ type ArticleListItem = {
 
 export default async function Page({ params } : any) {
 
-    const slug = params.slug;
+    const { slug } = await params;
     const res = await axios.get(`https://isudiptodas-portfolio.vercel.app/api/article/id?slug=${encodeURIComponent(slug)}`);
     const article: ArticleListItem = res.data;
-    console.log(slug);
+
     return (
         <>
             <div className={`w-full bg-[#080808] relative min-h-screen flex flex-col justify-start items-center overflow-hidden`}>
                 <p className={`absolute left-1/2 -translate-x-1/2 top-7 font-Michroma text-[10px] text-white tracking-[5px]`}>ISUDIPTODAS</p>
                 <div className={`w-full h-auto z-50 flex justify-center items-center px-5 fixed bottom-8`}>
-                    <Link href='/' className={`w-auto px-5 py-3 rounded-full text-white font-Michroma text-[10px] md:text-sm backdrop-blur-3xl bg-white/25`}>Exit Section</Link>
+                    <Link href='/articles' className={`w-auto px-5 py-3 rounded-full text-white font-Michroma text-[10px] md:text-sm backdrop-blur-3xl bg-white/25`}>Articles Page</Link>
                 </div>
 
                 <div className={`w-full px-5 py-5 md:w-[70%] xl:w-[60%] h-auto flex flex-col justify-start items-center mt-16`}>
