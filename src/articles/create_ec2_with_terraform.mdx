@@ -1,0 +1,202 @@
+---
+title: Creating AWS EC2 instance with Terraform
+author: Sudipto Das
+date: 10 Mar, 2026
+featured: false
+tags:
+  - Terraform
+  - IaC
+  - AWS
+  - EC2
+---
+ 
+# Creating AWS EC2 instance with Terraform
+In this article we are going to see properly and step by step that how we can spin up an AWS EC2 machine from Terraform.
+
+If you don't know how to set up terraform then you can check out this article where I have properly guided you to set up Terraform and even Ansible you can check this out.
+
+[Terraform setup]([https://isudiptodas-portfolio.vercel.app/articles/understanding_terraform_and_ansible](https://isudiptodas-portfolio.vercel.app/articles/understanding_terraform_and_ansible))
+
+And in case you want to revise some terraform topics before starting this, you can check this article.
+
+[Terraform basics]([https://isudiptodas-portfolio.vercel.app/articles/30_70_terraform](https://isudiptodas-portfolio.vercel.app/articles/30_70_terraform))
+
+***
+Now at very first I want to clear one thing and that is you can simply create an EC2 instance with just writing 2 lines. One is specifying the instance type and another is writing the AMI ID which defines the operating system basically like : Ubuntu, Red Hat or CentOS.
+
+But this is not the recommended way to create because in real life cases no one will like to create just an instance with two configurations. Instead they will need to properly write configurations for which key pair they need to use, what VPC they need to use or which traffic they need to allow and everything. So our task here is to automate the manual configuration setting while creating EC2 from AWS console.
+
+## 1. Key pair creation
+```Bash
+resource "aws_key_pair" "terraform-ec2" {
+  key_name   = "terraform-ec2"
+  public_key = file("./terra-key.pub")
+}
+```
+In this code you can see I am creating a resource of key pair which I will later use to login (SSH) n my EC2 instance.
+
+Now you may ask that OK I am creating a key pair resource with the name field correct but what about the file ? Like what is the file thing and inside I have a location of `.pub`. What does that mean ?
+
+Well, in simple words, while creating a EC2 instance from AWS console, AWS internally manages SSH key generation for private and public. But right now we are creating instance manually that means we need to take care of the access keys, right ? So I ran a command `ssh-keygen` on my machine on which I am running the terraform and with that SSH keygen command I have got a private key and a public key. Private key is safe with me and I am adding the location of the public key so that I can access this instance from my machine.
+
+Now what is the file? File is an inbuilt function of terraform which enables you to read data from any file location.
+
+## 2. VPC selection
+```bash
+resource "aws_default_vpc" "default" {
+}
+```
+Now here you will see I am creating a resource of `aws_default_vpc` and the name is also default and inside that block there is nothing empty configuration. That means internally terraform will see it like this. First it will check if my AWS console has a default VPC or not, if it is present it will use that and if it is not present then it will create a new VPC automatically.The name of the VPC, the subnet and CIDR all of It will be automatically handled by Terraform and AWS itself.
+
+## 3. Security group
+```bash
+resource "aws_security_group" "terraform-security" {
+  name = "terraform-security"
+  vpc_id = aws_default_vpc.default.id
+}
+```
+While creating an EC2 instance from AWS console, you will notice that there is an option for security group. Either you can left it as default or you can create it on your own. So in terraform, I don't want to keep it as default, I want to make a security group manually so that I can add my custom network configurations and rules there.
+
+## 4. Security group outbound rule
+```bash
+resource "aws_vpc_security_group_egress_rule" "anywhere" {
+  security_group_id = aws_security_group.terraform-security.id
+  cidr_ipv4   = "0.0.0.0/0"
+  ip_protocol = "-1"
+}
+```
+After creating a security group, now I want to allow an outbound rule means I want to allow that my EC2 instance can send request to which part of the Internet.
+
+And for the IPV4 CIDR, I am allowing all Internet access. That means my EC2 instance can send requests to any part of the Internet without any restrictions.
+
+And also I have selected the IP protocol as **-1** that means any protocol is allowed without any restrictions.
+
+## 5. Security group inbound rule
+```bash
+resource "aws_vpc_security_group_ingress_rule" "ssh" {
+  security_group_id = aws_security_group.terraform-security.id
+  cidr_ipv4   = "0.0.0.0/0"
+  from_port   = 22
+  ip_protocol = "tcp"
+  to_port     = 22
+}
+
+resource "aws_vpc_security_group_ingress_rule" "http" {
+  security_group_id = aws_security_group.terraform-security.id
+  cidr_ipv4   = "0.0.0.0/0"
+  from_port   = 80
+  ip_protocol = "tcp"
+  to_port     = 80
+}
+
+resource "aws_vpc_security_group_ingress_rule" "https" {
+  security_group_id = aws_security_group.terraform-security.id
+  cidr_ipv4   = "0.0.0.0/0"
+  from_port   = 443
+  ip_protocol = "tcp"
+  to_port     = 443
+}
+```
+In this section I am defining rules for incoming traffic means from the outside Internet, which IP addresses or which ports can access my EC2 machine and here, if you look very closely, I have only separated the three blocks from its port number and resource name otherwise all the three blocks are entirely same. That means with these three resource blocks I am mentioning that I want to allow request for `http`, `https` and `ssh` from any IPV4 address.
+
+## 6. EC2 creation block
+```bash
+resource "aws_instance" "ec2-server" {
+    ami = "ami-019715e0d74f695be"
+    instance_type = "t3.micro"
+    key_name = aws_key_pair.terraform-ec2.key_name
+    security_groups = [aws_security_group.terraform-security.name]
+    depends_on = [aws_security_group.terraform-security, aws_key_pair.terraform-ec2]
+    root_block_device {
+        volume_size = 8
+        volume_type = "gp3"
+  }
+}
+```
+And now finally in this block we are creating an AWS instance of EC2 and in this block I have added every required configuration, the key pairs, the security groups, the size, the instance type and the AMI ID which is Ubuntu in this case.
+
+Now you may notice here is a field called `depends_on` and this field specifies that don't make this instance until these specified resources are already created, which in this case is security group and key pair values.
+***
+
+## Full code
+```bash
+
+# key pair for ssh login
+/*resource "aws_key_pair" "terraform-ec2" {
+  key_name   = "terraform-ec2"
+  public_key = file("./terra-key.pub")
+}*/
+
+# default vpc for ec2
+resource "aws_default_vpc" "default" {
+ 
+}
+
+# security group
+resource "aws_security_group" "terraform-security" {
+  name = "terraform-security"
+  vpc_id = aws_default_vpc.default.id
+}
+
+# security group outbound rule
+resource "aws_vpc_security_group_egress_rule" "anywhere" {
+  security_group_id = aws_security_group.terraform-security.id
+  cidr_ipv4   = "0.0.0.0/0"
+  ip_protocol = "-1"
+}
+
+# security group inbound rule (ssh)
+resource "aws_vpc_security_group_ingress_rule" "ssh" {
+  security_group_id = aws_security_group.terraform-security.id
+  cidr_ipv4   = "0.0.0.0/0"
+  from_port   = 22
+  ip_protocol = "tcp"
+  to_port     = 22
+}
+
+# security group inbound rule (http)
+resource "aws_vpc_security_group_ingress_rule" "http" {
+  security_group_id = aws_security_group.terraform-security.id
+  cidr_ipv4   = "0.0.0.0/0"
+  from_port   = 80
+  ip_protocol = "tcp"
+  to_port     = 80
+}
+
+# security group inbound rule (https)
+resource "aws_vpc_security_group_ingress_rule" "https" {
+  security_group_id = aws_security_group.terraform-security.id
+  cidr_ipv4   = "0.0.0.0/0"
+  from_port   = 443
+  ip_protocol = "tcp"
+  to_port     = 443
+}
+
+# ec2 instance 
+resource "aws_instance" "ec2-server" {
+    ami = "ami-019715e0d74f695be"
+    instance_type = "t2.micro"
+    # key_name = aws_key_pair.terraform-ec2.key_name
+    security_groups = [aws_security_group.terraform-security.name]
+    depends_on = [aws_security_group.terraform-security]
+    root_block_device {
+        volume_size = 8
+        volume_type = "gp3"
+  }
+}
+
+```
+
+
+Now after all this, you can run the following commands :
+1. `terraform init`
+2. `terraform plan`
+3. `terraform apply`
+
+**Congratulations** 🎉
+you just created your first EC2 instance with terraform.
+
+> **NOTE :** While creating this EC2 instance we have selected our default VPC. But if you want to destroy all these resources with the command `terraform destroy` then it may delete all the resources in your AWS console even with your default VPC because when you ran terraform apply the default VPC state has been recorded in the `.tfstate` file, so be aware while running `terraform destroy`.
+
+***
+Thank you for reading ❤️
