@@ -122,10 +122,10 @@ Now you may notice here is a field called `depends_on` and this field specifies 
 ```bash
 
 # key pair for ssh login
-/*resource "aws_key_pair" "terraform-ec2" {
+resource "aws_key_pair" "terraform-ec2" {
   key_name   = "terraform-ec2"
   public_key = file("./terra-key.pub")
-}*/
+}
 
 # default vpc for ec2
 resource "aws_default_vpc" "default" {
