@@ -1,0 +1,165 @@
+---
+title: This 30% Terraform you'll use in 70% cases
+author: Sudipto Das
+date: 9 Mar, 2026
+featured: false
+tags:
+  - Terraform
+  - IaC
+---
+ 
+# This 30% Terraform you'll use in 70% cases
+ Terraform is an Infrastructure as Code or IaC tool which helps you create and manage cloud infrastructure by writing codes.
+
+In this article I will guide you that how much terraform you actually need to know before starting and is this enough or what else you need to learn.
+
+Whatever code you will write in terraform, the extension should be of `.tf` and the codes are will be written in 3rd brackets `{}`
+
+## 1. Terraform block
+Terraform block is a high level or you should say a top level block that defines the configuration for your terraform.
+Here you can specify your providers, your backend settings, your versions and other required configurations.
+
+It looks something like this : 
+```Bash
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "6.35.1"
+    }
+  }
+}
+```
+Here you can see I have a Terraform top level block and inside that I have a block specifying required providers. That means specifying which provider I am going to use that is AWS.
+
+## 2. Provider
+The provider block in Terraform specifies the configuration for a particular provider. For example, setting up the version, the region, or other specific configurations.
+
+```Bash
+provider "aws" {
+  region = "ap-south-1"
+}
+```
+Here you can see I have a provider of AWS and inside that I am specifying the region which is `ap-south-1`.
+
+## 3. Resource
+A resource block is used when you want to manage or create any particular service in a cloud provider.
+For example, if you want to manage or create EC2 instances, S3 bucket, DynamoDB or any other service in that case you will use resource block.
+
+```Bash
+resource "aws_instance" "ec2-server" {
+    ami = "ami-019715e0d74f695be"
+    instance_type = "t3.micro"
+}
+```
+
+Now this is a very simple code that specifying that I am creating a resource of `aws_instance` and I am giving a name that is **ec2-server** and inside that block I am defining 2 things first the `ami` and 2nd thing is the `instance type`.
+
+Now you can notice that before writing the block, there are three things.
+
+-   First is defining a resource
+-   Second is the resource type
+-   And the third one is the name of your choice
+
+This is just an example where I have shown you how you can create a resources for a EC2 instance just like this you can create resources for literally anything and you can find the resources documentation in the official Hashicorp website.
+
+[Check for official documentation](https://registry.terraform.io/)
+
+## 4. Output
+An output block in Terraform is used when you want to display information for any resource after creation. You can think of it is like printing some details for that particular resource.
+
+```Bash
+resource "aws_instance" "ec2-server" {
+    ami = "ami-019715e0d74f695be"
+    instance_type = "t3.micro"
+}
+
+output "instance_public_ip" {
+  value = aws_instance.ec2-server.public_ip
+}
+```
+In the above code you can simply see that I have two things. First I have created a resource of EC2 and then I have created an output block. That means I am telling that after the resource was created, I want to display the public IP of that resource.
+
+The `instance_public_ip` is just the name of the output block which I have mentioned. You can name it anything of your choice.
+
+In the output block I have mentioned a field which is value. That means inside the value I will be getting the public IP of the EC2 instance which I have just created and it will just display that in the terminal.
+
+You can see properly that I am accessing my AWS EC2 server by a dot operator and the format is like this.
+1.  First I am mentioning the resource type which is `aws_instance`.
+2.  Then with the dot operator I am accessing it's child.
+3.  Inside that I have an instance created with the name `ec2-server` and in that I have a **public_ip** key and I want that field.
+
+## 5. Variables
+If you are familiar with any programming language, then you must know that variables are nothing but just a container that holds any value.
+
+**Earlier :**
+```Bash
+resource "aws_instance" "ec2-server" {
+    ami = "ami-019715e0d74f695be"
+    instance_type = "t3.micro"
+}
+```
+Here we are manually hard coding the AMI ID and the instance type which is good but we can make it better by defining variables.
+
+**With Variables :**
+```Bash
+variable "instance_type" {
+  type = string
+  default = "t3.micro"
+}
+
+variable "instance_ami_id" {
+  type = string
+  default = "ami-019715e0d74f695be"
+}
+
+resource "aws_instance" "ec2-server" {
+    ami = var.instance_ami_id
+    instance_type = var.instance_type
+}
+```
+Now here you can see instead of manually hard coding the AMI and instance type, I have created 2 variable blocks and have defined default values for AMI and instance type. Now instead of manually hard coding I can simply pass the variable with their default value.
+
+Now you may think that if I can simply write the values there, why use variable ? It is like you are writing more code which is of no use but in real production cases you'll don't know that on which folders or on which files you will write what values. And if you need to change anything you have to change on every places which you can't remember. That's why you need to create variable blocks so that whenever in future you need to change anything you can change only on one place and everywhere that variables are being used it will be changed automatically.
+
+## 6. State management
+Whenever you use Terraform to create cloud infrastructure, it creates a state management file which ends with the extension `.tfstate`.
+
+You can think of this file as a memory for Terraform. Whenever Terraform creates any cloud infrastructure it needs to keep the track of the created infrastructure so that in future it can destroy, manage or update. So a `.tfstate` file manages that.
+
+> **NOTE :** In most of the cases you usually don't touch or make any changes in the `.tfstate` file because it is automatically created by Terraform and Terraform itself manages it.
+***
+
+## Terraform important commands
+1. Init
+2. Validate
+3. Plan
+4. Apply
+5. Destroy
+
+### 1. `terraform init`
+Terraform `init` command is very much similar to the command `git init`.
+
+Initially, when you write code in a folder, it cannot track it, but when you write `git init`, that folder becomes trackable by git. Just like this in a folder when you write Terraform code files, Terraform can't actually execute any commands or create infrastructure. For that, you need to initialize the folder for Terraform and that's why we run `terraform init` in the very first stage.
+
+### 2. `terraform validate`
+When you write any terraform code for infrastructure creation or modifying, you need to be sure that syntax and every configuration is valid before applying the changes. So `terraform validate` command is used to check the syntax in every configuration and at the end it returns a success if everything is valid or an error in case anything is wrong.
+
+Well, this command is not mandatory but recommended for learners. You can skip this command only when you know that your configuration code is 100% correct.
+
+### 3. `terraform plan`
+After you have written code for creating / managing infrastructure, now you need to review that what changes are going to happen, what new resources are going to add, outputs, variables each and everything and terraform plan command helps you with that.
+
+### 4. `terraform apply`
+After creating the configuration code, when you need to make changes in your AWS console, you run the command `terraform apply`. And when you run terraform apply, the entire infrastructure that you have written with code gets created on your AWS console and after this command the `.tfstate` file gets created for managing the state.
+
+### 5. `terraform destroy`
+This command is used to delete all the resources that are created with terraform.
+
+For example, whenever you create an infrastructure with the command `terraform apply` the `.tfstate` file gets automatically created and when you run `terraform destroy`, terraform internally checks the `.tfstate` file and deletes the resources which are created by terraform.
+
+***
+Now these are the concepts which are frequently used while working with Terraform and mostly used in real production environments. But it is always recommended that you learn advanced concepts after getting comfortable with the essential ones.
+***
+
+Thank you for reading ❤️
