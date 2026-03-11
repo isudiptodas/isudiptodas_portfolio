@@ -1,0 +1,183 @@
+---
+title: Creating AWS VPC & other network components with Terraform
+author: Sudipto Das
+date: 12 Mar, 2026
+featured: false
+tags:
+  - AWS
+  - Networking
+  - VPC
+  - Terraform
+  - IaC
+---
+ 
+# Creating AWS VPC & other network components with Terraform
+In this article we are going to see that how we can create a Virtual private cloud or VPC in AWS with Terraform. And not only just VPC, but other network components like subnets, routes, internet gateway, everything we will cover in this article.
+
+Now for this article, I wanted to keep everything free of cost and that's why I have excluded NAT gateway creation.
+
+**Will create :**
+1. VPC with CIDR range
+2. Subnets
+3. Internet Gateway
+4. Route Table
+
+If you don't know how to set up terraform then you can check out this article where I have properly guided you to set up Terraform and even Ansible you can check this out.
+
+[Terraform setup]([https://isudiptodas-portfolio.vercel.app/articles/understanding_terraform_and_ansible](https://isudiptodas-portfolio.vercel.app/articles/understanding_terraform_and_ansible))
+
+And in case you want to revise some terraform topics before starting this, you can check this article.
+
+[Terraform basics]([https://isudiptodas-portfolio.vercel.app/articles/30_70_terraform](https://isudiptodas-portfolio.vercel.app/articles/30_70_terraform))
+
+
+## 1. VPC creation
+
+```bash
+resource "aws_vpc" "new-vpc" {
+  cidr_block = "10.0.0.0/16"
+  tags = { 
+     Name = "new-vpc"
+  }
+}
+```
+
+Now here in the first block we are creating a resource of `aws_vpc` with a name and inside that I am defining A CIDR block range that means I want to assign IPV4 addresses upto 16 bits (65,136 unique addresses) for my VPC. And also passing the name of my VPC under tags block.
+
+## 2. Internet Gateway creation
+```bash
+resource "aws_internet_gateway" "new-itg" {
+  vpc_id = aws_vpc.new-vpc.id
+  tags = {
+    Name = "new-internet-gateway"
+  }
+}
+```
+
+Now after creating a VPC, I want to create an Internet gateway so that my subnets will get Internet access and anyone can access my subnet outside my VPC as well.
+
+So here I am creating an AWS resource of type `aws_internet_gateway` with a name **new-itg** and in the tag I am passing the Internet gateway name which I want to assign it and I am doing nothing extra but just connecting my VPC ID to the Internet gateway by accessing the new VPC which I have just created.
+
+## 3. Route Table creation
+```bash
+resource "aws_route_table" "new-route-table" {
+  vpc_id = aws_vpc.new-vpc.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.new-itg.id
+  }
+  route {
+    cidr_block = aws_vpc.new-vpc.cidr_block
+    gateway_id = "local"
+  }
+  tags = {
+    Name = "new-route-table"
+  }
+}
+
+```
+
+Here we are defining a route table which will be associated with my new VPC.
+
+And here you will notice that obviously I have attached my VPC ID but other than that I have also defined 2 route blocks. In the first route block I have two things CIDR block and gateway ID and same goes for the second route block now what does these route blocks do exactly ?
+
+> Route tables are created under a VPC and every subnet needs a route table and whatever routes will be added in that route table based on that, the subnet will be defined as public or private.
+
+And here in this route table I am defining 2 routes. In the first route you will notice that I am defining a CIDR block which is **0.0.0.0/0** and in the gateway ID I am passing the Internet gateway ID which I have just created that means allow every route to access the internet gateway. And in the second route block I have defined the CIDR block as my new VPC CIDR block and gateway as **local** that means in this route block I am defining that every route or every request that will come under my VPC keep them limited to this VPC network only and they should no go outside my VPC.
+
+If you are having confusion understanding this then remember by this simple formula.While creating a VPC we have defined a CIDR block range that these many IP addresses I want which is around 65,000. Now defining a VPC itself does nothing we have to create subnets as well because every resources we will use that will reside under a subnet. Now in the route table you will see I have 2 routes. 
+
+First one is pointing to a Internet gateway and the second one is pointing to local. That means here are two scenarios. If any of the IP addresses want to communicate with any other resource or any other IP address and both the IP addresses falls under my CIDR block range then keep them under my VPC network. They should not leave my VPC, this is the first route and the second route where it is pointing to an Internet gateway. Here the all the 0 means other than my CIDR block, if any other IP address request comes, forward them to the Internet gateway.
+
+## 4. Subnet creation
+
+```bash
+resource "aws_subnet" "public-subnet" {
+  count = 3
+  vpc_id     = aws_vpc.new-vpc.id
+  cidr_block = "10.0.${count.index + 1}.0/24"
+  availability_zone = element(["ap-south-1a", "ap-south-1b", "ap-south-1c"], count.index)
+  tags = {
+    Name = "public-subnet-${count.index + 1}"
+  }
+}
+```
+
+Now in this section I am creating a resource of `aws_subnet` and obviously I'm attaching my VPC ID and here you will notice I am providing A CIDR block and now you may ask that if I have already defined A CIDR block under my VPC then why would I again need to define a CIDR block for a subnet ? Then the answer is, even if you defined a CIDR block while creating a VPC that means it is a whole apartment, you have rented out a whole apartment and while creating a subnet you also need to define a CIDR range because even if there is an apartment, you will still need some space for making rooms that is the thing.
+
+And you notice here are two new fields, one is count and the second one is availability zone. Now availability zone is mandatory but count is not mandatory but I have added the count as 3. That means I want 3 subnets and in the availability zone I am just defining with an element function the three availability zone and AWS by default categorize the availability zone based on alphabets like **a**, **b**, **c**, these are default so I am creating 3 subnets in three availability zones.
+
+> These 3 subnets are public because they are pointing to the internet gateway
+
+## 5. Route Table association
+
+```bash
+resource "aws_route_table_association" "new-association" {
+  subnet_id      = aws_subnet.public-subnet[count.index].id
+  route_table_id = aws_route_table.new-route-table.id
+}
+```
+
+Now this is the final section and here we are again creating a resource of `aws_route_table_association` and in this section we are simply attaching the route tables which we have created earlier with the subnets. Because we have created route tables but those are independent and we have created subnets that are also independent, they are not connected so in this section we are making the connection between them. We are basically attaching the route tables with the subnet and if we don't attach this then our subnets will be of no use, they cannot reach the Internet or no one can access our subnet so it will become useless.
+
+***
+**Congratulations 🎉**
+You have created an entire VPC and other resources with just some simple line of codes.
+***
+
+## Full code :
+
+```bash
+
+# new VPC
+resource "aws_vpc" "new-vpc" {
+  cidr_block = "10.0.0.0/16"
+  tags = { 
+     Name = "new-vpc"
+  }
+}
+
+# internet gateway under a new VPC
+resource "aws_internet_gateway" "new-itg" {
+  vpc_id = aws_vpc.new-vpc.id
+  tags = {
+    Name = "new-internet-gateway"
+  }
+}
+
+# route table under a new VPC with routes
+resource "aws_route_table" "new-route-table" {
+  vpc_id = aws_vpc.new-vpc.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.new-itg.id
+  }
+  route {
+    cidr_block = aws_vpc.new-vpc.cidr_block
+    gateway_id = "local"
+  }
+  tags = {
+    Name = "new-route-table"
+  }
+}
+
+# subnets under VPC
+resource "aws_subnet" "public-subnet" {
+  count = 3
+  vpc_id     = aws_vpc.new-vpc.id
+  cidr_block = "10.0.${count.index + 1}.0/24"
+  availability_zone = element(["ap-south-1a", "ap-south-1b", "ap-south-1c"], count.index)
+  tags = {
+    Name = "public-subnet-${count.index + 1}"
+  }
+}
+
+# connecting route tables with subnets
+resource "aws_route_table_association" "new-association" {
+  subnet_id      = aws_subnet.public-subnet[count.index].id
+  route_table_id = aws_route_table.new-route-table.id
+}
+```
+***
+
+Thank you for reading ❤️
