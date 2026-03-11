@@ -1,0 +1,62 @@
+---
+title: This is why your API response time is high... just like your expectations
+author: Sudipto Das
+date: 11 Mar, 2026
+featured: false
+tags:
+  - API
+  - System Design
+---
+ 
+# This is why your API response time is high... just like your expectations
+You created a beautiful landing page. Everything in your website looks minimalistic, great and lovely with micro interactions and animations. You have used latest tech stack. You have built the entire frontend, backend with database connectivity. Everything looks fine and you are ready to deploy your website.
+
+And after deploying your website, you give your URL to the entire world. For the first day it feels fine. For the first week you feel like you have created a revolution in the IT world. And after one month at midnight, 1 customer complaints that your API responses are very slow. It is taking a huge time for even a simple sign up. And boom, now you don't have any idea what has gone wrong.
+
+And to be honest, I know for that particular moment how it feels because I have been in that situation for a very long time. Well, actually a lot of time. And today with my own life experience, I will tell you that what mistakes you can avoid so that you don't have to face this situation again.
+
+Now you may ask, why only API ? So my friend, everything depends on API, because your frontend only helps in displaying the content and for performing interactions but if you don't have a backend API that means your app is completely useless.
+
+Below are some ways and by implementing them you can make your system scale.
+
+## 1. Caching
+![caching](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/caching.png)
+
+Undoubtedly the very best and very common approach for optimizing API calls is caching. Caching simply means store frequently accessed data in the memory so that whenever that particular data is required the API can fetch directly from the cache layer and will not run a database query. It will help save time for database calls and the response time will also increase a little.
+
+**Without caching :**
+Suppose you made an e-commerce website for your own business and there you are selling different electronic products and whenever people come in your homepage, every time the page refreshes and a new database call happens to get all the products from database and return to the frontend. Now if your page will load 100 times, 100 database call occur which will eventually slow down your API response time and will degrade your app performance.
+
+
+**With caching :**
+Now in this same situation, let's add a caching layer. So when the page will load for the first time, the database call will happen and the requested data will be fetched and returned to the frontend but before returning to the frontend, it will be stored in the caching layer. So from the next time, whenever the page will load, the API will not hit the database query, instead it will first look in the caching layer and if it founds the data there, it will just return from the caching layer and no database query will happen. This will eventually make your API responses much faster.
+
+**Why caching ?**
+If you are creating a very small application for testing or for demo purposes in that case maybe caching will not be helpful for you. But in real life cases where the scale is massive and user base grows to million and billion, in that case caching is very much helpful because caching works in the memory (RAM) and every data is stored temporarily in the memory, so accessing becomes much more faster.
+
+## 2. Messaging Queues
+![messaging-queues](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/messaging-queues.png)
+
+Back in the year 2024 when I have just started learning full-stack web development and to be specific learning backend, I got to know about authentication, hashing, sending mail and everything. So what I wanted to do is I want to register people in my website and send them a welcome e-mail.
+
+And at that time my plan was very much simple and easy. User will click on the register button, then I will generate an OTP. After the OTP is verified I will send the mail. Simple. And all of this I am doing from a single route, which is at that time seems great for me. A revolution feeling. But time by time when I worked with real engineers I realized that this is a complete messed up thing that I made in that time.
+
+It is nearly impossible that my API responses or any of my particular route will take only one or two seconds. It is nearly impossible and if we are dependent and putting everything under a single route then we are forcing the user to wait until the loading finishes, every process becomes executed and your welcome email is also ready so here you are basically wasting companies reputation and users time, just like your ex wasted your potential.
+
+To prevent this, we can use messaging queues. That means whatever task that will take time or there is a probability and it will take much longer than we would ever expect push it in a messaging queue. Pushing in a messaging queue means you can perform the rest of the things as it is like collecting data from the frontend, process that data, send a response but you are changing one thing. Instead of processing entire thing in a single API route and then returning a response, you are pushing the complicated task, the task which may need some time to finish in a messaging queue and returning a response and by doing this you are assuring the user that everything is fine and you can proceed to the next process or next step and in the background the messaging queue will process that task.
+
+## 3. Database indexing
+![indexing](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/indexing.png)
+
+> This table diagram is just for the purpose of understanding database indexing
+
+
+I have always underestimated this database indexing concept, but in real life it is one of the very crucial and most important step of making a systems database query optimized.
+
+Think of it is like without indexing whenever you run a database query, it will run for the entire table. But if you have configured indexing properly, your query will know that exactly on which row or in which location I have to search so that I can get the proper result.
+
+Indexes are data structure that stores your column data along with a reference or a pointer to that column.
+By default there are no indexes present when you create a database or a table. So when you run a query, your entire tables get searched but if you create an index for a column, then from the next time whenever you will search for a particular query based on that particular column instead of searching in the whole table, the database will know that on which row I should search with the help of indexing.
+
+***
+Thank you for reading ❤️
