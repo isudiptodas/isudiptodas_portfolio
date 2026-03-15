@@ -1,10 +1,18 @@
 'use client'
 
+import type { Metadata } from "next";
 import { documentList } from "@/data/documents";
 import { designList } from "@/data/photo-design";
 import Link from "next/link";
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: "isudiptodas | Design",
+  description: "Collection of minimalistic and premium designs covering social media posters, sports poster, advertisement",
+  creator: 'Sudipto Das',
+  keywords: ['figma', 'canva', 'graphic design']
+};
 
 function page() {
 

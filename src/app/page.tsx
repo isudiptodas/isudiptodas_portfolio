@@ -1,5 +1,6 @@
 'use client'
 
+import type { Metadata } from "next";
 import { SiGooglegemini } from "react-icons/si";
 import Marquee from "react-fast-marquee";
 import Link from "next/link";
@@ -28,6 +29,13 @@ type ArticleListItem = {
   date: string;
   featured: boolean;
   tags: string[];
+};
+
+export const metadata: Metadata = {
+  title: "isudiptodas | Portfolio",
+  description: "Sudipto Das is a full stack web developer who excels in Web Development, UI/UX design and Devops",
+  creator: 'Sudipto Das',
+  keywords: ['devops enthusiast', 'full stack web developer', 'web developer']
 };
 
 function page() {
