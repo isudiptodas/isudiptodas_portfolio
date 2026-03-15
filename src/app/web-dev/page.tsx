@@ -1,18 +1,10 @@
 'use client'
 
-import type { Metadata } from "next";
 import { webProjects } from "@/data/projectList";
 import Link from "next/link";
 import { FaLocationArrow } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 import { FaLightbulb } from "react-icons/fa";
-
-export const metadata: Metadata = {
-  title: "isudiptodas | Web dev",
-  description: "Web Development project collection of Sudipto Das built with latest tech stack",
-  creator: 'Sudipto Das',
-  keywords: ['web development', 'frontend', 'backend']
-};
 
 function page() {
 

@@ -3,9 +3,9 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "isudiptodas | Portfolio",
-  description: "Portfolio website of Sudipto Das",
+  description: "Sudipto Das is a full stack developer along with that he also excels in Web development, System Design, Cloud & DevOps",
   creator: 'Sudipto Das',
-  keywords: ['portfolio', 'isudiptodas']
+  keywords: ['web developer', 'cloud', 'devops', 'full stack developer']
 };
 
 export default function RootLayout({

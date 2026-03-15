@@ -1,15 +1,7 @@
 'use client'
 
-import type { Metadata } from "next";
 import { imageList } from "@/data/photo-design";
 import Link from "next/link";
-
-export const metadata: Metadata = {
-  title: "isudiptodas | Photography",
-  description: "Collection of portraits, long exposure, street photography captured by Sudipto Das",
-  creator: 'Sudipto Das',
-  keywords: ['street photography', 'photography', 'portraits']
-};
 
 function page() {
 

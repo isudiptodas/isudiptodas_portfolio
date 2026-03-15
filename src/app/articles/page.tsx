@@ -1,6 +1,5 @@
 'use client'
 
-import type { Metadata } from "next";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -14,13 +13,6 @@ type ArticleListItem = {
     date: string;
     featured: boolean;
     tags: string[];
-};
-
-export const metadata: Metadata = {
-  title: "isudiptodas | Articles",
-  description: "Articles based on Devops, System Design.",
-  creator: 'Sudipto Das',
-  keywords: ['devops', 'articles', 'system design']
 };
 
 function page() {
