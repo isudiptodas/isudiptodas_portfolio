@@ -1,0 +1,132 @@
+---
+title: Observability in kubernetes cluster is easier than observing your partners mood swings
+author: Sudipto Das
+date: 17 Mar, 2026
+featured: false
+tags:
+  - AWS EKS
+  - Kubernetes
+  - Prometheus
+  - Grafana
+  - Monitoring
+---
+ 
+# Observability in kubernetes cluster is easier than observing your partners mood swings
+
+Observability in kubernetes cluster means tracking the health of your cluster, pods, nodes, how much RAM is consumed, CPU, network traffic, and so on. And in this article we will see how we can setup observability and monitoring in our Kubernetes cluster on AWS EKS which is cloud hosted Kubernetes managed by AWS.
+
+To follow this article you will need to have an AWS account and in that account you must have an EKS cluster running.
+
+Now in this 2026 time, there are a lot of tools and technologies that we can use to set up monitoring and observability in our Kubernetes cluster. But one of the very popular choices in the market are Prometheus and Grafana, and in this article we will use that.
+
+## What is Prometheus & Grafana ?
+Prometheus is a tool that extracts data in a time series format about your cluster, your nodes, your CPU, your network and everything that is related to your Kubernetes cluster and whatever data that Prometheus collects that data is visualized on Grafana.
+
+**Prometheus** -> collect data
+**Grafana** -> display that data in beautiful charts
+
+It is assumed that you are using your local machine with SSH or any terminal that has access to your AWS Kubernetes cluster and AWS CLI installed on that. Because right now we will do everything with the terminal.
+
+1. **Install `helm`**
+2. **Install `Prometheus` and `Grafana` charts**
+3. **Install `kube-prometheus-stack`**
+4. **Expose Grafana dashboard via load balancer**
+
+## 1. Helm install on ubuntu
+You may ask that what exactly is helm and why do I need this ? So helm is basically a package manager for Kubernetes. Just like we have package managers for nodeJS which is npm, we have package manager of pip which is for Python. Similarly we have a package manager for Kubernetes which is helm.
+
+> NOTE : These commands may change in future, so it is always recommended to use commands from the official website.
+
+```bash
+sudo apt-get install curl gpg apt-transport-https --yes  
+curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null  
+echo "deb [signed-by=/usr/share/keyrings/helm.gpg] https://packages.buildkite.com/helm-linux/helm-debian/any/ any main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list  
+sudo apt-get update  
+sudo apt-get install helm
+```
+## 2. Prometheus & Grafana charts install
+After you have installed helm, now you need to install three more things. First you need to add 2 chart repositories. First one is for Prometheus and the second one is for Grafana.
+
+> NOTE : These commands may change in future, so it is always recommended to use commands from the official website.
+
+```bash
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts  
+helm repo add grafana https://grafana.github.io/helm-charts  
+helm repo update
+```
+
+Now here is another confusion. What are charts ? Prometheus chart, Grafana chart ? What exactly is chart ? Understand this simply that charts are nothing but configuration files, and why we are doing this is because if you need to manually set up monitoring and observability with Prometheus and Grafana, we have to manually write each and every configuration file, every pods, every service. So it will be very much time consuming and error prone. That is why we are using **Helm** which is a package manager and with the help of Helm it will be easier for us to get those configuration files which are already written.
+
+## 3. Install kube-prometheus-stack on EKS cluster
+Now in this stage we are going to install kube prometheus stack. And by installing this you will get a lot of things like node exporter, alert manager, kube state metrics etc.
+
+> NOTE : These commands may change in future, so it is always recommended to use commands from the official website.
+
+```bash
+helm install prometheus prometheus-community/kube-prometheus-stack \  
+--namespace monitoring \  
+--create-namespace
+```
+
+Now, after all of the stages are completed, if you run `kubectl get pods -n monitoring` you will get to see pods are running in that namespace and those are installed by helm and those pods will scrape metrics from your cluster
+
+## 4. Expose Grafana via load balancer
+If you run `kubectl get svc -n monitoring` you will see there are a lot of services running in the monitoring namespace and one of the service name is Grafana. That is what we need and that is the Grafana dashboard.
+
+By default you cannot access Grafana dashboards directly. It is of type **ClusterIP** but you have to make it of type **LoadBalancer** so that you will get a public DNS or an IP from which you can access the Grafana dashboard.
+
+And after you have edited the service and made the type load balancer, now again if you run `kubectl get svc -n monitoring`, you will see beside the service grafana there is an external IP or a DNS name and when you will open that DNS in the new browser you will see grafana dashboard will load.
+
+![vpc-diagram](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/grafana-login.png)
+
+**username** -> admin
+**password** -> run `kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode`
+
+### Logged in 🎉
+
+Now after login, if you have followed every step correctly then with the help of helm your dashboards may appear automatically with all the metrics of your cluster. 
+
+## (Skip this part if dashboard is showing by default)
+
+But still in some cases it may happen that the dashboards may not appear automatically because the data source was not configured. So in that case you have to configure the data source manually.
+
+
+## Add prometheus data source
+
+Find the data source section from left tab options and click on it. You will see a section to select **Type**. Select type as **Prometheus** and then you will see a section to add URL.
+
+To find what URL you should add in the data source you will run `kubectl get svc -n monitoring`.
+And in those services you may see a service called **prometheus-kube-prometheus** that is the service we need. So the URL will become : `http://prometheus-kube-prometheus:9090`.
+
+Port **9090** is required because prometheus runs on port **9090**.
+
+Now after adding URL, scroll down and you will see a section of **request type**, by default it may be selected as `POST` but change it to `GET`.
+
+### Data source added 🎉
+
+Now after adding the data source you need to add the dashboard because obviously you have configured the data source now grafana can query from the data source but it needs to show something on the dashboards but if you don't manually add a dashboard style it can't show you.
+
+## Add dashboard
+Go to the dashboard section from the left side tab and select a data source. Select a dashboard style and continue.
+
+![vpc-diagram](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/grafana-dashboard.png)
+
+### Dashboard live 🎉
+
+***
+## How everything works together ?
+Starting from the bigger picture, think of it is like you have a kubernetes cluster and you need something that will scrape your entire cluster information, and with the information you need something to visualize that in a beautiful way.
+
+For scraping -> Prometheus
+For visualizing -> Grafana
+
+Now we can either manually write each and every configuration for installing and managing Prometheus and Grafana, or use any easier way like **helm**. Helm is a package manager and it makes our life very much easy by adding predefined charts which are already written and we can use them.
+
+And with the help of helm, when you run commands to install prometheus charts, grafana charts, kube-prometheus-stack, that means they are added in your kubernetes cluster and they automatically gets started as pods and exposes themselves as services. Those pods continuously scrape data from your kubernetes cluster.
+
+Now this is only the Part 1. In the second part we need something that will query the data and visualize the data in beautiful charts And here comes the role of grafana.
+
+In Grafana, basically a data source was configured. Either you can do it manually or in most of the cases it was configured automatically and grafana queries the prometheus URL to get metrics of your Kubernetes cluster and with those data it displays that in beautiful charts.
+
+***
+Thank you for reading ❤️
