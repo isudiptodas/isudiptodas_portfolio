@@ -19,6 +19,21 @@
   src: url("/fonts/Amore-Christmas.otf") format("opentype");
 }
 
+@font-face {
+  font-family: "HattonMedium";
+  src: url("/fonts/HattonMedium.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Horizon";
+  src: url("/fonts/Horizon.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "RedHatDisplay";
+  src: url("/fonts/RedHatDisplayRegular.ttf") format("truetype");
+}
+
 @theme {
   --font-Michroma: "Michroma", sans-serif; 
   --font-Zen-Dots: "Zen Dots", sans-serif; 
@@ -26,6 +41,9 @@
   --font-Cronde: "Cronde", sans-serif;
   --font-Amore-Christmas: "Amore-Christmas", sans-serif;
   --font-Bright-Marching: "Bright-Marching", sans-serif;
+  --font-Hatton-Medium: "HattonMedium", sans-serif;
+  --font-Horizon: "Horizon", sans-serif;
+  --font-Red-Hat-Display: "RedHatDisplay", sans-serif;
 }
 
 html, .sidebar, .content{
