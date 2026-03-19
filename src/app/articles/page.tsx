@@ -13,6 +13,7 @@ type ArticleListItem = {
     date: string;
     featured: boolean;
     tags: string[];
+    category?: string;
 };
 
 function page() {
