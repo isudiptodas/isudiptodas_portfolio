@@ -1,0 +1,85 @@
+---
+title: Terraform remote backend and state locking
+author: Sudipto Das
+date: 19 Mar, 2026
+featured: false
+tags:
+  - Terraform
+  - IaC
+---
+ 
+# Terraform remote backend and state locking
+
+> NOTE:  To follow this article a terraform setup is mandatory with basic terraform files. To start you can refer this - [Terraform setup](https://isudiptodas-portfolio.vercel.app/articles/understanding_terraform_and_ansible) and then this [Terraform basics](https://isudiptodas-portfolio.vercel.app/articles/30_70_terraform)
+
+There is no doubt that terraform is an exceptional tool and maybe you have heard the term that **"with great powers, comes great responsibility"**. And something similar also applies in terraform as well.
+
+When you use terraform for your own projects it is very good, you can use it on your own level, there is no need to worry for any duplicate creation, any accidental deletion or any misconfiguration. But it is not only a tool to use indivisually, it is mainly used on production level and between a lot of developers and teams.
+
+And in case when other teams or other developers are involving then we need to make sure that certain things don't break at any cost.
+
+Now here is an example. Suppose you are working on your terraform file to create some resources on your AWS console. Now another team mate from your company is also working on the same terraform and he is also trying to create the same resources.Now if you run `terraform apply` and he also does the same from his side then what will happen ? Only one will be applied or both the configurations will be applied. In this case both the configurations will be applied and the configuration states will be managed on both of your systems and now congratulations you have duplicate resources.
+
+Now this is one of many examples. And to prevent these type of situations the terraform remote backend and state locking concepts are there.
+
+## Remote backend
+When you run `terraform apply` a state file automatically gets generated on your machine. Now suppose you are working with different developers on a same project so is it really required that every developer will have their own state management file ? No, right ? Instead there should be one state file for the actual configurations and all developers will use that state file. Now if you use your own file system then the state will be generated on your machine which we don't want. Instead in remote backend we are telling or adding a configuration in terraform that instead of adding a state in my machine store the state somewhere else.
+
+Remote backend is just for storing the state management file on a remote location. 
+In this case we will be using **AWS S3** for storing our state file.
+
+## State locking
+Now that you have added your state file in a remote location. Now it's time to add state locking in your terraform configurations. State locking prevents modifications or concurrent changes from different developers on the same file.
+
+Now here is an example. Suppose you have written configuration to create some resources in your AWS console and your friend has also written configurations to add some resources or modify some resources. Now if both of you will apply the changes then what will happen ? It is a bad practice that all of the configurations will be applied at once. In this case many things can break. So state locking locks the file when one change is occurring or one command is happening at that time. That means no other command can be applied at that time and the next command will be applied only the current command has executed.
+
+## Implementation
+- Remote backend -> AWS S3
+- State locking -> AWS DynamoDB
+
+At very first you have to create the S3 bucket and DynamoDB table which we are going to use here because whenever we run any terraform command, the configurations gets loaded first, then whatever resource are mentioned those gets created so we cannot write configurations to create resources of **s3** and **dynamodb** and backend config all at once.
+
+1. Create an S3 bucket with your desired configurations but don't need to add anything right now.
+2. Create DynamoDB table with partition key (hash key) as **LockID** and only one attribute for now which will be of name **LockID** and type will be **S** (string).
+
+This is the configuration for terraform remote backend and state locking
+```bash
+terraform {
+  backend "s3" {
+    region = "ap-south-1" # on which region to store bucket
+    bucket = "terraform-state-file" # name of the storage bucket
+    key = "terraform/state-file/terraform.tfstate"
+    dynamodb_table = "terraform-lock-table" # name of the table used for state locking
+    encrypt = true
+  }
+  
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      version = "6.35.1"
+    }
+  }
+}
+
+provider "aws" {
+  region = "ap-south-1"
+}
+```
+
+### Done 🎉
+
+Now with this configuration your remote backend and state locking setup is perfectly configured and from now onwards whenever you will work with different teams, doesn't matter how long the team is or how many people have access to the state management file, only one command will be executed at once and it will be make sured by terraform that nothing will break.
+
+***
+Thank you for reading ❤️
+
+
+
+
+
+
+
+
+
+
+
