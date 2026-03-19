@@ -11,6 +11,7 @@ type ArticleListItem = {
     featured: boolean;
     content: string;
     tags: string[];
+    category?: string;
 };
 
 export default async function Page({ params } : any) {
