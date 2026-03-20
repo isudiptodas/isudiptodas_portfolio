@@ -1,0 +1,106 @@
+---
+title: Kubernetes persistent volumes
+author: Sudipto Das
+date: 21 Mar, 2026
+featured: false
+tags:
+  - Kubernetes
+  - AWS EKS
+---
+ 
+# Kubernetes persistent volumes
+
+
+Imagine a situation where you have deployed an application on kubernetes and inside your application you have written a code where you were accepting some data from your frontend, and in that data there is an image as well and you are storing the image in your project root in folder **'/uploads/images'**.
+
+Now here comes a twist. Kubernetes by default is stateless meaning no data is stored permanently on Kubernetes. When you deploy your application using a deployment file or a pod configuration, it may happen that the pod in future may crash or stops due to any unintentional breakout. And in that case all of the data will be gone and you have to start again from the very first.
+
+Now to solve this problem, there is an option called **persistent volumes**.
+
+Persistent volume means storing your data for a longer period of time. Even if your deployment or application gets crashed / stops / restarts, your data will be remain as it is.
+
+## How many ways we can use persisent volumes ?
+Now to use persistent volume you have two options. Either you can use a Managed Kubernetes service, for example Google Kubernetes Engine, AWS EKS or Azure Kubernetes. Or you can run your own Kubernetes cluster on your local machine with the help of kind, Minikube or any other service.
+
+But for this article we will be going with EKS which is managed Kubernetes service hosted on AWS. Because it will give you exposure on how things work on real production environments. And as we are using EKS which is managed by AWS, to store data it will use **Elastic Block Storage (EBS)**. Although there are many more options but to keep things simple we will go with EBS which is highly recommended.
+
+## Concepts
+Before moving to the actual implementation of persistent volumes you need to understand some important concepts.
+
+1. **Persistent volume**: Persistent volume is a way to store data of your applications for a longer period of time. Even if your deployments or applications get crashed or restarts your data will remain as it is unchanged and without affected.
+2. **Persistent volume claims**: Now, persistent volume is just a way to store data for a longer period of time, but to use that you have to claim for that persistent volume. Think of it is like with persistent volume claim you're claiming from your AWS EKS that ***"Hey, give me this much amount of storage on this mount path"***
+3. **Storage class**: Think of storage classes are just the configurations and rules to define how the Kubernetes cluster can create a persistent volume. If you are using any managed Kubernetes service like Google, AWS or Azure, then you typically don't need to create storage classes manually because they take care of it in their underlying architecture. But if you are using self hosted Kubernetes service on your local machine then you may need to write it manually.
+
+## How it works ?
+In this article we are going with AWS EKS and in our case we don't need to write the storage class manually because EKS architecture automatically handles it, so what we need to do is first we need to create a persistent volume claim and then attach that claim with our application. That's it.
+
+```bash
+Persistent volume claim (.yml file)
+    ↓
+Attach to our deployment
+    ↓
+AWS EKS
+------------------------------------------------------------
+Storage class -> create persistent volume -> volume mount
+------------------------------------------------------------
+```
+
+## Implementation
+First I have to create a **persistent volume claim (pvc)**
+
+```bash
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: backend-pvc # name for my volume claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi # how much storage i need
+```
+Now we have just created our persistent volume claim but right now it is of no use to use it properly, we have to attach this persistent volume claim with our deployment file.
+
+For this article we have deployed our application on dockerhub and we will be using that image on our deployment file. And in that application we have a code where we are receiving data and image from the frontend and we are storing those images inside our root project structure on the location **"/uploads/images"** . So we will mount that location with our persistent volume.
+
+```bash
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    app: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: cloudvault-backend
+          image: docker-username/backend
+          ports:
+            - containerPort: 5000
+          volumeMounts:
+            - name: storage
+              mountPath: /app/uploads/images
+
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: backend-pvc # our previously created pvc
+```
+
+Now with this setup we can make sure that even if our deployment or our pods gets crashes / restart, that doesn't matter. Our data will be remain as it is without getting affected.
+
+But here one question you may ask that if my project location for uploading the images is **"/uploads/images"** then why I am starting the volume mount path from **"/app..."** ?
+
+It is because even if the location for uploading my images is **"/upload/images"** but in the container of my application I have defined my work directory as **"/app"**. So I have to give the full path of the container then the location on which I want to mount.
+
+***
+Thanks for reading ❤️
