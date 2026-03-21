@@ -87,7 +87,7 @@ function page() {
             <div className={`w-full h-full bg-linear-to-t from-[#0012ff] via-[#001e8c] to-black`} />
           </div>
 
-          <motion.p initial={{opacity: 0, filter: "blur(20px)"}} animate={{opacity: 1, filter: "blur(0px)"}} transition={{duration: 1, ease: "easeInOut"}} style={{ scale }} className={`w-full select-none absolute top-[40%] text-center text-white font-Red-Hat-Display px-5 md:px-10 xl:px-20 text-sm md:text-lg lg:text-sm xl:text-lg`}>I’m a passionate full-stack developer with over 2 years of hands
+          <motion.p initial={{opacity: 0, filter: "blur(20px)"}} animate={{opacity: 1, filter: "blur(0px)"}} transition={{duration: 1, ease: "easeInOut"}} style={{ scale }} className={`w-full select-none absolute top-[30%] text-center text-white font-Red-Hat-Display px-5 md:px-10 xl:px-20 text-sm md:text-lg lg:text-sm xl:text-lg`}>I’m a passionate full-stack developer with over 2 years of hands
             on experience on MERN stack, NextJS, SpringBoot specializing in building dynamic and responsive user interfaces.
             Currently focusing on devops and building high level systems that scale to millions.</motion.p>
 
@@ -144,11 +144,11 @@ function page() {
             <div className={`w-full px-3 h-auto mt-5 md:mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-items-center gap-4`}>
               {allArticles.length > 0 && allArticles.map((item, index) => {
                 return <div key={index} className={`w-full ${item.featured ? "block" : "hidden"} rounded-xl bg-white px-4 pb-3 flex flex-col justify-between items-center`}>
-                  <p className={`w-full pt-3 text-start font-Red-Hat-Display font-bold text-lg text-black`}>{item.title}</p>
+                  <p className={`w-full pt-3 text-start font-Red-Hat-Display select-none font-bold text-lg text-black`}>{item.title}</p>
 
                   <div className={`w-full mt-3 flex justify-between items-center py-2 gap-5`}>
                     <p className={`w-full rounded-full text-center select-none bg-black text-white text-sm px-4 py-3`}>Read now</p>
-                    <p onClick={() => navigator.clipboard.writeText(`https://isudiptodas-portfolio.vercel.app/${item.slug}`)} className={`w-auto rounded-full bg-[#0012ff] text-white p-3`}><IoMdShareAlt /></p>
+                    <p onClick={() => navigator.clipboard.writeText(`https://isudiptodas-portfolio.vercel.app/${item.slug}`)} className={`w-auto rounded-full bg-[#0012ff] active:bg-[#020fb8] text-white p-3`}><IoMdShareAlt /></p>
                   </div>
                 </div>
               })}
