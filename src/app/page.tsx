@@ -149,8 +149,8 @@ function page() {
                   <p className={`w-full pt-3 text-start font-Red-Hat-Display select-none font-bold text-lg text-black`}>{item.title}</p>
 
                   <div className={`w-full mt-3 flex justify-between items-center py-2 gap-5`}>
-                    <p className={`w-full rounded-full text-center select-none bg-black text-white text-sm px-4 py-3`}>Read now</p>
-                    <p onClick={() => navigator.clipboard.writeText(`https://isudiptodas-portfolio.vercel.app/${item.slug}`)} className={`w-auto rounded-full bg-[#0012ff] active:bg-[#020fb8] text-white p-3`}><IoMdShareAlt /></p>
+                    <p onClick={() => router.push(`/articles/${item.slug}`)} className={`w-full rounded-full text-center select-none bg-black active:opacity-70 duration-150 ease-in-out text-white text-sm px-4 py-3`}>Read now</p>
+                    <p onClick={() => navigator.clipboard.writeText(`https://isudiptodas-portfolio.vercel.app/${item.slug}`)} className={`w-auto rounded-full bg-[#0012ff] active:bg-[#020fb8] duration-150 ease-in-out text-white p-3`}><IoMdShareAlt /></p>
                   </div>
                 </div>
               })}
@@ -168,8 +168,8 @@ function page() {
             <span onClick={() => navigate('https://www.linkedin.com/in/sudiptodas-developer')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><FaLinkedin /></span>
             <span onClick={() => navigate('https://www.x.com/isudiptodas')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><FaSquareXTwitter /></span>
           </div>
-          <div className={`bg-[#080808] w-full h-auto flex justify-center items-center pb-4`}>
-            <p className={`w-full text-center text-white text-[8px] md:text-[10px] opacity-70`}>Designed and developed by Sudipto</p>
+          <div className={`bg-[#080808] w-full h-auto flex justify-center items-center pb-6`}>
+            <p className={`w-full text-center font-Hatton-Medium text-white text-[8px] md:text-[10px] opacity-70`}>Designed and developed by Sudipto</p>
           </div>
         </div>
 
@@ -179,27 +179,6 @@ function page() {
 }
 
 export default page
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
