@@ -16,6 +16,7 @@ import { testimonials } from "@/data/testimonials";
 import { motion, useScroll, useMotionValueEvent, useTransform } from 'framer-motion';
 import axios from "axios";
 import { IoMdShareAlt } from "react-icons/io";
+import ReactLenis from 'lenis/react';
 
 type ArticleListItem = {
   slug: string;
@@ -69,8 +70,18 @@ function page() {
   }
 
   return (
-    <>
-      <div className={`w-full h-auto flex flex-col justify-start items-center relative`}>
+    <ReactLenis root options={{
+          lerp: 0.1,
+          duration: 1.2,
+          smoothWheel: true,
+          smoothTouch: true,
+          wheelMultiplier: 1,
+          touchMultiplier: 2,
+          orientation: "vertical",
+          gestureOrientation: "vertical"
+        }}>
+      
+      <div className={`w-full h-auto flex flex-col justify-start items-center relative overflow-hidden`}>
 
         {/* hero section */}
         <div className={`w-full z-10 h-screen fixed top-0 flex justify-center items-center`}>
@@ -174,7 +185,7 @@ function page() {
         </div>
 
       </div>
-    </>
+    </ReactLenis>
   )
 }
 
