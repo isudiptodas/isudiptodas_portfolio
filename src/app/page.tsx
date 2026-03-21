@@ -74,7 +74,6 @@ function page() {
           lerp: 0.1,
           duration: 1.2,
           smoothWheel: true,
-          smoothTouch: true,
           wheelMultiplier: 1,
           touchMultiplier: 2,
           orientation: "vertical",
