@@ -14,9 +14,9 @@ export const works = [
         image: `/assets/work-background/photography.jpg`,
         link: `/photography`
     },
-    {
-        title: `Video`,
-        image: `/assets/work-background/video.png`,
-        link: `/video`
-    },
+    // {
+    //     title: `Video`,
+    //     image: `/assets/work-background/video.png`,
+    //     link: `/video`
+    // },
 ];

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import ReactLenis from 'lenis/react';
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -16,7 +17,16 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning>
-        {children}
+        <ReactLenis root options={{
+          lerp: 0.1,
+          duration: 1.2,
+          smoothWheel: true,
+          wheelMultiplier: 1,
+          touchMultiplier: 2,
+          orientation: "vertical"
+        }}>
+          {children}
+        </ReactLenis>
       </body>
     </html>
   );

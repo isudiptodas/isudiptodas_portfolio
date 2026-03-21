@@ -24,6 +24,7 @@ export function readAllArticles() {
       author: data.author,
       date: data.date,
       tags: data.tags,
+      category: data.category,
       featured: data.featured,
     };
   });

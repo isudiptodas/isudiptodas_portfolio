@@ -29,14 +29,14 @@ function page() {
     return (
         <>
             <div className={`w-full bg-[#080808] relative h-auto flex flex-col justify-start items-center overflow-hidden`}>
-                <p className={`absolute left-1/2 -translate-x-1/2 top-7 font-Michroma text-[10px] text-white tracking-[5px]`}>ISUDIPTODAS</p>
+          <p className={`w-full select-none absolute top-6 text-center text-white font-Red-Hat-Display tracking-[0.3rem] text-sm`}>ISUDIPTODAS</p>
                 <div className={`w-full h-auto z-50 flex justify-center items-center px-5 fixed bottom-8`}>
-                    <Link href='/' className={`w-auto px-5 py-3 rounded-full text-white font-Michroma text-[10px] md:text-sm backdrop-blur-3xl bg-white/25`}>Exit Section</Link>
+                    <Link href='/' className={`w-auto px-5 py-3 rounded-full text-white font-Red-Hat-Display text-[10px] md:text-sm backdrop-blur-3xl bg-white/25`}>Exit Section</Link>
                 </div>
 
                 <div className={`w-auto mt-20 xl:mt-28 flex justify-center items-center gap-3 rounded-full border border-gray-300 p-1`}>
-                    <p onClick={() => setOption('design')} className={`${option === 'design' ? "text-black bg-[#B2FF6E]" : "bg-transparent text-white"} cursor-pointer px-5 py-2 rounded-full font-Michroma text-[12px] xl:text-lg`}>Design</p>
-                    <p onClick={() => setOption('document')} className={`${option === 'document' ? "text-black bg-[#B2FF6E]" : "bg-transparent text-white"} cursor-pointer px-5 py-2 rounded-full font-Michroma text-[12px] xl:text-lg`}>Documentation</p>
+                    <p onClick={() => setOption('design')} className={`${option === 'design' ? "text-white bg-[#0012ff]" : "bg-transparent text-white"} cursor-pointer px-5 py-2 rounded-full font-Red-Hat-Display text-[12px] xl:text-lg`}>Design</p>
+                    <p onClick={() => setOption('document')} className={`${option === 'document' ? "text-white bg-[#0012ff]" : "bg-transparent text-white"} cursor-pointer px-5 py-2 rounded-full font-Red-Hat-Display text-[12px] xl:text-lg`}>Documentation</p>
                 </div>
 
                 {option === 'design' && <div className={`w-[95%] h-auto py-5 lg:px-3 columns-2 md:columns-3 lg:columns-4 overflow-auto`}>
