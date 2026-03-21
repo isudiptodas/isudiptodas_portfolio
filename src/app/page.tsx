@@ -87,7 +87,7 @@ function page() {
             <div className={`w-full h-full bg-linear-to-t from-[#0012ff] via-[#001e8c] to-black`} />
           </div>
 
-          <div className={`w-full h-auto absolute top-1/2 flex flex-col justify-center items-center gap-3`}>
+          <div className={`w-full h-auto absolute top-[40%] lg:top-1/2 flex flex-col justify-center items-center gap-8`}>
             <motion.p initial={{opacity: 0, filter: "blur(20px)"}} animate={{opacity: 1, filter: "blur(0px)"}} transition={{duration: 1, ease: "easeInOut"}} style={{ scale }} className={`w-full select-none text-center text-white font-Red-Hat-Display px-5 md:px-10 xl:px-20 text-sm md:text-lg lg:text-sm xl:text-lg`}>I’m a passionate full-stack developer with over 2 years of hands
             on experience on MERN stack, NextJS, SpringBoot specializing in building dynamic and responsive user interfaces.
             Currently focusing on devops and building high level systems that scale to millions.</motion.p>
