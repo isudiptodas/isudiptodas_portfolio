@@ -84,17 +84,17 @@ function page() {
 
         {/* hero section */}
         <div className={`w-full z-10 h-screen fixed top-0 flex justify-center items-center`}>
-          <motion.p initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 0.8, ease: "easeInOut"}} className={`w-full select-none absolute top-6 text-center text-white font-Red-Hat-Display tracking-[0.3rem] text-sm`}>ISUDIPTODAS</motion.p>
+          <motion.p initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 1, ease: "easeInOut"}} className={`w-full select-none absolute top-6 text-center text-white font-Red-Hat-Display tracking-[0.3rem] text-sm`}>ISUDIPTODAS</motion.p>
 
           {/* blue strips */}
           <div className={`w-full bg-black h-full grid grid-cols-7 items-end`}>
-            <div className={`w-full h-full bg-linear-to-t from-[#0012ff] via-[#001e8c] to-black`} />
-            <div className={`w-full h-[70%] bg-linear-to-t from-[#0012ff] via-[#001e8c] to-black`} />
-            <div className={`w-full h-[60%] bg-linear-to-t from-[#0012ff] via-[#001e8c] to-black`} />
-            <div className={`w-full h-1/2 bg-linear-to-t from-[#0012ff] via-[#001e8c] to-black`} />
-            <div className={`w-full h-[60%] bg-linear-to-t from-[#0012ff] via-[#001e8c] to-black`} />
-            <div className={`w-full h-[70%] bg-linear-to-t from-[#0012ff] via-[#001e8c] to-black`} />
-            <div className={`w-full h-full bg-linear-to-t from-[#0012ff] via-[#001e8c] to-black`} />
+            <motion.div initial={{ opacity: 0}} animate={{ opacity: 1 }} transition={{duration: 0.4, ease: "easeInOut"}} className={`w-full h-full bg-linear-to-t from-[#0012ff] via-[#001e8c] to-black`} />
+            <motion.div initial={{ opacity: 0}} animate={{ opacity: 1 }} transition={{duration: 0.6, ease: "easeInOut"}} className={`w-full h-[70%] bg-linear-to-t from-[#0012ff] via-[#001e8c] to-black`} />
+            <motion.div initial={{ opacity: 0}} animate={{ opacity: 1 }} transition={{duration: 0.8, ease: "easeInOut"}} className={`w-full h-[60%] bg-linear-to-t from-[#0012ff] via-[#001e8c] to-black`} />
+            <motion.div initial={{ opacity: 0}} animate={{ opacity: 1 }} transition={{duration: 1, ease: "easeInOut"}} className={`w-full h-1/2 bg-linear-to-t from-[#0012ff] via-[#001e8c] to-black`} />
+            <motion.div initial={{ opacity: 0}} animate={{ opacity: 1 }} transition={{duration: 0.8, ease: "easeInOut"}} className={`w-full h-[60%] bg-linear-to-t from-[#0012ff] via-[#001e8c] to-black`} />
+            <motiin.div initial={{ opacity: 0}} animate={{ opacity: 1 }} transition={{duration: 0.6, ease: "easeInOut"}} className={`w-full h-[70%] bg-linear-to-t from-[#0012ff] via-[#001e8c] to-black`} />
+            <motion.div initial={{ opacity: 0}} animate={{ opacity: 1 }} transition={{duration: 0.4, ease: "easeInOut"}} className={`w-full h-full bg-linear-to-t from-[#0012ff] via-[#001e8c] to-black`} />
           </div>
 
           <div className={`w-full h-auto absolute top-[40%] lg:top-1/2 flex flex-col justify-center items-center gap-8`}>
@@ -105,13 +105,13 @@ function page() {
              <div className={`w-full flex justify-center items-center`}>
                <Marquee speed={70} >
                  {titles.map((item, index) => {
-                return <motion.span initial={{opacity: 0, filter: "blur(20px)"}} animate={{opacity: 1, filter: "blur(0px)"}} transition={{duration: 1.2, ease: "easeInOut"}} style={{ scale }} key={index} className={`text-white text-4xl xl:text-6xl font-Hatton-Medium flex`}>{item} <SiGooglegemini className="mx-5" /></motion.span>
+                return <motion.span initial={{opacity: 0, filter: "blur(20px)"}} animate={{opacity: 1, filter: "blur(0px)"}} transition={{duration: 1, ease: "easeInOut"}} style={{ scale }} key={index} className={`text-white text-4xl xl:text-6xl font-Hatton-Medium flex`}>{item} <SiGooglegemini className="mx-5" /></motion.span>
                  })}
                </Marquee>
              </div>
 
              <div className={`w-full flex justify-center items-center`}>
-               <motion.p initial={{y: 500, opacity: 0}} animate={{y: 0, opacity: 1}} transition={{duration: 0.8, ease: "easeInOut"}} style={{ scale }} className={`w-auto text-[10px] md:text-sm select-none rounded-full bg-white text-black font-Red-Hat-Display font-semibold px-4 py-1`}>Blending tech & creativity</motion.p>
+               <motion.p initial={{y: 500, opacity: 0}} animate={{y: 0, opacity: 1}} transition={{duration: 1, ease: "easeInOut"}} style={{ scale }} className={`w-auto text-[10px] md:text-sm select-none rounded-full bg-white text-black font-Red-Hat-Display font-semibold px-4 py-1`}>Blending tech & creativity</motion.p>
              </div>
           </div>
         </div>
