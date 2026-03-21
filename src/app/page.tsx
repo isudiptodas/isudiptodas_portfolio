@@ -148,7 +148,7 @@ function page() {
 
                   <div className={`w-full mt-3 flex justify-between items-center py-2 gap-5`}>
                     <p className={`w-full rounded-full text-center select-none bg-black text-white text-sm px-4 py-3`}>Read now</p>
-                    <p onClick={() => navigator.clipboard.writeText(`${item.slug}`)} className={`w-auto rounded-full bg-[#0012ff] text-white p-3`}><IoMdShareAlt /></p>
+                    <p onClick={() => navigator.clipboard.writeText(`https://isudiptodas-portfolio.vercel.app/${item.slug}`)} className={`w-auto rounded-full bg-[#0012ff] text-white p-3`}><IoMdShareAlt /></p>
                   </div>
                 </div>
               })}
