@@ -89,7 +89,7 @@ function page() {
                 </div>
 
                 <div className={`w-full px-5 lg:px-8 mt-20 flex justify-start md:justify-center items-center gap-4`}>
-                    <input onChange={(e) => setSearchTerm(e.target.value)} type="text" className={`w-[75%] lg:w-[50%] py-3 md:py-2 px-3 bg-zinc-800 outline-none text-[10px] md:text-sm text-white rounded-full`} placeholder="Search for tags" />
+                    <input onChange={(e) => setSearchTerm(e.target.value)} type="text" className={`w-[75%] lg:w-[50%] py-3 px-3 bg-zinc-800 outline-none text-[10px] md:text-sm text-white rounded-full`} placeholder="Search for tags" />
                     <p onClick={() => setOption(option === 'latest' ? 'oldest' : 'latest')} className={`w-auto px-3 py-1 text-[12px] md:text-sm rounded-full text-gray-400 cursor-pointer select-none capitalize text-center flex justify-center items-center gap-2`}>{option} <FaSort /></p>
                 </div>
 
