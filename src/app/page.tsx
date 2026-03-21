@@ -84,7 +84,7 @@ function page() {
 
         {/* hero section */}
         <div className={`w-full z-10 h-screen fixed top-0 flex justify-center items-center`}>
-          <motion.p initial={{opacity: 0}} animate={{opacity: 1}} transition={{delay: 1, duration: 1.4, ease: "easeInOut"}} className={`w-full select-none absolute top-6 text-center text-white font-Red-Hat-Display tracking-[0.3rem] text-sm`}>ISUDIPTODAS</motion.p>
+          <motion.p initial={{opacity: 0}} animate={{opacity: 1}} transition={{delay: 1, duration: 1.4, ease: "easeInOut"}} className={`w-full select-none absolute top-6 text-center text-white font-Red-Hat-Display tracking-[0.3rem] text-[10px] md:text-sm`}>ISUDIPTODAS</motion.p>
 
           {/* blue strips */}
           <div className={`w-full bg-black h-full grid grid-cols-7 items-end`}>
