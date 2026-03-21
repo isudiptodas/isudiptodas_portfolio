@@ -96,7 +96,7 @@ function page() {
                 <div className={`w-full mt-5 px-5 lg:px-8 pt-8 pb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-4`}>
 
                     {searchTerm && filteredArticles.map((item, index) => {
-                        return <div onClick={() => router.push(`/articles/${item.slug}`)} key={index} className={`w-full active:bg-zinc-950 duration-150 ease-in-out rounded-xl cursor-pointer flex flex-col justify-start items-start py-5 px-3 bg-zinc-900`}>
+                        return <div onClick={() => router.push(`/articles/${item.slug}`)} key={index} className={`w-full active:bg-zinc-800 duration-300 ease-in-out rounded-xl cursor-pointer flex flex-col justify-start items-start py-5 px-3 bg-zinc-900`}>
                             <span className={`w-auto ${item.category === 'SYSTEM_DESIGN' ? "block" : "hidden"} px-3 py-1 rounded-full text-black text-[10px] border-2`} style={{
                                 borderColor: colors.SYSTEM_DESIGN.border,
                                 backgroundColor: colors.SYSTEM_DESIGN.bg
@@ -120,7 +120,7 @@ function page() {
                     })}
 
                     {!searchTerm && allArticles.map((item, index) => {
-                        return <div onClick={() => router.push(`/articles/${item.slug}`)} key={index} className={`w-full active:bg-zinc-950 duration-150 ease-in-out rounded-xl cursor-pointer flex flex-col justify-start items-start py-5 px-3 bg-zinc-900`}>
+                        return <div onClick={() => router.push(`/articles/${item.slug}`)} key={index} className={`w-full active:bg-zinc-800 duration-300 ease-in-out rounded-xl cursor-pointer flex flex-col justify-start items-start py-5 px-3 bg-zinc-900`}>
                             <span className={`w-auto ${item.category === 'SYSTEM_DESIGN' ? "block" : "hidden"} px-3 py-1 rounded-full text-black text-[10px] border-2`} style={{
                                 borderColor: colors.SYSTEM_DESIGN.border,
                                 backgroundColor: colors.SYSTEM_DESIGN.bg
@@ -150,11 +150,6 @@ function page() {
 
 
 export default page;
-
-
-
-
-
 
 
 
