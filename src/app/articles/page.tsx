@@ -23,6 +23,7 @@ function page() {
     const [filteredArticles, setFilteredArticles] = useState<ArticleListItem[] | []>([]);
     const [option, setOption] = useState('latest');
     const [searchTerm, setSearchTerm] = useState('');
+    const [count, setCount] = useState<number | null>(null);
     const router = useRouter();
 
     const colors = {
@@ -46,6 +47,7 @@ function page() {
                 const res = await axios.get(`/api/article`);
                 setAllArticles(res.data);
                 setFilteredArticles(res.data);
+                setCount(res.data.length);
             } catch (err) {
                 console.log(err);
             }
@@ -78,6 +80,7 @@ function page() {
         });
 
         setFilteredArticles(filtered);
+        setCount(filtered.length);
     }, [searchTerm]);
 
     return (
@@ -91,6 +94,10 @@ function page() {
                 <div className={`w-full px-5 lg:px-8 mt-20 flex justify-start md:justify-center items-center gap-4`}>
                     <input onChange={(e) => setSearchTerm(e.target.value)} type="text" className={`w-[75%] lg:w-[50%] py-3 px-3 bg-zinc-800 outline-none text-[10px] md:text-sm text-white rounded-full`} placeholder="Search for tags" />
                     <p onClick={() => setOption(option === 'latest' ? 'oldest' : 'latest')} className={`w-auto px-3 py-1 text-[12px] md:text-sm rounded-full text-gray-400 cursor-pointer select-none capitalize text-center flex justify-center items-center gap-2`}>{option} <FaSort /></p>
+                </div>
+
+                <div className={`w-full px-5 lg:px-8 flex justify-start items-start pt-5 pb-3`}>
+                  <p className={`w-full select-none text-start text-white text-[12px] lg:text-sm font-Red-Hat-Display`}>Showing {count} results</p>
                 </div>
 
                 <div className={`w-full mt-5 px-5 lg:px-8 pt-8 pb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-4`}>
