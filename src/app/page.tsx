@@ -93,7 +93,7 @@ function page() {
             <motion.div initial={{ opacity: 0}} animate={{ opacity: 1 }} transition={{duration: 0.8, ease: "easeInOut"}} className={`w-full h-[60%] bg-linear-to-t from-[#0012ff] via-[#001e8c] to-black`} />
             <motion.div initial={{ opacity: 0}} animate={{ opacity: 1 }} transition={{duration: 1, ease: "easeInOut"}} className={`w-full h-1/2 bg-linear-to-t from-[#0012ff] via-[#001e8c] to-black`} />
             <motion.div initial={{ opacity: 0}} animate={{ opacity: 1 }} transition={{duration: 0.8, ease: "easeInOut"}} className={`w-full h-[60%] bg-linear-to-t from-[#0012ff] via-[#001e8c] to-black`} />
-            <motiin.div initial={{ opacity: 0}} animate={{ opacity: 1 }} transition={{duration: 0.6, ease: "easeInOut"}} className={`w-full h-[70%] bg-linear-to-t from-[#0012ff] via-[#001e8c] to-black`} />
+            <motion.div initial={{ opacity: 0}} animate={{ opacity: 1 }} transition={{duration: 0.6, ease: "easeInOut"}} className={`w-full h-[70%] bg-linear-to-t from-[#0012ff] via-[#001e8c] to-black`} />
             <motion.div initial={{ opacity: 0}} animate={{ opacity: 1 }} transition={{duration: 0.4, ease: "easeInOut"}} className={`w-full h-full bg-linear-to-t from-[#0012ff] via-[#001e8c] to-black`} />
           </div>
 
