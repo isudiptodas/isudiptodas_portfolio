@@ -160,7 +160,7 @@ function page() {
 
                   <div className={`w-full mt-3 flex justify-between items-center py-2 gap-5`}>
                     <p onClick={() => router.push(`/articles/${item.slug}`)} className={`w-full rounded-full text-center select-none bg-black active:opacity-70 duration-150 ease-in-out text-white text-sm px-4 py-3`}>Read now</p>
-                    <p onClick={() => navigator.clipboard.writeText(`https://isudiptodas-portfolio.vercel.app/${item.slug}`)} className={`w-auto rounded-full bg-[#0012ff] active:bg-[#020fb8] duration-150 ease-in-out text-white p-3`}><IoMdShareAlt /></p>
+                    <p onClick={() => navigator.clipboard.writeText(`https://www.isudiptodas.online/articles/${item.slug}`)} className={`w-auto rounded-full bg-[#0012ff] active:bg-[#020fb8] duration-150 ease-in-out text-white p-3`}><IoMdShareAlt /></p>
                   </div>
                 </div>
               })}
