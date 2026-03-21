@@ -96,11 +96,11 @@ function page() {
                     <p onClick={() => setOption(option === 'latest' ? 'oldest' : 'latest')} className={`w-auto px-3 py-1 text-[12px] md:text-sm rounded-full text-gray-400 cursor-pointer select-none capitalize text-center flex justify-center items-center gap-2`}>{option} <FaSort /></p>
                 </div>
 
-                <div className={`w-full px-5 lg:px-8 flex justify-start items-start pt-5 pb-3`}>
+                <div className={`w-full px-5 lg:px-8 flex justify-start items-start pt-7 pb-5`}>
                   <p className={`w-full select-none text-start text-white text-[12px] lg:text-sm font-Red-Hat-Display`}>Showing {count} results</p>
                 </div>
 
-                <div className={`w-full mt-5 px-5 lg:px-8 pt-8 pb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-4`}>
+                <div className={`w-full px-5 lg:px-8 pb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-4`}>
 
                     {searchTerm && filteredArticles.map((item, index) => {
                         return <div onClick={() => router.push(`/articles/${item.slug}`)} key={index} className={`w-full active:bg-zinc-800 duration-300 ease-in-out rounded-xl cursor-pointer flex flex-col justify-start items-start py-5 px-3 bg-zinc-900`}>
