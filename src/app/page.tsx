@@ -84,7 +84,7 @@ function page() {
 
         {/* hero section */}
         <div className={`w-full z-10 h-screen fixed top-0 flex justify-center items-center`}>
-          <motion.p initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 1.4, ease: "easeInOut"}} className={`w-full select-none absolute top-6 text-center text-white font-Red-Hat-Display tracking-[0.3rem] text-sm`}>ISUDIPTODAS</motion.p>
+          <motion.p initial={{opacity: 0}} animate={{opacity: 1}} transition={{delay: 1, duration: 1.4, ease: "easeInOut"}} className={`w-full select-none absolute top-6 text-center text-white font-Red-Hat-Display tracking-[0.3rem] text-sm`}>ISUDIPTODAS</motion.p>
 
           {/* blue strips */}
           <div className={`w-full bg-black h-full grid grid-cols-7 items-end`}>
@@ -98,20 +98,20 @@ function page() {
           </div>
 
           <div className={`w-full h-auto absolute top-[40%] lg:top-1/2 flex flex-col justify-center items-center gap-8`}>
-            <motion.p initial={{opacity: 0, filter: "blur(20px)"}} animate={{opacity: 1, filter: "blur(0px)"}} transition={{duration: 1.4, ease: "easeInOut"}} style={{ scale }} className={`w-full select-none text-center text-white font-Red-Hat-Display px-5 md:px-10 xl:px-20 text-sm md:text-lg lg:text-sm xl:text-lg`}>I’m a passionate full-stack developer with over 2 years of hands
+            <motion.p initial={{opacity: 0, filter: "blur(20px)"}} animate={{opacity: 1, filter: "blur(0px)"}} transition={{delay: 1, duration: 1.4, ease: "easeInOut"}} style={{ scale }} className={`w-full select-none text-center text-white font-Red-Hat-Display px-5 md:px-10 xl:px-20 text-sm md:text-lg lg:text-sm xl:text-lg`}>I’m a passionate full-stack developer with over 2 years of hands
             on experience on MERN stack, NextJS, SpringBoot specializing in building dynamic and responsive user interfaces.
             Currently focusing on devops and building high level systems that scale to millions.</motion.p>
 
              <div className={`w-full flex justify-center items-center`}>
                <Marquee speed={70} >
                  {titles.map((item, index) => {
-                return <motion.span initial={{opacity: 0, filter: "blur(20px)"}} animate={{opacity: 1, filter: "blur(0px)"}} transition={{duration: 1.4, ease: "easeInOut"}} style={{ scale }} key={index} className={`text-white text-4xl xl:text-6xl font-Hatton-Medium flex`}>{item} <SiGooglegemini className="mx-5" /></motion.span>
+                return <motion.span initial={{opacity: 0, filter: "blur(20px)"}} animate={{opacity: 1, filter: "blur(0px)"}} transition={{delay: 1, duration: 1.4, ease: "easeInOut"}} style={{ scale }} key={index} className={`text-white text-4xl xl:text-6xl font-Hatton-Medium flex`}>{item} <SiGooglegemini className="mx-5" /></motion.span>
                  })}
                </Marquee>
              </div>
 
              <div className={`w-full flex justify-center items-center`}>
-               <motion.p initial={{filter: "blur(20px)", opacity: 0}} animate={{opacity: 1, filter: "blur(0px)"}} transition={{duration: 1.4, ease: "easeInOut"}} style={{ scale }} className={`w-auto text-[10px] md:text-sm select-none rounded-full bg-white text-black font-Red-Hat-Display font-semibold px-4 py-1`}>Blending tech & creativity</motion.p>
+               <motion.p initial={{filter: "blur(20px)", opacity: 0}} animate={{opacity: 1, filter: "blur(0px)"}} transition={{delay: 1, duration: 1.4, ease: "easeInOut"}} style={{ scale }} className={`w-auto text-[10px] md:text-sm select-none rounded-full bg-white text-black font-Red-Hat-Display font-semibold px-4 py-1`}>Blending tech & creativity</motion.p>
              </div>
           </div>
         </div>
