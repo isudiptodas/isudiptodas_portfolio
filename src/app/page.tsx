@@ -143,7 +143,7 @@ function page() {
                 return <motion.div initial={{filter: "blur(20px)"}} whileInView={{filter: "blur(0px)"}} transition={{delay: 0.3, duration: 0.4, ease: "easeInOut"}} viewport={{once: true}} key={index} className={`w-full rounded-xl bg-[#e4e4e4] flex flex-col justify-start items-center pb-3`}>
                   <div className={`w-full h-56 rounded-xl overflow-hidden bg-black`}> <img src={item.image} className={`w-full h-full object-cover`} /> </div>
                   <p className={`w-full select-none text-center font-Red-Hat-Display font-bold text-xl py-5`}>{item.title}</p>
-                  <p onClick={() => router.push(item.link)} className={`w-[95%] bg-linear-to-r from-[#0012ff] to-[#001e8c] px-3 py-2 rounded-full select-none text-white font-Red-Hat-Display text-sm text-center cursor-pointer`}>Explore</p>
+                  <p onClick={() => router.push(item.link)} className={`w-[95%] bg-linear-to-r from-[#0012ff] to-[#001e8c] px-3 py-3 rounded-full select-none text-white font-Red-Hat-Display text-sm text-center cursor-pointer`}>Explore</p>
                 </motion.div>
               })}
             </div>
