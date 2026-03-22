@@ -37,7 +37,7 @@ In docker the base images are way too heavy and in most cases we don't really ne
 In dockerfile, every line runs as a new layer and if any layer is already present and unchanged then it is good that we skip that step and move on to the next layer (step).
 For example :
 
-```Dockerfile
+```bash
 FROM node:22-bookworm-slim
 WORKDIR /app
 COPY . .
@@ -48,7 +48,7 @@ CMD [ "npm", "start" ]
 
 Now this is the normal way and it's fine, but we can do much better than this.
 
-```Dockerfile
+```bash
 FROM node:22-bookworm-slim
 WORKDIR /app
 #copy dependency files and install command before copying everything else
@@ -74,7 +74,7 @@ In production we can't just upload our react, typescript or framework code, that
 
 For example :
 
-```Dockerfile
+```bash
 #build the project with required dependencies
 FROM node:22-alpine AS build
 WORKDIR /app
@@ -99,7 +99,7 @@ Use it like this :
 1. Create a .dockerignore file.
 2. List the files or folders you want to exclude during build.
 
-```Dockerfile
+```bash
 node_modules
 dist/
 .env
