@@ -1,7 +1,10 @@
-// MarkdownRenderer.tsx
+"use client"
+
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Components } from "react-markdown";
+import { useEffect } from "react";
+import "prismjs/components/prism-bash";
 
 type Props = {
   content: string;
@@ -30,6 +33,10 @@ const components: Components = {
 };
 
 export default function MarkdownRenderer({ content }: Props) {
+  useEffect(() => {
+    Prism.highlightAll();
+  }, [content]); 
+  
   return (
     <div className="markdown">
       <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
