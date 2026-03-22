@@ -134,10 +134,10 @@ html, .sidebar, .content{
 }
 
 .markdown blockquote {
-  border-left: 4px solid #52525b;
+  border-left: 4px solid #578cff;
   padding-left: 16px;
   margin: 30px 0;
-  color: #d4d4d8;
+  color: #478bff;
   font-style: italic;
   font-size: 12px;
 }
