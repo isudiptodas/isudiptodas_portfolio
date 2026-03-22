@@ -3,23 +3,23 @@ import { MetadataRoute } from "next";
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: "https://isudiptodas-portfolio.vercel.app",
+      url: "https://www.isudiptodas.online",
       lastModified: new Date(),
     },
     {
-      url: "https://isudiptodas-portfolio.vercel.app/design",
+      url: "https://www.isudiptodas.online/design",
       lastModified: new Date(),
     },
     {
-      url: "https://isudiptodas-portfolio.vercel.app/photography",
+      url: "https://www.isudiptodas.online/photography",
       lastModified: new Date(),
     },
     {
-      url: "https://isudiptodas-portfolio.vercel.app/web-dev",
+      url: "https://www.isudiptodas.online/web-dev",
       lastModified: new Date(),
     },
     {
-      url: "https://isudiptodas-portfolio.vercel.app/articles",
+      url: "https://www.isudiptodas.online/articles",
       lastModified: new Date(),
     },
   ];
