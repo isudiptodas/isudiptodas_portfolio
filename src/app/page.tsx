@@ -111,7 +111,7 @@ function page() {
              </div>
 
              <div className={`w-full flex justify-center items-center`}>
-               <motion.p initial={{filter: "blur(20px)", opacity: 0}} animate={{opacity: 1, filter: "blur(0px)"}} transition={{delay: 1, duration: 1.4, ease: "easeInOut"}} style={{ scale }} className={`w-auto text-[10px] md:text-sm select-none rounded-full bg-white text-black font-Red-Hat-Display font-semibold px-4 py-1`}>Blending tech & creativity</motion.p>
+               <motion.p initial={{filter: "blur(20px)", opacity: 0}} animate={{opacity: 1, filter: "blur(0px)"}} transition={{delay: 1, duration: 1.4, ease: "easeInOut"}} style={{ scale }} className={`w-auto text-[10px] md:text-sm select-none rounded-full bg-white/20 backdrop-blur-sm text-white font-Red-Hat-Display font-semibold px-4 py-1`}>Blending tech & creativity</motion.p>
              </div>
           </div>
         </div>
