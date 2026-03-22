@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://isudiptodas-portfolio.vercel.app/sitemap.xml",
+    sitemap: "https://www.isudiptodas.online/sitemap.xml",
   };
 }
