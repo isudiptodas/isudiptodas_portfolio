@@ -4,6 +4,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Components } from "react-markdown";
 import { useEffect } from "react";
+import Prism from "prismjs";
 import "prismjs/components/prism-bash";
 
 type Props = {
