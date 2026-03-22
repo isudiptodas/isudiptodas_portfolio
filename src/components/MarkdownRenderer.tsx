@@ -6,6 +6,7 @@ import { Components } from "react-markdown";
 import { useEffect } from "react";
 import Prism from "prismjs";
 import "prismjs/components/prism-bash";
+import "prismjs/components/prism-yaml";
 
 type Props = {
   content: string;
