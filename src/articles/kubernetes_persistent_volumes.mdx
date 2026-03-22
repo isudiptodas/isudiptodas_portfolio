@@ -49,7 +49,7 @@ Storage class -> create persistent volume -> volume mount
 ## Implementation
 First I have to create a **persistent volume claim (pvc)**
 
-```bash
+```yaml
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -65,7 +65,7 @@ Now we have just created our persistent volume claim but right now it is of no u
 
 For this article we have deployed our application on dockerhub and we will be using that image on our deployment file. And in that application we have a code where we are receiving data and image from the frontend and we are storing those images inside our root project structure on the location **"/uploads/images"** . So we will mount that location with our persistent volume.
 
-```bash
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
