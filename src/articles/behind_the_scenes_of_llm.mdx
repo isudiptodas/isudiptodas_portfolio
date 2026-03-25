@@ -1,0 +1,80 @@
+---
+title: Behind the scenes of an LLM
+author: Sudipto Das
+date: 25 Mar, 2026
+category: AIML
+featured: false
+tags:
+  - LLM
+  - AI/ML
+---
+ 
+# Behind the scenes of an LLM
+When you ask any question to a LLM (Large Language Model) like Google Gemini, ChatGPT, Claude AI, in that case the response almost feels instant. But have you ever wondered that a website or a simple chatbot whenever you ask something, how it knows the answer ? Even in some scenarios where you type the wrong spellings or you failed to write your question properly, but still inside of the LLM it understands what you're trying to ask and replies back with the exact thing which you wanted to know. How exactly all of those things work ?
+
+Now let's move forward, but each step at a time and before jumping right into the topic let's learn some small concepts first.
+
+1. **Tokens :**  Words or parts of words.
+2. **Token splitting :** Breaking down sentences and paragraphs into indivisual words/tokens.
+3. **Embeddings :** Floating point numeric representation of dense vectors.
+
+
+### Example of token & token splitting :
+Query :
+"What is cloud computing ?"
+
+After token splitting :
+["What", "is", "cloud", "computing", "?"]
+
+Token = 5
+
+### Example of embeddings :
+"What" -> [0.01, 0.001, 0.21......]
+"is" -> [0.31, 0.02, 0.11......]
+"cloud" -> [0.04,  0.101......]
+........
+........
+> NOTE: This is the for understanding. It doesn't mean that after converting these words it will give the exact embeddings.
+
+***
+![LLM-overview](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/llm-overview.png)
+
+
+## Step 1. Token splitting :
+In the very first stage, when you submit your query to an LLM, the LLM first breaks the query into individual tokens before proceeding to the next step.
+
+## Step 2. Embedding generation :
+After token splitting each token gets converted into a list of vectors (floating point numbers) or embeddings, which the LLM later processes to find context and predict next possible matched tokens.
+
+## Step 3. Internal processing :
+After the embeddings are generated, all the embeddings are transfered to the internal working system of an LLM where the system uses it's different algorithms to 
+1. Understand your query context
+2. Your sentiment
+3. Gathers necessary details
+
+later, when all these stages are completed then the LLM tries to map each vector to it's most most closest lying vector to predict the next possible token.
+
+***How it maps ? From where it maps ? After mapping how it retrieves answers ?***
+
+Let's understand this in very simple way.
+
+Every LLM or Large Language Model is trained on a lot of predefined data from Internet, reports, books, files, and the list goes on. And after training, the context window or in simple words its memory has reached a certain limit where it is not possible to store in a website or in a database. Instead it is stored in a data center far away from you, maybe at any location of America or any other country. And in its memory only numbers are stored because an LLM understands just numbers and when you ask any query it converts that query also into embeddings and then processes it.
+
+Suppose in this example you have asked the LLM about cloud computing. Now after converting the sentence or each individual word into embedding the LLM in its memory tries to map each individual vectors with its closest or nearest vector element and it does this for a number of times until it generates a certain answer which is theoritically correct and logical.
+
+## Step 4. Final result :
+Now in the beginning stage you saw there are words and then the words are converted into numbers. Then LLM processes those numbers. But while returning the final output the LLM processes the numbers and then in the internal system itself it converts those numbers into actual words with all the punctuations, formatting, and every necessary details. And then returns the final output.
+
+***
+
+## Analogy :
+![LLM-overview](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/similarity-graph.png)
+
+> NOTE: This diagram representation is for understanding and doesn't guarantee accuracy. Similarities depends on various algorithms
+
+Think this analogy of a newborn baby. A baby at the very initial years of his life carries no memory, no understanding. The baby is completely new to the world just like an AI model. Slowly the baby learns to speak, write, the baby can understand alphabets, numbers, grammars, languages, then places and all of that things gets stored in his memory. Later, whenever the baby will come across such similar things then he can quickly remember from his memory that either he knows it or not.
+
+Similarly an LLM also gets trained time by time with a lot of data and it improves. And when it gets any query/question, the LLM thinks (internal system) and tries to gather pieces that can sum up a logical answer.
+
+***
+Thank you for reading ❤️
