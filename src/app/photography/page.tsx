@@ -12,12 +12,6 @@ export const metadata: Metadata = {
 
 function page() {
 
-    /*
-    const openLink = (link: string) => {
-        window.open(link, '_blank');
-    }
-    */
-
     return (
         <>
             <div className={`w-full bg-[#080808] relative h-auto flex flex-col justify-start items-center overflow-hidden`}>
@@ -27,7 +21,20 @@ function page() {
                 </div>
                 <div className={`w-[95%] h-auto py-5 mt-14 lg:px-3 columns-2 md:columns-3 lg:columns-4 overflow-auto`}>
                     {imageList.map((image, index) => {
-                        return <img href={image as string} target="_blank" rel="noopener noreferrer" key={index} src={image} className={`h-auto cursor-pointer my-5 rounded-lg break-inside-avoid`} />
+                        return(
+                          <a 
+                            key={index}
+                            href={image as string}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                           >
+                            <img 
+                              src={image} 
+                              alt="Photography by Sudipto Das"
+                              className="h-auto cursor-pointer my-5 rounded-lg break-inside-avoid"
+                             />
+                         </a>
+                        )
                     })}
                 </div>
             </div>
