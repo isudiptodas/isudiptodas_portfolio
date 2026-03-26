@@ -27,7 +27,7 @@ function page() {
                 </div>
                 <div className={`w-[95%] h-auto py-5 mt-14 lg:px-3 columns-2 md:columns-3 lg:columns-4 overflow-auto`}>
                     {imageList.map((image, index) => {
-                        return <img href={image} target="_blank" rel="noopener noreferrer" key={index} src={image} className={`h-auto cursor-pointer my-5 rounded-lg break-inside-avoid`} />
+                        return <img href={image as string} target="_blank" rel="noopener noreferrer" key={index} src={image} className={`h-auto cursor-pointer my-5 rounded-lg break-inside-avoid`} />
                     })}
                 </div>
             </div>
