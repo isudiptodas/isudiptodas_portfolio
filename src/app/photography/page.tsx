@@ -1,13 +1,22 @@
-'use client'
 
 import { imageList } from "@/data/photo-design";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "isudiptodas | Photography",
+  description: "View a wide range of photography collection of Sudipto Das",
+  creator: 'Sudipto Das',
+  keywords: ['photography', 'street photography', 'cinematic']
+};
 
 function page() {
 
+    /*
     const openLink = (link: string) => {
         window.open(link, '_blank');
     }
+    */
 
     return (
         <>
@@ -18,7 +27,7 @@ function page() {
                 </div>
                 <div className={`w-[95%] h-auto py-5 mt-14 lg:px-3 columns-2 md:columns-3 lg:columns-4 overflow-auto`}>
                     {imageList.map((image, index) => {
-                        return <img onClick={() => openLink(image)} key={index} src={image} className={`h-auto cursor-pointer my-5 rounded-lg break-inside-avoid`} />
+                        return <img href={image} target="_blank" rel="noopener noreferrer" key={index} src={image} className={`h-auto cursor-pointer my-5 rounded-lg break-inside-avoid`} />
                     })}
                 </div>
             </div>
