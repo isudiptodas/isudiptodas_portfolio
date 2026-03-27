@@ -25,6 +25,7 @@ export function readAllArticles() {
       date: data.date,
       tags: data.tags,
       category: data.category,
+      linksAttached: data.linksAttached,
       featured: data.featured,
     };
   });
