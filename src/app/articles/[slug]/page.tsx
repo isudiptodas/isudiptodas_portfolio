@@ -12,6 +12,7 @@ type ArticleListItem = {
     content: string;
     tags: string[];
     category?: string;
+    linksAttached?: boolean;
 };
 
 export default async function Page({ params } : any) {
