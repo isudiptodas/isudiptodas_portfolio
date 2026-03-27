@@ -6,17 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaSort } from "react-icons/fa";
 import { motion } from 'framer-motion';
-
-type ArticleListItem = {
-    slug: string;
-    title: string;
-    author: string;
-    date: string;
-    featured: boolean;
-    tags: string[];
-    category?: string;
-    linksAttached?: boolean;
-};
+import { ArticleType as ArticleListItem } from '@/types/Article';
 
 function page() {
 
