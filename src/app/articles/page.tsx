@@ -15,6 +15,7 @@ type ArticleListItem = {
     featured: boolean;
     tags: string[];
     category?: string;
+    linksAttached?: boolean;
 };
 
 function page() {
