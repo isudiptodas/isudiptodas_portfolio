@@ -17,17 +17,7 @@ import { motion, useScroll, useMotionValueEvent, useTransform } from 'framer-mot
 import axios from "axios";
 import { IoMdShareAlt } from "react-icons/io";
 import ReactLenis from 'lenis/react';
-
-type ArticleListItem = {
-  slug: string;
-  title: string;
-  category?: string;
-  author: string;
-  date: string;
-  featured: boolean;
-  tags: string[];
-  linksAttached?: boolean;
-};
+import { ArticleType as ArticleListItem } from '@/types/Article';
 
 function page() {
 
