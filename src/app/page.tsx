@@ -26,6 +26,7 @@ type ArticleListItem = {
   date: string;
   featured: boolean;
   tags: string[];
+  linksAttached?: boolean;
 };
 
 function page() {
