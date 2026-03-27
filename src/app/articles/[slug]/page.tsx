@@ -2,18 +2,7 @@
 import MarkdownRenderer from "@/components/MarkdownRenderer";
 import axios from "axios";
 import Link from "next/link";
-
-type ArticleListItem = {
-    slug: string;
-    title: string;
-    author: string;
-    date: string;
-    featured: boolean;
-    content: string;
-    tags: string[];
-    category?: string;
-    linksAttached?: boolean;
-};
+import { ArticleType as ArticleListItem } from '@/types/Article';
 
 export default async function Page({ params } : any) {
 
