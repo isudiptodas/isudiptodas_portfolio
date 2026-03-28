@@ -72,7 +72,7 @@ helm install prometheus prometheus-community/kube-prometheus-stack \
 Now, after all of the stages are completed, if you run `kubectl get pods -n monitoring` you will get to see pods are running in that namespace and those are installed by helm and those pods will scrape metrics from your cluster
 
 ## 4. Expose Grafana via load balancer
-If you run `kubectl get svc -n monitoring` you will see there are a lot of services running in the monitoring namespace and one of the service name is Grafana. That is what we need and that is the Grafana dashboard.
+If you run `kubectl get svc -n monitoring` you will see there are a lot of services running in the monitoring namespace and one of the service name is Grafana/Prometheus-Grafana. That is what we need and that is the Grafana dashboard.
 
 By default you cannot access Grafana dashboards directly. It is of type **ClusterIP** but you have to make it of type **LoadBalancer** so that you will get a public DNS or an IP from which you can access the Grafana dashboard.
 
@@ -80,8 +80,8 @@ And after you have edited the service and made the type load balancer, now again
 
 ![vpc-diagram](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/grafana-login.png)
 
-**username** -> admin
-**password** -> run `kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode`
+- **username** -> admin
+- **password** -> run `kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode`
 
 ### Logged in 🎉
 
@@ -97,7 +97,7 @@ But still in some cases it may happen that the dashboards may not appear automat
 Find the data source section from left tab options and click on it. You will see a section to select **Type**. Select type as **Prometheus** and then you will see a section to add URL.
 
 To find what URL you should add in the data source you will run `kubectl get svc -n monitoring`.
-And in those services you may see a service called **prometheus-kube-prometheus** that is the service we need. So the URL will become : `http://prometheus-kube-prometheus:9090`.
+And in those services you may see a service called **prometheus-kube-prometheus-prometheus** that is the service we need. So the URL will become : `http://prometheus-kube-prometheus-prometheus:9090`.
 
 Port **9090** is required because prometheus runs on port **9090**.
 
@@ -108,7 +108,7 @@ Now after adding URL, scroll down and you will see a section of **request type**
 Now after adding the data source you need to add the dashboard because obviously you have configured the data source now grafana can query from the data source but it needs to show something on the dashboards but if you don't manually add a dashboard style it can't show you.
 
 ## Add dashboard
-Go to the dashboard section from the left side tab and select a data source. Select a dashboard style and continue.
+Go to the dashboard section from the left side tab and create a new dashboard, select a data source (Prometheus). Select a dashboard style and continue.
 
 ![vpc-diagram](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/grafana-dashboard.png)
 
