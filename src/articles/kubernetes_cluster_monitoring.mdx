@@ -78,7 +78,7 @@ By default you cannot access Grafana dashboards directly. It is of type **Cluste
 
 And after you have edited the service and made the type load balancer, now again if you run `kubectl get svc -n monitoring`, you will see beside the service grafana there is an external IP or a DNS name and when you will open that DNS in the new browser you will see grafana dashboard will load.
 
-![vpc-diagram](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/grafana-login.png)
+![grafana-login](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/grafana-login.png)
 
 - **username** -> admin
 - **password** -> run `kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode`
@@ -110,7 +110,7 @@ Now after adding the data source you need to add the dashboard because obviously
 ## Add dashboard
 Go to the dashboard section from the left side tab and create a new dashboard, select a data source (Prometheus). Select a dashboard style and continue.
 
-![vpc-diagram](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/grafana-dashboard.png)
+![grafana-dashboard](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/grafana-dashboard.png)
 
 ### Dashboard live 🎉
 
