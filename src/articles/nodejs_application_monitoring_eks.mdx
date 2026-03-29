@@ -1,0 +1,248 @@
+---
+title: NodeJS application monitoring on EKS using prometheus & grafana
+author: Sudipto Das
+date: 29 Mar, 2026
+category: DEVOPS
+linksAttached: true
+featured: false
+tags:
+  - AWS EKS
+  - Kubernetes
+  - Monitoring
+  - Prometheus
+  - Grafana
+---
+ 
+# NodeJS application monitoring on EKS using prometheus & grafana
+
+To move along with this article you will need a free AWS account and an EKS cluster running on that account.
+
+When we talk about monitoring there are around 5-6 types of monitoring in DevOps. And two of the most widely used monitoring styles are cluster monitoring and application performance monitoring. And today we are going to see application monitoring in a nodejs app.
+
+We also covered cluster monitoring on EKS check it out [here](https://www.isudiptodas.online/articles/kubernetes_cluster_monitoring)
+
+## Steps to follow
+1. Install `helm` on ubuntu 
+2. Install prometheus & grafana helm charts
+3. Install `kube-prometheus-stack` 
+4. Setup `prom-client` on nodejs app
+5. Configure new service and ServiceMonitor
+6. Expose grafana with a loadbalancer
+7. Add custom visualization in grafana
+
+## Step 1: Install helm
+
+We have different package managers. For example we have NPM for nodeJS, we have PIP for Python, we have APT for Ubuntu, similarly we have helm package manager for Kubernetes.
+
+> NOTE : These commands may change in future, so it is always recommended to use commands from the official website.
+
+```bash
+sudo apt-get install curl gpg apt-transport-https --yes  
+curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null  
+echo "deb [signed-by=/usr/share/keyrings/helm.gpg] https://packages.buildkite.com/helm-linux/helm-debian/any/ any main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list  
+sudo apt-get update  
+sudo apt-get install helm
+```
+## Step 2: Install prometheus & grafana charts
+Now that we have installed helm, it will help us install charts for prometheus and grafana.
+
+Now you may ask why we need helm ? Can't we directly install prometheus on grafana charts ? Well, you can but you have to download or configure each and every yaml file for them. Instead, helm says ***"wait, you don't have to do everything manually. Instead just use me. I will download each and every configuration for you without anything manual work"***.
+
+> NOTE : These commands may change in future, so it is always recommended to use commands from the official website.
+
+```bash
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts  
+helm repo add grafana https://grafana.github.io/helm-charts  
+helm repo update
+```
+
+## Step 3: Install kube-prometheus-stack
+We have two options. Either we can define each and every pod configuration every services manually or we can use a community package where everything is pre configured and we will just use it to install pods and run services on our cluster.
+
+we will go with the second option and will install `kube-prometheus-stack` which will give us everything that we need for our monitoring needs.
+
+> NOTE : These commands may change in future, so it is always recommended to use commands from the official website.
+
+```bash
+helm install prometheus prometheus-community/kube-prometheus-stack \  
+--namespace monitoring \  
+--create-namespace
+```
+
+## Step 4: Setup prom-client on nodejs
+
+Now we are talking about application monitoring with Prometheus and Grafana. But the question is how will Prometheus exactly know where my application is ? Or how will it collect metrics ? On which port number it is located ?
+
+To overcome this, prometheus provides individual SDKs for different languages and for nodeJS we have something called `prom-client`
+
+```javascript
+import 'dotenv/config';
+import express from 'express';
+import client from 'prom-client';
+import userAuth from './routes/auth.js';
+import voting from './routes/voting.js';
+
+const app = express();  
+const metricServer = express();
+
+app.use(express.json());
+
+app.get('/', (req, res) => {
+    res.status(200).json({
+        success: true,
+        message: "Backend running..."
+    })
+});
+
+const register = new client.Registry();
+client.collectDefaultMetrics({ register });
+
+const httpRequestCounter = new client.Counter({
+    name: 'http_requests_total', // you can add any name
+    help: 'Total number of HTTP requests',
+    labelNames: ['method', 'route', 'status'],
+    registers: [register],
+});
+              
+metricServer.get('/metrics', async (req, res) => {
+    res.set('Content-Type', register.contentType);
+    res.end(await register.metrics());
+});
+
+app.use((req, res, next) => {
+    res.on('finish', () => {
+        httpRequestCounter.inc({
+            method: req.method,
+            route: req.route?.path || req.path,
+            status: res.statusCode,
+        });
+    });
+    next();
+});
+
+app.use(voting);
+app.use(userAuth);
+
+const port = process.env.PORT || 5000;
+
+app.listen(port, "0.0.0.0", () => {
+    console.log('Server started');
+});
+
+metricServer.listen(7000, "0.0.0.0", () => {
+    console.log("Metrics server started");
+});
+```
+
+### Code explanation :
+This is a very basic nodeJS application where I have built an express server and defined some routes. But what is not very common is that I have initialized a client which I have got from `prom-client`.
+
+Then I am registering a new **http request counter** and added it in the middleware, which will keep a track of my every route and api hits 
+
+In the very end you will see I have two servers. One is my actual server which is defined on port 5000 and another one is my metric server which is defined on port 7000.
+
+### Why 2 servers ?
+I want people to access my application with a load balancer, but I don't want people to see my metrics route. So if I expose my application on Kubernetes with a load balancer then people with the help of the DNS they can access my metrics route so to prevent this I have to make two ports. In one port my application will run and all of its routes and on the other port only my metrics route will run. And that port number will be accessed only within my cluster and not by a public load balancer.
+
+## Step 5: Configure new service and ServiceMonitor
+Now in my Kubernetes cluster I have created a deployment.yaml and service.yaml file to run my application. But here is the catch, this is for my application which is running on port 5000. But I have another port hich is running on 7000. So I have to make a different service for that and that service will use a type ClusterIP.
+
+**metrics-service.yml**
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloudvault-metrics-service
+  labels:
+    app: cloudvault
+spec:
+  type: ClusterIP
+  selector:
+    app: cloudvault
+  ports:
+    - name: metrics  
+      port: 7000
+      targetPort: 7000
+```
+
+Here I have defined a name for my port, its default port number and target port number and made it of a type ClusterIP.
+> NOTE: The selector name should match your deployment app name
+
+
+Now we have defined a service of clusterIP for our port 7000. Now another thing which we have to keep in mind is that how will prometheus know that there is a port of `/metrics` available and it needs to scrap from that port. We have to tell prometheus that ***"hey, listen I have a /metrics route on this port number(7000) associated with this app(cloudvault) and you have to scrap metrics from this route as well"***.
+
+**service-monitor.yml**
+
+```yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: cloudvault-monitor
+  namespace: monitoring
+  labels:
+    release: prometheus #should be same as kube-prometheus-stack release name
+spec:
+  selector:
+    matchLabels:
+      app: cloudvault   
+  endpoints:
+    - port: metrics    
+      path: /metrics
+      interval: 10s
+```
+
+Here we are defining the port name, our application path for scraping metrics and a time interval.
+
+Now after doing all of this, when you run commands to apply these files then you will see your pods and services are running perfectly. But now we have to expose our grafana service with a load balancer so that we can see our metrics there.
+
+## Step 6: Expose grafana with a loadbalancer
+
+Run command `kubectl get svc -n monitoring`.
+You will see all the services running on the monitoring namespace and one of the service you will find as : **prometheus-grafana**. By default that service type is ClusterIP, you should change that service type from ClusterIP to LoadBalancer and then you will run the command again `kubectl get svc -n monitoring` and you will see a DNS name beside that service, copy and paste that in a browser and you will see grafana login screen will appear.
+
+![app-metric](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/grafana-login.png)
+
+-   **username**  -> admin
+-   **password**  -> run  `kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode`
+
+### Logged in 🎉
+
+Now after login, if you have followed every step correctly then with the help of helm your dashboards may appear automatically with all the metrics of your cluster.
+
+***
+
+But still in some cases it may happen that the dashboards may not appear automatically because the data source was not configured. So in that case you have to configure the data source manually.
+
+### Add data source
+Find the data source section from left tab options and click on it. You will see a section to select  **Type**. Select type as  **Prometheus**  and then you will see a section to add URL.
+
+To find what URL you should add in the data source you will run  `kubectl get svc -n monitoring`. And in those services you may see a service called  **prometheus-kube-prometheus-prometheus**  that is the service we need. So the URL will become :  `http://prometheus-kube-prometheus-prometheus:9090`.
+
+Port  **9090**  is required because prometheus runs on port  **9090**.
+
+Now after adding URL, scroll down and you will see a section of  **request type**, by default it may be selected as  `POST`  but change it to  `GET`.
+
+Now after adding the data source you need to add the dashboard because obviously you have configured the data source now grafana can query from the data source but it needs to show something on the dashboards but if you don't manually add a dashboard style it can't show you.
+
+Go to the dashboard section from the left side tab and create a new dashboard, select a data source (Prometheus). Select a dashboard style and continue.
+
+![app-metric](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/grafana-dashboard-2.png)
+
+## Step 7: Add custom visualization in grafana
+With the current setup till now only your cluster level monitoring is visible. But if you want to add your application monitoring as well then you have to add by a custom visualization.
+
+**Follow the below mentioned steps**
+
+![app-metric](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/grafana-app-metric/grafana-app-metric-1.jpg)
+![app-metric](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/grafana-app-metric/grafana-app-metric-2.jpg)
+![app-metric](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/grafana-app-metric/grafana-app-metric-3.jpg)
+![app-metric](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/grafana-app-metric/grafana-app-metric-4.jpg)
+
+Here in the **Select metric** section search for the name which we defined in our nodeJS prom-client registry. In our case it is `http_requests_total`. After selecting it click on **Save dashboard** and exit.
+
+![app-metric](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/grafana-app-metric/grafana-app-metric-5.jpg)
+Now your application metrics are also started showing in the dashboard.
+
+***
+Thank you for reading ❤️
