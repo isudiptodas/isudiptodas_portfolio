@@ -76,7 +76,7 @@ tags:
    - Enter basic details
    - Add authentication method and select from global credentials
    - Save and exit
-5. Now master can run jobs on agent 🎉
+5. Now master can run jobs on agent 
 
 ## **STEP 3 : Connect github webhook trigger**
 
@@ -87,7 +87,7 @@ tags:
 5. SSL verification : disable
 6. Check event type
 7. Save and exit
-8. Webhook connected 🎉
+8. Webhook connected 
 
 ## **STEP 4 : Webhook trigger jenkins pipeline**
 
@@ -106,10 +106,22 @@ tags:
 4. Specs : atleast t3.small / t3.medium with 20GB storage and 3 nodes. (for small deployments use 1 node)
 5. Attach roles and policy to nodegroup :
    - IAM > roles > select EC2
-   - Attach policy EC2WorkerNode, ContainerRegistry, CNI
+   - Attach policies
    - Save and exit
-6. Attach this role to the nodegroup
-7. Nodegroups created 🎉
+6. Attach created role to the nodegroup
+7. Nodegroups created 
+
+**Permissions for cluster role :**
+- AmazonEKSBlockStoragePolicy
+- AmazonEKSClusterPolicy
+- AmazonEKSComputePolicy
+- AmazonEKSLoadBalancingPolicy
+- AmazonEKSNetworkingPolicy
+
+**Permissions for worker nodes :**
+- AmazonEC2ContainerRegistryReadOnly
+- AmazonEKS_CNI_Policy
+- AmazonEKSWorkerNodePolicy
 
 ## **STEP 6 : Authenticate EC2 jenkins agent with EKS**
 
@@ -120,11 +132,11 @@ tags:
    - Add policy of EKSClusterAdminPolicy
    - Save and exit
 2. Now jenkins EC2 can make access to EKS cluster and run commands
-3. Done 🎉
+3. Done 
 
 ---
 
-### After this setup your production pipeline is ready and now you can add your custom pipeline steps which you want to perform on each code push
+**After this setup your production pipeline is ready and now you can add your custom pipeline steps which you want to perform on each code push**
 
 ***
 
