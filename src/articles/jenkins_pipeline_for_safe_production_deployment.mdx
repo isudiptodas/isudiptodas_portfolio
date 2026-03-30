@@ -32,6 +32,13 @@ If you want to understand what's happening here then there are some concepts whi
 Now in this article I will not show the setup, I will move forward with the actual pipeline code.
 For setup refer this : [Production Setup with Jenkins CI/CD & AWS EKS](https://isudiptodas-portfolio.vercel.app/articles/production_deployment_with_jenkins_and_EKS)
 
+## Permissions
+We are running this pipeline on an EC2 instance and we need to attach some policies to this instance so that we don't face any error later.
+
+- `AmazonEKS_CNI_Policy`
+- `AmazonEKSClusterPolicy`
+- `AmazonEKSWorkerNodePolicy`
+
 ## #1 Secure environment values
 
 ```bash
