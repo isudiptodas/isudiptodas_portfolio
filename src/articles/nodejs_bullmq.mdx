@@ -1,0 +1,208 @@
+---
+title: Understanding messaging queues with BullMQ
+author: Sudipto Das
+date: 31 Mar, 2026
+category: SYSTEM_DESIGN
+linksAttached: false
+featured: false
+tags:
+  - System Design
+  - BullMQ
+  - Messaging Queue
+---
+ 
+# Understanding messaging queues with BullMQ
+
+Messaging queues are individual software components which help asynchronous communication possible between different servers or different applications.
+Now beyond the technical definition, we can understand that messaging queues are something which work independently. And for this article we will work with **BullMQ** which is a messaging queue for **NodeJS** applications and uses **redis** for in-memory database.
+
+## How it works internally ?
+At very first you need to configure a redis connection because internally BullMQ uses Redis where it stores its tasks temporarily.
+
+- **Queue :** You'll use it to create a new queue
+- **Worker :** It is responsible for performing operations on each task inside a queue job
+- **Jobs :** Indivisual topic names. You can create a queue and inside it you may have different jobs.
+
+**Working steps:**
+1. You push a task inside a queue job
+2. The queue stores it temporarily in redis
+3. The workers pull each task from the queue job and does its operations
+4. After the operations are completed, it clears the tasks from redis memory
+
+![vpc-diagram](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/bullmq-working.png) 
+
+- **Step 1**: User proceeds for account creation
+- **Step 2**: Data is pushed in email queue
+- **Step 3**: That data is stored temporarily in redis cloud
+- **Step 4**: Your bullmq workers constantly monitors your redis and pulls newly added tasks and processes them
+
+## Why we need it ?
+We need messaging queues because in certain applications we don't want everything to be contained together. Like if you want that every function will be completed, every task will be completed, then the user will get a response then it will make the API response time very much high and will reduce overall user experience. And even if anything crashes then we don't have any retry mechanism.
+
+## Use case
+Let's take a simple example. Suppose we have an application where each user will create an account and after creating an account that user will receive a welcome e-mail. OK, very simple thing.
+
+Now we can achieve this functionality by using messaging queues and even without using messaging queues. But we will see that which is the better way and why.
+
+### Without MQ 
+- User will send signup request
+- All validations will be perform in backend 
+- User details will be save in database
+- Welcome email will be sent 
+- Success response to user
+
+```javascript
+const createAccount = (req, res) => {
+        
+        const { name, email } = req.body;
+       
+        // validation and other logic
+        
+        const newUser = { name, email };
+        await newUser.save();
+        
+        sendWelcomeMail(email);
+        
+        return res.status(201).json({
+          success: true,
+          message: "User created"
+        });
+}
+```
+
+Now from the above you can say that without messaging queue it is very much simple, I am sending e-mail as it is and sending complete response to the user, so if it is this simple why we need messaging queues.
+
+### Problems with current setup :
+- What if there is a slow network ?
+- What if mail sending fails but still the user will receive 201 status code ?
+- Sending mails usually takes some time (~5-6 secs) depending on which service you're using, so why the user will wait that much ?
+- Suppose anything breaks while sending email then your entire server will also crash
+
+### With MQ :
+- A new signup request arrives
+- You do every validation
+- Save user to the database
+- Add the users name and email to a queue
+- Send success response to user
+
+```javascript
+const createAccount = (req, res) => {
+        
+        const { name, email } = req.body;
+        
+        // validation and other logic
+        
+        const newUser = { name, email };
+        await newUser.save();
+        
+        // adding a task in the job name of welcome-email
+        await emailQueue.add('welcome-email', {
+            email, name
+        }, {
+            attempts: 3,
+            backoff: {
+                type: 'exponential',
+                delay: 1000
+            }
+        });
+        
+        return res.status(201).json({
+          success: true,
+          message: "User created"
+        });
+}
+```
+### How it is solving current problem ?
+- After every validation the user details will be saved in the database along with the email and name will be pushed in the queue and a success response will be sent. No wait for mail sending.
+- Even if mail sending fails due to any reason it will keep trying for a certain number of time.
+- If anything breaks while sending mail then your entire server will not get affected as MQ are independent.
+
+
+## Complete setup
+
+
+***./config/redisConnect.js***
+```javascript
+
+export const redisConnect = {
+    host: process.env.REDIS_LOCAL_HOST,
+    port: process.env.REDIS_LOCAL_PORT,
+    maxRetriesPerRequest: null,
+};
+```
+
+***./config/resend.js***
+```javascript
+import 'dotenv/config'
+import { Resend } from 'resend';
+
+export const resend = new Resend(process.env.RESEND_API);
+```
+
+***./routes/createAccount.js***
+```javascript
+import { emailQueue } from '../queues/emailQueue.js';
+
+const createAccount = (req, res) => {
+        
+        const { name, email } = req.body;
+        
+        // validation and other logic
+        
+        const newUser = { name, email };
+        await newUser.save();
+        
+        // adding a task in the job name of welcome-email
+        await emailQueue.add('welcome-email', {
+            email, name
+        }, {
+            attempts: 3,
+            backoff: {
+                type: 'exponential',
+                delay: 1000
+            }
+        });
+        
+        return res.status(201).json({
+          success: true,
+          message: "User created"
+        });
+}
+```
+
+***./queues/emailQueue.js***
+```javascript
+import { Queue, Worker } from 'bullmq';
+import { redisConnect } from '../config/redisConnect.js';
+import { resend } from '../config/resend.js';
+
+export const emailQueue = new Queue('email', {
+    connection: redisConnect,
+});
+
+export const emailWorker = new Worker('email', async job => {
+
+    // notify users on account creation
+    if (job.name === 'welcome-email') {
+        try {
+            const { email, name } = job.data;
+            const { data, error } = await resend.emails.send({
+                from: process.env.RESEND_EMAIL,
+                to: [email],
+                subject: 'Account Creation Successfull',
+                html: `<p>Welcome ${name}</p>`
+            });
+
+            if (error) {
+                console.log(error);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+}
+```
+
+***
+
+Thank you for reading ❤️
