@@ -1,0 +1,99 @@
+---
+title: Running an LLM locally with Ollama
+author: Sudipto Das
+date: 5 Apr, 2026
+category: AIML
+linksAttached: false
+featured: false
+tags:
+  - LLM
+  - Ollama
+  - AI/ML
+---
+ 
+# Running an LLM locally with Ollama 
+Today, In this article we are going to see how we can run LLM models locally on our machine.
+
+**LLM examples :**
+
+- Google gemini
+- ChatGPT
+- Mistral
+- Llama
+- Deepseek
+- Qwen
+
+**What is the need of running locally ?**
+| Cloud LLM | Local LLM |
+|--|--|
+| Everything gets stored in company servers | Everything stays on your machine |
+| Requires internet access | Works even offline |
+| No privacy | Full privacy control |
+| API keys required (costly) | No API keys needed (free) |
+| May sometime face network latency | No network dependency |
+| High sensitive content restriction | Low restriction (modifiable) |
+
+## Minimum system requirements (linux)
+- 8GB RAM (16GB+ recommended)
+- Atleast 10GB free disk space
+- Dedicated graphics card - atleast 8GB
+
+> NOTE: You can run LLM without even a GPU but they will run on CPU mode which will result in low performance.
+
+## Step 1: Install Ollama
+
+> NOTE: Commands may change in future so it is always recommended to use from official website
+
+```bash
+curl -fsSL https://ollama.com/install.sh | sh
+```
+
+Wait for the installation to complete and then verify :
+
+To locate download location :
+```bash
+whereis ollama
+```
+To check version :
+```bash
+ollama -v
+```
+By default ollama will start automatically on your system but in case it doesn't start automatically you can start it manually by running :
+
+```bash
+ollama serve
+```
+
+## Step 2: Choose LLM model
+
+With this current setup it is highly recommended that you should avoid using models with high parameters so try to use models with comparatively lower parameters and if possible then go with quantized models, usually around 1B to 5B (B = Billion parameters).
+
+If you  select any high parameter model which requires dedicated GPU and storage then it may crash your system.
+
+For this article we will use : `llama3.2`
+By default `llama3.2` has 3B parameters but we will use a minimal of 1B parameters :
+
+You can either pull the model first :
+```bash
+ollama pull llama3.2:1b
+```
+ Or you can directly run it and ollama will automatically pull it if not available on your system.
+```bash
+ollama run llama3.2:1b
+```
+
+After running the command you will be able to send messages to the LLM and get responses. All of that will be on your system.
+
+And to check all the downloaded models on your system you can run : 
+```bash
+ollama list
+```
+
+To remove a model run :
+```bash
+ollama rm <model-name>
+```
+
+***
+Thank you for reading ❤️
+
