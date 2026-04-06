@@ -119,17 +119,20 @@ function page() {
 
                     {!searchTerm && allArticles.map((item, index) => {
                         return <div onClick={() => router.push(`/articles/${item.slug}`)} key={index} className={`w-full active:bg-zinc-800 duration-300 ease-in-out rounded-xl cursor-pointer flex flex-col justify-start items-start py-5 px-3 bg-zinc-900`}>
-                            <span className={`w-auto ${item.category === 'SYSTEM_DESIGN' ? "block" : "hidden"} px-3 py-1 rounded-full text-black text-[10px] border-2`} style={{
+                            <span className={`w-auto ${item.category === 'SYSTEM_DESIGN' ? "block" : "hidden"} px-3 py-1 rounded-full font-semibold text-[10px] border-2`} style={{
                                 borderColor: colors.SYSTEM_DESIGN.border,
-                                backgroundColor: colors.SYSTEM_DESIGN.bg
+                                backgroundColor: colors.SYSTEM_DESIGN.bg,
+                                color: colors.SYSTEM_DESIGN.border
                             }}>System Design</span>
-                            <span className={`w-auto ${item.category === 'DEVOPS' ? "block" : "hidden"} px-3 py-1 rounded-full text-black text-[10px] border-2`} style={{
+                            <span className={`w-auto ${item.category === 'DEVOPS' ? "block" : "hidden"} px-3 py-1 rounded-full font-semibold text-[10px] border-2`} style={{
                                 borderColor: colors.DEVOPS.border,
-                                backgroundColor: colors.DEVOPS.bg
+                                backgroundColor: colors.DEVOPS.bg,
+                                color: colors.DEVOPS.border
                             }}>DevOps</span>
-                            <span className={`w-auto ${item.category === 'AIML' ? "block" : "hidden"} px-3 py-1 rounded-full text-black text-[10px] border-2`} style={{
+                            <span className={`w-auto ${item.category === 'AIML' ? "block" : "hidden"} px-3 py-1 rounded-full font-semibold text-[10px] border-2`} style={{
                                 borderColor: colors.AI_ML.border,
-                                backgroundColor: colors.AI_ML.bg
+                                backgroundColor: colors.AI_ML.bg,
+                                color: colors.AI_ML.border
                             }}>AI/ML</span>
                             <h3 className={`w-full select-none text-start text-white font-bold text-lg my-3`}>{item.title}</h3>
                             <p className={`w-full select-none mb-2 text-start font-light text-white text-[10px] lg:text-[12px] font-mono my-2`}>{item.author} • {item.date}</p>
