@@ -1,0 +1,505 @@
+---
+title: Build a multimodal RAG pipeline from scratch
+author: Sudipto Das
+date: 8 Apr, 2026
+category: AIML
+linksAttached: false
+featured: false
+tags:
+  - RAG
+  - LLM
+  - AI/ML
+---
+ 
+# Build a multimodal RAG pipeline from scratch
+
+## Prerequisites
+To follow this article without any complication you need to have a good understanding of :
+
+**1. Python:**
+- Import statements
+- Functions
+- Data types
+- Using external libraries
+
+**2. AI terms:**
+- What are transformers ? why we need it ?
+- What is hugging face ?
+- How an LLM works ?
+- What is RAG and why we need it ?
+
+
+## Our plan
+1. User will enter a link for any file (pdf, docx, pptx, mp3, mp4, txt, md)
+2. Extract text content from that file (images if present)
+3. Caption the images
+4. Attach image captions with extracted text of the file
+5. Do chunking and break the entire content into chunks based on semantic meaning
+6. Store them as embeddings in langchain's in-memory vector store
+7. User will ask question and then send that to the vector store and it will return **n** number of relevant chunks
+8. Send those chunks and users question to an LLM for summarized and detailed final response
+
+## External libraries & tools
+
+**1. docling:** 
+Docling is an open-source project by IBM which can auto-detect several file types just with a link then we can extract content as markdown, json, etc.
+
+**2. urlpolice:**
+Whatever link a user will enter we need to check if that link is safe to use or not and URLPolice validates any link on several security parameters.
+
+**3. pymupdf, python-docx, python-pptx:**
+These libraries will be needed to work with files that contain diagrams or raw images. (pptx, docx, pdf)
+
+**4. python-magic:**
+This library is used to detect the actual file mime type and based on that we are going to restrict user to enter certain links.
+
+**5. pillow:**
+Pillow or PIL is used to open images of any type.
+
+**6: transformers:**
+Transformer library is used to load models in our code. With this we can load, and run models.
+
+**7. semantic-chunking:**
+This library is used for doing semantic chunking of large text contents.
+
+**8. requests:**
+This library is used for sending http request and we will use to get file content
+
+**9. langchain, langchain-core, langchain-huggingface:**
+These libraries are use to interact with langchain ecosystem and also to use open source models from hugging face.
+
+The entire code is divided into each indivisual functions to maintain clean structure and reusability.
+
+
+## 1. Install necessary dependencies
+```python 
+!pip install -q docling "docling[asr]" semantic-chunking pymupdf requests pillow transformers python-docx python-pptx python-magic langchain-huggingface langchain-core langchain torch urlpolice
+```
+
+## 2. Import everything at once
+```python
+from docling.document_converter import DocumentConverter, AudioFormatOption 
+from docling.datamodel import asr_model_specs
+from docling.datamodel.base_models import InputFormat 
+from docling.datamodel.pipeline_options import AsrPipelineOptions 
+from docling.pipeline.asr_pipeline import AsrPipeline 
+from semantic_chunking import SemanticChunker import requests 
+from io import BytesIO 
+import fitz 
+from PIL import Image 
+from transformers import BlipProcessor, BlipForConditionalGeneration, pipeline
+from docx import Document 
+from pptx import Presentation 
+import magic 
+from langchain_huggingface import HuggingFaceEmbeddings 
+from langchain_core.vectorstores import InMemoryVectorStore 
+from langchain_core.documents import Document
+from urlpolice import URLPolice
+import torch
+```
+## 3. Initialize in global scope
+```python
+embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")  
+vector_store = InMemoryVectorStore(embedding=embedding_model)  
+police = URLPolice()
+```
+
+
+## 4. Function for semantic chunking
+
+```python
+def  semanticChunking(text):  
+  chunker = SemanticChunker(model_name='all-MiniLM-L6-v2', max_chunk_size=1500, similarity_threshold=0.7)  
+  chunks = chunker.semantic_chunk(text)  
+  
+  print(f"Total chunk length : {len(chunks)}")  
+  print("\nSemantic Chunks:\n")  
+  for chunk in chunks:  
+    print(f"{chunk}\n")  
+  
+  return chunks
+```
+
+Here we are getting a text and we are doing our semantic chunking and then returning the array of chunks.
+
+## 5. Function to add data in vector store
+
+```python
+def  addInVectorStore(chunks):  
+  docs = []  
+  for i in  range(len(chunks)):  
+    docs.append(Document(page_content=chunks[i], metadata={"id"  : i}))  
+ vector_store.add_documents(docs)
+```
+
+Here we are getting all the chunks as array and then one by one we are adding those chunks in the vector store as a **Document** type which is provided by langchain to make retrieval easy.
+
+## 6. Function for generating captions for image
+
+```python
+def  imageCaptioning(link):  
+  
+  resp = requests.get(link)  
+  file_stream = BytesIO(resp.content)  
+  mime = magic.from_buffer(file_stream.getvalue(), mime=True)  
+  
+  images = []  
+  
+  if mime == "application/pdf":  
+    docs = fitz.open(stream=file_stream, filetype="pdf")  
+  
+    for page in docs:  
+      for img in page.get_images(full=True):  
+        xref = img[0]  
+        base_image = docs.extract_image(xref)  
+        image_bytes = base_image["image"]  
+        image = Image.open(BytesIO(image_bytes)).convert("RGB")  
+        images.append(image)  
+  
+  elif mime == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":  
+    doc = Document(file_stream)  
+  
+    for rel in doc.part.rels.values():  
+      if  "image"  in rel.target_ref:  
+         image_bytes = rel.target_part.blob  
+         image = Image.open(BytesIO(image_bytes)).convert("RGB")  
+         images.append(image)  
+  
+  elif mime == "application/vnd.ms-powerpoint":  
+    prs = Presentation(file_stream)  
+  
+    for slide in prs.slides:  
+      for shape in slide.shapes:  
+        if shape.shape_type == 13:  # picture  
+          image_bytes = shape.image.blob  
+          image = Image.open(BytesIO(image_bytes)).convert("RGB")  
+          images.append(image)  
+  
+  processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")  
+  model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base")  
+  
+  captions = []  
+  
+  for img in images:  
+    inputs = processor(img, return_tensors="pt")  
+    out = model.generate(**inputs)  
+    caption = processor.decode(out[0], skip_special_tokens=True)  
+    captions.append(caption)  
+  
+  return captions
+```
+
+In this function we are getting the link and determining the file type of the link and based on the file type we are extracting images and storing in the images array.
+
+After the image extraction we are using **salesforce image captioning model** where one by one we are passing image and getting captions for that and then storing that in the captions array. In the end we are returning the captions array.
+
+## 7. Function for extracting content from any document
+
+```python
+def  extractDocument(link):  
+  pdfconverter = DocumentConverter()  
+  doc = pdfconverter.convert(link).document  
+  content = doc.export_to_markdown()  
+   
+  captions = imageCaptioning(link)  
+
+  if  len(captions) > 0:  
+    content += "\n\n IMAGE DESCRIPTIONS : \n\n"  
+  for text in captions:  
+    content += f"{text}\n"  
+  
+  chunks = semanticChunking(content)  
+  addInVectorStore(chunks)
+```
+
+In this function we are simply getting the link and passing it to docling and the extraction part is handled by docling and then again we are passing the link for generating captions and whatever captions we will receive, we are going to append in the bottom of our actual extracted content string and then we will do semantic chunking and at the end we will add them in vector store.
+
+## 8. Function for extracting content from any mp3 or mp4 file
+
+```python
+def  mediaExtraction(link):  
+  pipeline_options = AsrPipelineOptions()  
+  pipeline_options.asr_options = asr_model_specs.WHISPER_TURBO  
+  
+  mediaconverter = DocumentConverter(  
+  format_options = {  
+    InputFormat.AUDIO: AudioFormatOption(  
+    pipeline_cls = AsrPipeline,  
+    pipeline_options = pipeline_options  
+    )  
+   }  
+  )  
+  
+  result = mediaconverter.convert(link).document  
+  content = result.export_to_markdown()  
+  
+  chunks = semanticChunking(content)  
+  addInVectorStore(chunks)
+```
+Just like the previous function here also we are sending the link to docling and the by using its underlying mechanism it is giving us the extracted content from the media file and then we are doing chunking and adding in vector store. (Here image captioning is not needed as in audio and video files image is not strictly needed).
+
+## 9. Input for link for processing
+
+```python
+link = input("Enter a link : ")  
+  
+if  "google.com"  in link:  
+  print("URL not allowed")  
+else:  
+  validate = police.validate(link)  
+  if  not validate.is_valid:  
+    print("URL not secure")  
+  else:  
+    resp = requests.get(link)  
+    file_stream = BytesIO(resp.content)  
+    mime = magic.from_buffer(file_stream.getvalue(), mime=True)  
+  
+    if mime == "audio/mpeg"  or mime == "video/mp4":  
+      mediaExtraction(link)  
+    else:  
+      extractDocument(link)
+```
+Here we are asking the user for a URL and validating it for security checks and if it passes the check then we determining the type of file and based on that we are calling of function for processing.
+
+## 10. QnA part
+
+```python
+question = input("Ask any question based on your data : ")
+allDocs = vector_store.similarity_search(query, k=10)
+
+context = ""
+
+for doc in allDocs:
+  context += f"{doc.page_content}\n"
+
+pipe = pipeline("text-generation", model="TinyLlama/TinyLlama-1.1B-Chat-v1.0", torch_dtype=torch.bfloat16, device_map="auto")
+
+query = f'''
+Try to summarize the context and give answer of the query from it.
+If any information is not available on the context then you can say that
+you dont have relevant context for this question.
+
+QUERY: {question}
+CONTEXT: {context}
+'''
+
+messages = [
+    {
+        "role": "system",
+        "content": '''You are a friendly chatbot who always responds based on the context provided.
+         And if you dont find any matched context for the question then simply say that you dont have relevant context for this question.
+         And send the response as plain text without any markdown formatting
+         and no need to respond back the entire query, context, prompt. Simply respond with the answer.''',
+    },
+    {
+        "role": "user",
+        "content": f"{query}"
+    },
+]
+
+prompt = pipe.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+outputs = pipe(prompt, max_new_tokens=256, do_sample=True, temperature=0.7, top_k=50, top_p=0.95, return_full_text=False)
+
+print(outputs[0]["generated_text"])
+```
+
+Here we are getting the question from user and sending it to the vector store where internally langchain user its embedding algorithms and returns most relevant chunks and then with a custom prompt we are sending all the chunks and the question to our open source LLM which then returns a response.
+***
+
+## Full code :
+```python
+
+from docling.document_converter import DocumentConverter, AudioFormatOption
+from docling.datamodel import asr_model_specs
+from docling.datamodel.base_models import InputFormat
+from docling.datamodel.pipeline_options import AsrPipelineOptions
+from docling.pipeline.asr_pipeline import AsrPipeline
+from semantic_chunking import SemanticChunker
+import requests
+from io import BytesIO
+import fitz
+from PIL import Image
+from transformers import BlipProcessor, BlipForConditionalGeneration, pipeline
+from docx import Document
+from pptx import Presentation
+import magic
+from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_core.vectorstores import InMemoryVectorStore
+from langchain_core.documents import Document
+from urlpolice import URLPolice
+import torch
+
+# function to convert in embeddings and store in vector store
+def addInVectorStore(chunks):
+
+  docs = []
+  for i in range(len(chunks)):
+    docs.append(Document(page_content=chunks[i], metadata={"id" : i}))
+
+  vector_store.add_documents(docs)
+
+# function for generating captions for image
+def imageCaptioning(link):
+
+  resp = requests.get(link)
+  file_stream = BytesIO(resp.content)
+  mime = magic.from_buffer(file_stream.getvalue(), mime=True)
+
+  images = []
+
+  if mime == "application/pdf":
+    docs = fitz.open(stream=file_stream, filetype="pdf")
+
+    for page in docs:
+      for img in page.get_images(full=True):
+        xref = img[0]
+        base_image = docs.extract_image(xref)
+        image_bytes = base_image["image"]
+        image = Image.open(BytesIO(image_bytes)).convert("RGB")
+        images.append(image)
+
+  elif mime == "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+    doc = Document(file_stream)
+
+    for rel in doc.part.rels.values():
+      if "image" in rel.target_ref:
+        image_bytes = rel.target_part.blob
+        image = Image.open(BytesIO(image_bytes)).convert("RGB")
+        images.append(image)
+
+  elif mime == "application/vnd.ms-powerpoint":
+    prs = Presentation(file_stream)
+
+    for slide in prs.slides:
+      for shape in slide.shapes:
+        if shape.shape_type == 13: # picture
+          image_bytes = shape.image.blob
+          image = Image.open(BytesIO(image_bytes)).convert("RGB")
+          images.append(image)
+
+  processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
+  model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base")
+
+  captions = []
+
+  for img in images:
+    inputs = processor(img, return_tensors="pt")
+    out = model.generate(**inputs)
+    caption = processor.decode(out[0], skip_special_tokens=True)
+    captions.append(caption)
+
+  return captions
+
+# function for semantic chunking of texts
+def semanticChunking(text):
+  chunker = SemanticChunker(model_name='all-MiniLM-L6-v2', max_chunk_size=1500, similarity_threshold=0.7)
+  chunks = chunker.semantic_chunk(text)
+
+  print(f"Total chunk length : {len(chunks)}")
+  print("\nSemantic Chunks:\n")
+  for chunk in chunks:
+    print(f"{chunk}\n")
+
+  return chunks
+
+# function for document extraction
+def extractDocument(link):
+  pdfconverter = DocumentConverter()
+  doc = pdfconverter.convert(link).document
+  content = doc.export_to_markdown()
+  print(content)
+  captions = imageCaptioning(link)
+
+  if len(captions) > 0:
+    content += "\n\n IMAGE DESCRIPTIONS : \n\n"
+    for text in captions:
+      content += f"{text}\n"
+
+  chunks = semanticChunking(content)
+  addInVectorStore(chunks)
+
+# function for audio & video extraction
+def mediaExtraction(link):
+  pipeline_options = AsrPipelineOptions()
+  pipeline_options.asr_options = asr_model_specs.WHISPER_TURBO
+
+  mediaconverter = DocumentConverter(
+       format_options = {
+          InputFormat.AUDIO: AudioFormatOption(
+             pipeline_cls = AsrPipeline,
+             pipeline_options = pipeline_options
+         )
+      }
+  )
+
+  result = mediaconverter.convert(link).document
+  content = result.export_to_markdown()
+
+  chunks = semanticChunking(content)
+  addInVectorStore(chunks)
+
+embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-mpnet-base-v2")
+vector_store = InMemoryVectorStore(embedding=embedding_model)
+police = URLPolice()
+
+link = input("Enter a link : ")
+
+if "google.com" in link:
+  print("URL not allowed")
+else:
+  validate = police.validate(link)
+  if not validate.is_valid:
+    print("URL not secure")
+  else:
+    resp = requests.get(link)
+    file_stream = BytesIO(resp.content)
+    mime = magic.from_buffer(file_stream.getvalue(), mime=True)
+
+    if mime == "audio/mpeg" or mime == "video/mp4":
+      mediaExtraction(link)
+    else:
+      extractDocument(link)
+      
+question = input("Ask any question based on your data : ")
+allDocs = vector_store.similarity_search(query, k=10)
+
+context = ""
+
+for doc in allDocs:
+  context += f"{doc.page_content}\n"
+
+pipe = pipeline("text-generation", model="TinyLlama/TinyLlama-1.1B-Chat-v1.0", torch_dtype=torch.bfloat16, device_map="auto")
+
+query = f'''
+Try to summarize the context and give answer of the query from it.
+If any information is not available on the context then you can say that
+you dont have relevant context for this question.
+
+QUERY: {question}
+CONTEXT: {context}
+'''
+
+messages = [
+    {
+        "role": "system",
+        "content": '''You are a friendly chatbot who always responds based on the context provided.
+         And if you dont find any matched context for the question then simply say that you dont have relevant context for this question.
+         And send the response as plain text without any markdown formatting
+         and no need to respond back the entire query, context, prompt. Simply respond with the answer.''',
+    },
+    {
+        "role": "user",
+        "content": f"{query}"
+    },
+]
+
+prompt = pipe.tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True)
+outputs = pipe(prompt, max_new_tokens=256, do_sample=True, temperature=0.7, top_k=50, top_p=0.95, return_full_text=False)
+
+print(outputs[0]["generated_text"])
+```
+
+***
+Thank you for reading ❤️
+
+
