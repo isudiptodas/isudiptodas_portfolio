@@ -41,31 +41,31 @@ To follow this article without any complication you need to have a good understa
 
 ## External libraries & tools
 
-**1. docling:** 
+**1. `docling`:** 
 Docling is an open-source project by IBM which can auto-detect several file types just with a link then we can extract content as markdown, json, etc.
 
-**2. urlpolice:**
+**2. `urlpolice`:**
 Whatever link a user will enter we need to check if that link is safe to use or not and URLPolice validates any link on several security parameters.
 
-**3. pymupdf, python-docx, python-pptx:**
+**3. `pymupdf`, `python-docx`, `python-pptx`:**
 These libraries will be needed to work with files that contain diagrams or raw images. (pptx, docx, pdf)
 
-**4. python-magic:**
+**4. `python-magic`:**
 This library is used to detect the actual file mime type and based on that we are going to restrict user to enter certain links.
 
-**5. pillow:**
+**5. `pillow`:**
 Pillow or PIL is used to open images of any type.
 
-**6: transformers:**
+**6: `transformers`:**
 Transformer library is used to load models in our code. With this we can load, and run models.
 
-**7. semantic-chunking:**
+**7. `semantic-chunking`:**
 This library is used for doing semantic chunking of large text contents.
 
-**8. requests:**
+**8. `requests`:**
 This library is used for sending http request and we will use to get file content
 
-**9. langchain, langchain-core, langchain-huggingface:**
+**9. `langchain`, `langchain-core`, `langchain-huggingface`:**
 These libraries are use to interact with langchain ecosystem and also to use open source models from hugging face.
 
 The entire code is divided into each indivisual functions to maintain clean structure and reusability.
