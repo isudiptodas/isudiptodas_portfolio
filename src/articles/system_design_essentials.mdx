@@ -74,7 +74,7 @@ SSD: 42GB (x5)
 - **Horizontal scaling:** Keep resource capacity same, but add more servers
 
 ## 4. DNS working
-![caching](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/dns.png)
+![dns](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/dns.png)
 In any browser when you type a URL for example www.facebook.com what do you think ? How the browser will actually know that where is facebook.com or which page you want to visit ? It doesn't magically knows, behind the scenes DNS works.
 
 You can think of DNS as a phone book for the Internet. And with each domain name there is an IP address mapped in DNS records so when you type any URL, the DNS resolver comes in and redirects the domain with the actual IP address.
@@ -101,7 +101,7 @@ Now in this same situation, let's add a caching layer. So when the page will loa
 4. MemoryCache (.NET)
 
 ## 7. Sharding
-![caching](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/sharding.png)
+![sharding](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/sharding.png)
 Sharding is the way where we distribute our data in different small shards/DBs. It is highly recommended to use sharding as it enables horizontal scaling and reduces latency by not querying the entire large database instead just query the required portion from the available shard. It also reduces the risk of single point of failure.
 
 **before:**
@@ -115,7 +115,7 @@ Sharding is the way where we distribute our data in different small shards/DBs. 
 - 5 million rows each database
 
 ## 8. Load balancing
-![caching](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/loadbalancer.png)
+![loadbalancer](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/loadbalancer.png)
 Load balancing is the way of distributing incoming traffic to all the servers equally so that no single server should handle maximum traffic instead all the traffic will be handled by all the servers equally. 
 
 Load balancing can be implemented by several ways such as: round robin, least connection, IP hash etc.
@@ -140,8 +140,8 @@ By following this we can make sure that our database will not be bombarded with 
 ## 10. CAP Theorem
 CAP theorem, also stands for (Consistency, Availability, Partition tolerance). It mainly states that a system that is distributed can avail only two at once not all three (CAP). This technique is only applied when you have either a microservice architecture or a distributed database.
 
-## 11. Monilith vs Microservices
-![caching](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/monolith_microservice.png)
+## 11. Monolith vs Microservices
+![mono-micro](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/monolith_microservice.png)
 
 | Monolith | Microservices |
 |--|--|
@@ -169,7 +169,7 @@ For example:
 A person lives in mumbai but he is using instagram where the main server is on U.S but the frequently accessed files will be stored in the users nearest CDN location (any data center near mumbai) so just by this the user will see reduced latency and overall improved and fast user experience.
 
 ## 14. API Gateway
-![caching](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/api-gateway.png)
+![api-gateway](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/api-gateway.png)
 You can think of an API gateway as a middleman who sits in between the client and the different backend services and based on the API route it gets decided that on which service the request should forward.
 
 ## 15. Proxy (Forward & Reverse)
