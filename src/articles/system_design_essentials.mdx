@@ -1,0 +1,244 @@
+---
+title: The 20 essentials of system design
+author: Sudipto Das
+date: 22 Apr, 2026
+category: SYSTEM_DESIGM
+linksAttached: false
+featured: false
+tags:
+  - System Design
+  - Databases
+  - Microservices
+  - Scaling
+  - Caching
+---
+ 
+# The 20 essentials of system design
+
+In 2026 even a 7 year old can code, so coding is not the main issue, the most interesting and important part is how the system will scale and will be built so that it will be scalable. You can code 10,000+ lines but you can't make scalable applications until you know these 21 system design concepts.
+
+System design is the process where you make decisions about your architecture, components, data flow and entire working of your application.
+
+## 1. HTTP vs HTTPS
+**HTTP** or **Hyper Text Transfer Protocol** is a protocol/rule for sharing data over the internet. It sends data in plain text with no security or encryption that means anyone can intercept the network and access the data or even modify it.
+
+**HTTPS** or **Hyper Text Transfer Protocol Secure** is the same as HTTP but the only difference is here the data is send by encrypted format means no one can access or modify the data, making it secure and reliable way than normal HTTP.
+
+## 2. HTTP vs WebSockets
+Usually in most of the cases we use REST API for communication and it works on a request response model means:
+
+1.  you need some data
+    
+2.  you send a request to the server
+    
+3.  server sends the data
+    
+4.  connection closes
+
+Now here the problem is, what if your server also needs to send data whenever a new data is available, or you need latest data every seconds, in that case will you keep calling REST API every second... well not so optimized and not cost effective.
+
+**WebSockets** are like a two way open tunnel, which lets both the client and server send data at the same time. It works by establishing an open communication bridge between the client and the server and the channel will be open until closed on until a specific period and in this way a two way data sharing is possible.
+
+### Uses of websockets in real life:
+1. WhatsApp
+2. Facebook
+3. Trading apps
+4. Multiplayer games
+
+## 3. Scaling (vertical & horizontal)
+Scaling as the name suggests, multiplying or increasing. In this process we increase the resources of our server to make it capable of handle large amount of data and requests.
+
+### Vertical scaling:
+It refers to the process where we increase the resources of a single server by increasing its default capacity.
+
+**Real life use case:**
+Suppose you have a single server with 8GB ram and 42GB of SSD storage and now at a certain period of time you notice your website is getting a lot more traffic than usual so you will increase you server resources,
+
+**RAM:** 8GB → 24GB
+**SSD:** 42GB → 100GB
+
+### Horizontal scaling
+Now take the same situation but now instead of increasing resources of a single server, you decided to add more servers,
+
+**before:**
+Server: 1
+RAM: 8GB
+SSD: 42GB
+
+**after:**
+Server: 5
+RAM: 8GB (x5)
+SSD: 42GB (x5)
+
+- **Vertical scaling:** Increase resource capacity of a single server
+- **Horizontal scaling:** Keep resource capacity same, but add more servers
+
+## 4. DNS working
+![caching](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/dns.png)
+In any browser when you type a URL for example www.facebook.com what do you think ? How the browser will actually know that where is facebook.com or which page you want to visit ? It doesn't magically knows, behind the scenes DNS works.
+
+You can think of DNS as a phone book for the Internet. And with each domain name there is an IP address mapped in DNS records so when you type any URL, the DNS resolver comes in and redirects the domain with the actual IP address.
+
+## 5. Database types
+Many people underestimate this step. People think that database can be of any type, it doesn't really matter but in real life systems choosing a database minimizes your 50% effort because in future there is 110% chance that you need to modify or restructure your database according to your organization needs or you need to migrate to a different database or you will need backup as well so for that cases it is very much crucial to select a database from beginning which is highly reliable, query efficient and can handle large throughputs
+
+### Some database types with examples :
+1. **SQL:** MySQL, PostgreSQL, MS SQL Server, OracleDB, SQLite
+2. **NoSQL:** MongoDB, CouchDB, DynamoDB
+3. **Vector:** Pinecone, Datastax, ChromaDB
+
+
+## 6. Caching
+![caching](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/caching.png)
+Suppose you made an e-commerce website for your own business and there you are selling different electronic products and whenever people come in your homepage, every time the page refreshes and a new database call happens to get all the products from database and return to the frontend. Now if your page will load 100 times, 100 database call occur which will eventually slow down your API response time and will degrade your app performance.
+
+Now in this same situation, let's add a caching layer. So when the page will load for the first time, the database call will happen and the requested data will be fetched and returned to the frontend but before returning to the frontend, it will be stored in the caching layer. So from the next time, whenever the page will load, the API will not hit the database query, instead it will first look in the caching layer and if it founds the data there, it will just return from the caching layer and no database query will happen. This will eventually make your API responses much faster.
+
+### Some caching tools: 
+1. Redis
+2. Memcached
+3. Hibernate cache (Java)
+4. MemoryCache (.NET)
+
+## 7. Sharding
+![caching](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/sharding.png)
+Sharding is the way where we distribute our data in different small shards/DBs. It is highly recommended to use sharding as it enables horizontal scaling and reduces latency by not querying the entire large database instead just query the required portion from the available shard. It also reduces the risk of single point of failure.
+
+**before:**
+- One single database
+- 20 tables
+- Total 20 million rows
+
+**after:**
+- 5 small databases
+- 5 tables each database
+- 5 million rows each database
+
+## 8. Load balancing
+![caching](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/loadbalancer.png)
+Load balancing is the way of distributing incoming traffic to all the servers equally so that no single server should handle maximum traffic instead all the traffic will be handled by all the servers equally. 
+
+Load balancing can be implemented by several ways such as: round robin, least connection, IP hash etc.
+
+**before:**
+- Server: 5000 traffic
+
+**after:**
+- Server 1: 400 traffic
+- Server 2: 400 traffic
+- Server 3: 400 traffic
+- Server 4: 400 traffic
+- Server 5: 400 traffic
+
+## 9. Data replication
+Data replication is the way of copying the data in multiple databases, mainly different copies for different operation.
+- One primary DB for write
+- Multiple small DB for reads
+
+By following this we can make sure that our database will not be bombarded with too many queries and will not crash.
+
+## 10. CAP Theorem
+CAP theorem, also stands for (Consistency, Availability, Partition tolerance). It mainly states that a system that is distributed can avail only two at once not all three (CAP). This technique is only applied when you have either a microservice architecture or a distributed database.
+
+## 11. Monilith vs Microservices
+![caching](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/monolith_microservice.png)
+
+| Monolith | Microservices |
+|--|--|
+| Single codebase | Multiple independent codebase |
+| Usually written in only one language | Different services can be written in different languages |
+| If any service crashes the entire system breaks | Even if any service crashes the rest if the services will keep on working |
+| Not scalable | Highly scalable |
+
+## 12. Messaging Queues
+![messaging-queues](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/messaging-queues.png)
+Messaging queues are the way of performing asynchronous task based on any event or any topic. It mainly works on producer and consumer architecture, where a producer is responsible to creating tasks and the consumers accept and process the tasks.
+
+Think of it is like you want to send welcome emails to user after login and now you are writing all of the codes in a single function. First register, then send mail, keep waiting until the mail was sent and then return a response. Ughhh, boring, now we can make it 10x better by implementing an asynchronous queue where after registering we will push the users email into a queue and then the consumers will do the mail sending thing behind the scenes, in this way your app will not wait until a task is completed and it's performance will also increase as it is decoupling things.
+
+### Popular messaging queue tools:
+1. Kafka
+2. BullMQ
+3. RabbitMQ
+4. Amazon SQS
+
+## 13. CDN
+A **CDN** or **Content Delivery Network** is a group of servers located around the globe which stores static content like : images, videos, HTML etc. It helps users to access static content faster, reducing latency and page load times.
+
+For example: 
+A person lives in mumbai but he is using instagram where the main server is on U.S but the frequently accessed files will be stored in the users nearest CDN location (any data center near mumbai) so just by this the user will see reduced latency and overall improved and fast user experience.
+
+## 14. API Gateway
+![caching](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/api-gateway.png)
+You can think of an API gateway as a middleman who sits in between the client and the different backend services and based on the API route it gets decided that on which service the request should forward.
+
+## 15. Proxy (Forward & Reverse)
+Proxy means implying a person on behalf of another person but in terms of software, proxies are used in IP.
+
+### Forward proxy:
+It sits after the client and every request first comes to the proxy server then it leaves for the actual targetted server on the internet.
+
+**Why forward proxy ?**
+- Your real identity (IP) never gets exposed to the internet
+- You can limit access to certain domains
+- You can use proxy of any other country to access that regions domains
+- You can track entire browsing data
+
+### Reverse proxy:
+This kind of proxy sits after the server where every request first arrives at the proxy and then from that proxy server it gets forwarded to the actual server. It usually acts as a loadbalancer for the servers. With this technique the actual IP of the server never gets exposed and it becomes safe to malicious attacks.
+
+**Why reverse proxy ?**
+- Your actual server IP never gets exposed
+- Forward request to any backend based on request path
+
+## 16. Rate limiting
+Suppose you have built an application and by default the maximum load your application can handle per minute is 5000 but what if there is in any day when you request crosses 10,000 ? What will you do in that moment ? Obviously, to prevent this situation you can do scaling either vertical or horizontal but saling is a secondary thing. If you want to implement proper steps so that your system doesn't crash or fails down completely you need to add some mechanism to prevent that. Here rate limiting shines.
+
+By implementing rate limiting technique you can make sure that your server will get a particular number of requests per minute and not more than that. And even if in any case the number of requests scales up, they will get either blocked or they will need to wait for some time depending on how you implement the technique. In that case your servers will get protected and will not get crashed even on peak hours.
+
+## 17. API Design
+Now here is another important thing that many of the developers mostly ignore but it is one of the most crucial part for any system architecture.
+
+API designing is a way of writing API routes so that it can be useful for users to understand, even for many developers to debug and to manage in future as well.
+
+**before:**
+`GET /getAllPost`
+
+**after:**
+`GET /api/v1/post`
+`GET /api/v2/post/:id`
+
+## 18. Database indexing
+![indexing](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/indexing.png)
+
+Database indexing is a technique where a separate small index structure is created to minimise the lookup speed and fast data retrieval.
+
+**How it works ?**
+Indexing gets stored as a small structure based on any column of your table and it also stores its actual memory location so that the next time whenever you want to search based on that column value for example: an email, the database first looks at the index structure and if it is present then it returns the memory location and the db directly access the data without need of querying hundreds and thousanda of rows.
+
+**Without indexing:**
+- Search based on email -> temp-user@gmail.com
+- Search in all (1M) rows
+- Total time taken -> 10secs
+
+**With indexing:**
+- Search based on email -> temp-user@gmail.com
+- Lookup in index structure -> email found with memory location
+- Access row from that location
+- Total time taken -> 0.01secs
+
+## 19. Idempotency
+Suppose you built an application where payment is involved, now at any point the users network is slow and out of frustration the user clicks **Pay now** 3 times, now will the payment occur 3 times or a single time.
+
+In these kind of situation idempotency is required where you need to make sure that an action will result in only one result and not multiple outcomes no matter how many time it has been performed.
+
+## 20. REST vs GraphQL vs gRPC
+
+**REST:**
+REST or Representational State Transfer, almost 90% of all modern application relies on REST API. It is like a fixed protocol for data communication but not the only one present. Mostly used where no extra manual setup needed.
+
+**GraphQL:**
+It is a API protocol based on a query language where the client can request for any particular portion of data without need of getting an entire block of data. By this it reduces bandwidth and response time.
+
+**gRPC:**
+gRPC or Google Remote Procedure Call, transfer data in binary form and it uses the high power HTTP/2 for data transfer. It is used mostly in internal systems and microservices where fast API response is crucial.
