@@ -1,7 +1,7 @@
 export const techStackList = [
   {
     title: "PROGRAMMING LANGUAGES",
-    items: "C++, Java",
+    items: "C++, Python",
   },
   {
     title: "FRONTEND",

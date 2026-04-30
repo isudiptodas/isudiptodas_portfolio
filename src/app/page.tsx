@@ -12,7 +12,6 @@ import { FaSquareXTwitter } from "react-icons/fa6";
 import { works } from "@/data/work";
 import { techStackList } from "@/data/techStack";
 import { useRouter } from "next/navigation";
-import { testimonials } from "@/data/testimonials";
 import { motion, useScroll, useMotionValueEvent, useTransform } from 'framer-motion';
 import axios from "axios";
 import { IoMdShareAlt } from "react-icons/io";
@@ -30,7 +29,7 @@ function page() {
     //console.log(val);
   });
 
-  const scale = useTransform(scrollY, [70, 600], [1, 0.4]);
+  const scale = useTransform(scrollY, [70, 600], [1, 0.7]);
 
   useEffect(() => {
     const fetchAllArticles = async () => {
@@ -48,7 +47,8 @@ function page() {
   const titles = [
     "FULL STACK WEB DEVELOPMENT",
     "DEVOPS",
-    "AI/ML"
+    "AI/ML",
+    "SYSTEM DESIGN"
   ];
 
   const navigate = (link: string) => {
@@ -89,9 +89,7 @@ function page() {
           </div>
 
           <div className={`w-full h-auto absolute top-[40%] lg:top-1/2 flex flex-col justify-center items-center gap-8`}>
-            <motion.p initial={{opacity: 0, filter: "blur(20px)"}} animate={{opacity: 1, filter: "blur(0px)"}} transition={{delay: 0.6, duration: 1.4, ease: "easeInOut"}} style={{ scale }} className={`w-full select-none text-center text-white font-Red-Hat-Display px-5 md:px-10 xl:px-20 text-sm md:text-lg lg:text-sm xl:text-lg`}>I’m a passionate full-stack developer with over 2 years of hands
-            on experience on MERN stack, NextJS, SpringBoot specializing in building dynamic and responsive user interfaces.
-            Currently focusing on devops and building high level systems that scale to millions.</motion.p>
+            <motion.p initial={{opacity: 0, filter: "blur(20px)"}} animate={{opacity: 1, filter: "blur(0px)"}} transition={{delay: 0.6, duration: 1.4, ease: "easeInOut"}} style={{ scale }} className={`w-full select-none text-center text-white font-Red-Hat-Display px-5 md:px-10 xl:px-20 text-sm md:text-lg lg:text-sm xl:text-lg`}>Full Stack Web Developer with 2+ years of hands on experience in building scalable web apps. </motion.p>
 
              <div className={`w-full flex justify-center items-center`}>
                <Marquee speed={70} >

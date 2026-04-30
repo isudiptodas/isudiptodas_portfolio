@@ -13,6 +13,7 @@ function page() {
     const [allArticles, setAllArticles] = useState<ArticleListItem[] | []>([]);
     const [filteredArticles, setFilteredArticles] = useState<ArticleListItem[] | []>([]);
     const [option, setOption] = useState('latest');
+    const [isLoading, setIsLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [count, setCount] = useState<number | null>(null);
     const router = useRouter();
@@ -41,6 +42,8 @@ function page() {
                 setCount(res.data.length);
             } catch (err) {
                 console.log(err);
+            } finally {
+                setIsLoading(false);
             }
         }
 
@@ -88,7 +91,37 @@ function page() {
                 </div>
 
                 <div className={`w-full px-5 lg:px-8 flex justify-start items-start pt-7 pb-5`}>
-                  <p className={`w-full select-none text-start text-white text-[12px] lg:text-sm font-Red-Hat-Display`}>Showing {count} results</p>
+                    <p className={`w-full select-none text-start text-white text-[12px] lg:text-sm font-Red-Hat-Display`}>Showing {count} results</p>
+                </div>
+                
+                {/* skeleton loader */}
+                <div className={`w-full px-5 lg:px-8 pb-20 ${allArticles.length > 0 ? "hidden" : "block"}`}>
+                    <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-4">
+                        {isLoading
+                            ? Array.from({ length: 4 }).map((_, index) => (
+                                <motion.div
+                                    key={index}
+                                    initial={{ opacity: 0.5, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{
+                                        duration: 0.4,
+                                        delay: index * 0.08,
+                                        repeat: Infinity,
+                                        repeatType: "reverse",
+                                    }}
+                                    className="w-full rounded-xl bg-zinc-900 p-5"
+                                >
+                                    <div className="h-5 w-3/4 rounded-full bg-zinc-700 mb-4 animate-pulse" />
+                                    <div className="h-4 w-1/2 rounded-full bg-zinc-700 mb-5 animate-pulse" />
+                                    <div className="h-3 rounded-full bg-zinc-700 mb-3 animate-pulse" />
+                                    <div className="h-3 rounded-full bg-zinc-700 mb-3 w-5/6 animate-pulse" />
+                                    <div className="mt-4 flex flex-wrap gap-2">
+                                        <span className="h-8 w-20 rounded-full bg-zinc-700 animate-pulse" />
+                                        <span className="h-8 w-16 rounded-full bg-zinc-700 animate-pulse" />
+                                    </div>
+                                </motion.div>
+                            )) : null} 
+                    </div>
                 </div>
 
                 <div className={`w-full px-5 lg:px-8 pb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-4`}>
