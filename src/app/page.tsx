@@ -91,7 +91,7 @@ function page() {
           <div className={`w-full h-auto absolute top-[40%] lg:top-1/2 flex flex-col justify-center items-center gap-8`}>
             <motion.p initial={{opacity: 0, filter: "blur(20px)"}} animate={{opacity: 1, filter: "blur(0px)"}} transition={{delay: 0.6, duration: 1.4, ease: "easeInOut"}} style={{ scale }} className={`w-full select-none text-center text-white font-Red-Hat-Display px-5 md:px-10 xl:px-20 text-sm md:text-lg lg:text-sm xl:text-lg`}>Full Stack Web Developer with 2+ years of hands on experience in building scalable web apps. </motion.p>
 
-             <div className={`w-full flex justify-center items-center`}>
+             <div className={`w-full h-auto flex justify-center items-center`}>
                <Marquee speed={70} >
                  {titles.map((item, index) => {
                 return <motion.span initial={{opacity: 0, filter: "blur(20px)"}} animate={{opacity: 1, filter: "blur(0px)"}} transition={{delay: 0.6, duration: 1.4, ease: "easeInOut"}} style={{ scale }} key={index} className={`text-white text-4xl xl:text-6xl font-Hatton-Medium flex`}>{item} <SiGooglegemini className="mx-5" /></motion.span>
