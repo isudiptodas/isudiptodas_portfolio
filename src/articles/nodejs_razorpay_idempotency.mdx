@@ -384,6 +384,7 @@ app.listen(5000, () => {
 });
 ```
 **Why payment status webhook ?**
+
 If any network issue happens on my browser side or even if my browser gets crashed or if anything happens by which I don't have any access to the information that whether the payment was completed or not in that case a webhook is required. A webhook simply does that whenever a payment was completed the webhook will call a web URL (we have to specify it in our razorpay webhook section). And it will let us know that either a payment is completed or rejected. And by knowing that we will update the status in our redis. 
 (production safe #2)
 
