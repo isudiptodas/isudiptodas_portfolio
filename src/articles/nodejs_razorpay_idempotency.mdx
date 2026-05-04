@@ -1,0 +1,394 @@
+---
+title: Building an idempotent payment API in NodeJS with razorpay
+author: Sudipto Das
+date: 5 May, 2026
+category: SYSTEM_DESIGM
+linksAttached: false
+featured: false
+tags:
+  - System Design
+  - Idempotency
+  - Payment
+  - Razorpay
+---
+ 
+# Building an idempotent payment API in NodeJS with razorpay
+
+![nodejs-razorpay](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/nodejs-razorpay.png)
+
+## Problem statement:
+Have you ever wondered that how payment systems actually works of a website or any mobile app ?
+
+What if the user clicks on **"Pay Now"** button but the internet is very slow and it still shows loading, but the request has reached the backend and it is doing some kind of processing but the user don't know all of it. The user clicks five times more in the **"Pay Now"** button. Now what will happen ? 
+
+Or in middle of the payment if the user refreshes the page then will the payment be successfull or will get cancelled ?
+
+## Solution: IDEMPOTENCY
+Idempotency is a operation which we perform on API request and it simply means doesn't matter how many times you perform the action, it will give the same result everytime without changing the system state.
+
+In this article we are going to cover that how idempotency is achieved in a nodeJS application and we are also going to cover these below mentioned edge cases :
+
+1. Slow internet. User clicks **"Pay"** multiple times
+2. In middle of payment user refreshes the page
+
+## Tech stack used:
+- ReactJS
+- NodeJS (Express, CORS)
+- Redis 
+- Razorpay
+
+## System working:
+Before moving into the actual implementation part, it is really & highly recommend that you need to understand how the payment system actually works and how we can add idempotency.
+
+**Frontend**
+- User enters amount in input box
+- Clicks pay button
+- Function runs and the request (amount + a unique key) was send to backend
+
+
+**Backend**
+- Receives the request 
+- Checks in redis if an order is already present or not (if present then no need to create duplicate otherwise create new order)
+- Sends the order back to frontend
+
+**Frontend (In the same function)**
+- Response received
+- Razorpay payment popup opens with received order details
+- User enters payment details and clicks pay
+- Razorpay calls a handler function for payment verification
+- Payment done
+
+**Why we are using a unique key ?**
+Usually in traditional systems when an order needs to be created devs only used to send the amount which will create the order but in our case and even in modern systems we want to make our API idempotent means no duplicate entries so for that we need to track which orders we have created earlier so that we don't make any duplicate orders. And for that reason on every click we are sending the amount along with a unique key that is generated from frontend. And that unique key with the order details will be stored in Redis. So that whenever a new order creation route will be hit it will first check if that order already exists or not. If it doesn't exist then create a new order. That means it is a fresh order. And if it is exist that means our order is still pending. No need to create a duplicate and return that specific order from Redis.
+
+**Why use redis specifically ?**
+Now, the reason why I have specifically used redis here is very much opinionated because I wanted to store my unique keys somewhere so that I can check them later and obviously I may not have used redis here and I can have also used a simple storage in nodeJS object or I can even gone with MySQL or SQLite or even MongoDB, anything but for simplicity I have used redis.
+
+You can use whatever you want, even your store room as well.
+
+*** 
+## Frontend implementation:
+
+**Dependency install:**
+```bash
+npm i axios uuid
+```
+
+```javascript
+import axios from "axios"
+import { useEffect, useState } from "react"
+import { v4 as uuid } from 'uuid'
+
+const Home = () => {
+
+    const [amount, setAmount] = useState<number>();
+
+    useEffect(() => {
+        const checkPaymentStatus = async () => {
+            try {
+                const paymentKey = localStorage.getItem("payment-key");
+                if (!paymentKey) return;
+
+                const resp = await axios.get(`http://localhost:5000/api/payment/status/${paymentKey}`);
+
+                if (resp.data.status === "SUCCESS") {
+                    localStorage.removeItem("payment-key");
+                    alert("Payment completed successfully");
+                }
+            } catch (err: any) {
+                console.log(`Payment error -> ${err}`)
+            }
+        }
+
+        checkPaymentStatus()
+    }, []);
+
+    const payNow = async () => {
+        const key = localStorage.getItem('payment-key') || uuid();
+        localStorage.setItem('payment-key', key);
+
+        try {
+            const order = await axios.post(`http://localhost:5000/api/create-order`, {
+                amount, key
+            });
+
+            const options = {
+                key: import.meta.env.VITE_RAZORPAY_API_KEY,
+                amount: order.data.amount,
+                currency: "INR",
+                order_id: order.data.orderId,
+                handler: async (response: any) => {
+                    try {
+                        await axios.post("http://localhost:5000/api/verify-payment", response);
+                        localStorage.removeItem("payment-key");
+                        alert("Payment Success");
+                    } catch (err) {
+                        console.error(err);
+                    }
+                }
+            };
+
+            new window.Razorpay(options).open();
+        } catch (err: any) {
+            console.log(err)
+        }
+    }
+
+    return (
+        <>
+            <input
+                min={1}
+                onChange={(e) => setAmount(Number(e.target.value))}
+                value={amount}
+                type="number"
+                placeholder="Enter amount"
+                style={{
+                    outline: "none",
+                    paddingTop: 10,
+                    paddingBlock: 10,
+                    fontSize: 25,
+                    paddingLeft: 10,
+                    width: "100%",
+                    margin: 10,
+                    backgroundColor: "#dadada"
+                }} />
+            <p onClick={payNow} style={{
+                width: "100%",
+                backgroundColor: "#0095ff",
+                color: "white",
+                padding: 10,
+                textAlign: "center"
+            }}>Pay now</p>
+        </>
+    )
+}
+
+export default Home
+```
+**localStorage:**
+Storing the key in `localStorage` until I know my payment was successfully completed
+
+
+**useEffect:**
+Because even when the page gets refreshed I want to check that If my payment with a specific key is even completed or not. (production safe #1)
+
+## Backend implementation:
+
+**Dependency install:**
+```bash
+npm i express cors dotenv razorpay redis
+```
+
+```javascript
+import "dotenv/config";
+import cors from 'cors';
+import express from 'express';
+import { createClient } from 'redis';
+import Razorpay from 'razorpay';
+import * as crypto from 'crypto';
+
+const app = express();
+
+// razorpay instance setup
+const razorpay = new Razorpay({
+    key_id: String(process.env.RAZORPAY_API_KEY),
+    key_secret: String(process.env.RAZORPAY_API_SECRET_KEY)
+});
+
+// redis connection
+const redisClient = createClient({
+    username: process.env.redis_username,
+    password: process.env.redis_password,
+    socket: {
+        host: process.env.redis_host,
+        port: process.env.redis_port
+    }
+});
+
+redisClient.on("connect", () => {
+    console.log('Redis client connected');
+});
+await redisClient.connect();
+
+app.use(express.json());
+app.use(cors({
+    origin: "http://localhost:5173",
+    methods: ["POST", "GET"]
+}));
+
+// order creating route
+app.post('/api/create-order', async (req, res) => {
+    try {
+        const { amount, key } = req.body;
+
+        if (!amount || !key) {
+            return res.status(400).json({
+                success: false,
+                message: "Amount and key required"
+            });
+        }
+
+        const existing = await redisClient.get(key);
+
+        if (existing) {
+            return res.json(JSON.parse(existing));
+        }
+
+        const order = await razorpay.orders.create({
+            amount: amount * 100,
+            currency: "INR",
+            receipt: `rcpt_${Date.now()}`
+        });
+
+        const response = {
+            success: true,
+            orderId: order.id,
+            amount: order.amount
+        };
+
+        await redisClient.set(key, JSON.stringify(response), "EX", 86400);
+        await redisClient.set(`order:${order.id}`, JSON.stringify({ status: "PENDING", amount }), "EX", 86400);
+
+        res.json(response);
+
+    } catch (err) {
+        console.log(`Order creating error -> ${err}`);
+        res.status(500).json({
+            success: false,
+            message: "failed to create order"
+        });
+    }
+});
+
+// order verify route
+app.post("/api/verify-payment", async (req, res) => {
+    try {
+        const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+
+        const generatedSignature = crypto.createHmac("sha256", String(process.env.RAZORPAY_API_SECRET_KEY)).update(razorpay_order_id + "|" + razorpay_payment_id).digest("hex");
+
+        const isValid = generatedSignature === razorpay_signature;
+
+        if (!isValid) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid signature"
+            });
+        }
+
+        const orderData = await redisClient.get(
+            `order:${razorpay_order_id}`
+        );
+
+        if (!orderData) {
+            return res.status(404).json({
+                success: false,
+                message: "Order not found"
+            });
+        }
+
+        const parsed = JSON.parse(orderData);
+
+        if (parsed.status === "SUCCESS") {
+            return res.json({
+                success: true,
+                message: "Order successfully processed"
+            });
+        }
+
+        parsed.status = "SUCCESS";
+        parsed.paymentId = razorpay_payment_id;
+
+        await redisClient.set(`order:${razorpay_order_id}`, JSON.stringify(parsed), "EX", 86400);
+
+        return res.json({
+            success: true,
+            message: "Order verified"
+        });
+
+    } catch (err) {
+        console.log(`Verify error -> ${err}`);
+
+        res.status(500).json({
+            success: false,
+            message: "Order verification failed"
+        });
+    }
+});
+
+// check payment status
+app.get("/api/payment/status/:orderId", async (req, res) => {
+
+    const orderId = req.params.orderId;
+    const data = await redisClient.get(`order:${orderId}`);
+
+    if (!data) {
+        return res.status(404).json({
+            success: false,
+            message: "No payment history found"
+        });
+    }
+
+    return res.json(JSON.parse(data));
+}
+);
+
+// payment status webhook
+app.post("/api/payment/webhook", express.raw({ type: "application/json" }), async (req, res) => {
+
+    try {
+        const signature = req.headers["x-razorpay-signature"];
+        const expectedSignature = crypto.createHmac("sha256", String(process.env.RAZORPAY_WEBHOOK_SECRET_KEY)).update(req.body).digest("hex");
+
+        if (signature !== expectedSignature) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid signature"
+            });
+        }
+
+        const event = JSON.parse(req.body);
+
+        if (event.event === "payment.captured") {
+            const payment = event.payload.payment.entity;
+
+            const orderId = payment.order_id;
+
+            const orderData = await redisClient.get(`order:${orderId}`);
+
+            if (orderData) {
+                const parsed = JSON.parse(orderData);
+
+                parsed.status = "SUCCESS";
+
+                await redisClient.set(`order:${orderId}`, JSON.stringify(parsed), "EX", 86400);
+            }
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Verifiation successful"
+        });
+
+    } catch (err) {
+        console.log(`Webhook error -> ${err}`);
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong"
+        });
+    }
+});
+
+app.listen(5000, () => {
+    console.log("Server running")
+});
+```
+**Why payment status webhook ?**
+If any network issue happens on my browser side or even if my browser gets crashed or if anything happens by which I don't have any access to the information that whether the payment was completed or not in that case a webhook is required. A webhook simply does that whenever a payment was completed the webhook will call a web URL (we have to specify it in our razorpay webhook section). And it will let us know that either a payment is completed or rejected. And by knowing that we will update the status in our redis. 
+(production safe #2)
+
+## Congrats 🎉
+You have just built a fully functional and production safe idempotent payment API.
+
+***
+Thank you for reading ❤️
