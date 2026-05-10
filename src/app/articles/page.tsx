@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaSort } from "react-icons/fa";
 import { motion } from 'framer-motion';
+import { IoMdShare } from "react-icons/io";
 import { ArticleType as ArticleListItem } from '@/types/Article';
 
 function page() {
@@ -93,12 +94,12 @@ function page() {
                 <div className={`w-full px-5 lg:px-8 flex justify-start items-start pt-7 pb-5`}>
                     <p className={`w-full select-none text-start text-white text-[12px] lg:text-sm font-Red-Hat-Display`}>Showing {count} results</p>
                 </div>
-                
+
                 {/* skeleton loader */}
                 <div className={`w-full px-5 lg:px-8 pb-20 ${allArticles.length > 0 ? "hidden" : "block"}`}>
                     <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-4">
                         {isLoading
-                            ? Array.from({ length: 4 }).map((_, index) => (
+                            ? Array.from({ length: 6 }).map((_, index) => (
                                 <motion.div
                                     key={index}
                                     initial={{ opacity: 0.5, y: 20 }}
@@ -120,14 +121,14 @@ function page() {
                                         <span className="h-8 w-16 rounded-full bg-zinc-700 animate-pulse" />
                                     </div>
                                 </motion.div>
-                            )) : null} 
+                            )) : null}
                     </div>
                 </div>
 
                 <div className={`w-full px-5 lg:px-8 pb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-4`}>
 
                     {searchTerm && filteredArticles.map((item, index) => {
-                        return <div onClick={() => router.push(`/articles/${item.slug}`)} key={index} className={`w-full active:bg-zinc-800 duration-300 ease-in-out rounded-xl cursor-pointer flex flex-col justify-start items-start py-5 px-3 bg-zinc-900`}>
+                        return <div onClick={() => router.push(`/articles/${item.slug}`)} key={index} className={`w-full active:bg-zinc-800 duration-300 ease-in-out rounded-xl cursor-pointer flex flex-col justify-start items-start py-5 px-3 bg-zinc-900 relative`}>
                             <span className={`w-auto ${item.category === 'SYSTEM_DESIGN' ? "block" : "hidden"} px-3 py-1 rounded-full text-black text-[10px] border-2`} style={{
                                 borderColor: colors.SYSTEM_DESIGN.border,
                                 backgroundColor: colors.SYSTEM_DESIGN.bg
@@ -140,6 +141,7 @@ function page() {
                                 borderColor: colors.AI_ML.border,
                                 backgroundColor: colors.AI_ML.bg
                             }}>AI/ML</span>
+                            <span onClick={(e) => {e.stopPropagation(); navigator.clipboard.writeText(`https://www.isudiptodas.online/articles/${item.slug}`)}} className={`absolute top-4 text-white opacity-55 hover:opacity-100 duration-200 ease-in-out cursor-pointer right-5`}><IoMdShare /></span>
                             <h3 className={`w-full select-none text-start text-white font-bold text-lg my-3`}>{item.title}</h3>
                             <p className={`w-full select-none mb-2 text-start font-light text-white text-[10px] lg:text-[12px] font-mono my-2`}>{item.author} • {item.date}</p>
                             <div className={`w-full mt-2 mb-3 flex flex-wrap justify-start items-start gap-3`}>
@@ -151,7 +153,7 @@ function page() {
                     })}
 
                     {!searchTerm && allArticles.map((item, index) => {
-                        return <div onClick={() => router.push(`/articles/${item.slug}`)} key={index} className={`w-full active:bg-zinc-800 duration-300 ease-in-out rounded-xl cursor-pointer flex flex-col justify-start items-start py-5 px-3 bg-zinc-900`}>
+                        return <div onClick={() => router.push(`/articles/${item.slug}`)} key={index} className={`w-full active:bg-zinc-800 duration-300 ease-in-out rounded-xl cursor-pointer flex flex-col justify-start items-start py-5 px-3 bg-zinc-900 relative`}>
                             <span className={`w-auto ${item.category === 'SYSTEM_DESIGN' ? "block" : "hidden"} px-3 py-1 rounded-full font-semibold text-[10px] border-2`} style={{
                                 borderColor: colors.SYSTEM_DESIGN.border,
                                 backgroundColor: colors.SYSTEM_DESIGN.bg,
@@ -167,6 +169,7 @@ function page() {
                                 backgroundColor: colors.AI_ML.bg,
                                 color: colors.AI_ML.border
                             }}>AI/ML</span>
+                            <span onClick={(e) => {e.stopPropagation(); navigator.clipboard.writeText(`https://www.isudiptodas.online/articles/${item.slug}`)}} className={`absolute top-4 text-white opacity-55 hover:opacity-100 duration-200 ease-in-out cursor-pointer right-5`}><IoMdShare /></span>
                             <h3 className={`w-full select-none text-start text-white font-bold text-lg my-3`}>{item.title}</h3>
                             <p className={`w-full select-none mb-2 text-start font-light text-white text-[10px] lg:text-[12px] font-mono my-2`}>{item.author} • {item.date}</p>
                             <div className={`w-full mt-2 mb-3 flex flex-wrap justify-start items-start gap-3`}>
