@@ -1,0 +1,225 @@
+---
+title: The OAuth magic behind "Continue with Google"
+author: Sudipto Das
+date: 12 May, 2026
+category: SYSTEM_DESIGN
+linksAttached: false
+featured: false
+tags:
+  - System Design
+  - OAuth
+  - Google API
+---
+ 
+# The OAuth magic behind "Continue with Google"
+
+In multiple websites, you may have seen a button called **"continue with google"**.
+
+Now if you're a non tech person, then probably you have not thought much about it, but if you were someone who is into programming or softwares, then at least in a lifetime, you may have thought that how the button actually works, how after clicking a button you always get redirect to a different page and then every login / signup just happens automatically and it feels magical.
+
+The underlying architecture behind it is called OAuth & OIDC
+- OIDC : Open ID Connect
+- OAuth : Open Authorization
+
+It is the new modern framework upon which every new age software their authentication system are built upon.
+
+## What is OAuth ?
+OAuth or Open Authorization is a way where you are allowed to log in to different third party websites without entering a password every time. (Login without password)
+
+## What is OIDC ?
+OIDC on the other hand was built on top of OAuth and it is a protocol which tells a website that who is the logged in user.
+
+## Analogy
+You can understand this by a very simple analogy and that is OAuth helps you to access different third party websites without entering a password. On the other hand Open ID Connect let that specific website know that who you actually are without manually asking it from you.
+
+Now, before starting our project, you have to understand one thing that there are several ways by which we can implement OAuth in our application. But in today's project we are going to implement OAuth in the most professional, production ready and secure way by combining :
+
+-   custom "Continue with Google" button
+-   getting user temporary code from frontend
+-   verify the code and get user details in backend
+
+## Requirements
+1. A free account on GCP (Google Cloud Platform)
+2. NodeJS installed on system
+
+## Tech stack
+- Frontend : ReactJS
+- Backend : NodeJS
+- OAuth : Google
+
+## 1. Project setup on GCP
+
+1. Create a new project and select that project
+2. Search for **"OAuth consent screen"** on top search bar
+3. Now follow steps :
+
+
+![oauth-google](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/oauth-google/oauth-1.png)
+![oauth-google](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/oauth-google/oauth-2.png)
+
+- **Application type** will be **"Web application"**
+- **Name** -> the name of your app which will be displayed on the user side while selecting google account for login
+- **Authorized JS origins** -> on which domain your app will run, we are testing so I've added **localhost** but it is recommended that you should add your verified domain.
+
+## 2. Get client ID & secret ID
+1. On GCP homescreen, find and click **API & Services**
+2. From left sidebar click on **Credentials**
+3. Under OAuth Client IDs, select your created OAuth project name
+4. From left sidebar, under clients you will see your client ID & secret ID, copy those, will need later
+
+![oauth-google](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/oauth-google/oauth-3.jpg)
+![oauth-google](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/oauth-google/oauth-4.jpg)
+
+## 3. Frontend implementation
+
+**Install required dependency :**
+```
+npm i axios @react-oauth/google
+```
+To use OAuth login in frontend you need to wrap you app under the **GoogleOAuthProvider**
+
+`src/main.tsx`
+```javascript
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.tsx'
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GCP_CLIENT_ID}>
+      <App />
+    </GoogleOAuthProvider>
+  </StrictMode>,
+)
+```
+
+`src/app.tsx`
+```javascript
+import axios from "axios"
+import { useGoogleLogin } from '@react-oauth/google'
+
+function App() {
+
+  const login = useGoogleLogin({
+
+    flow: "auth-code",
+
+    onSuccess: async (codeResponse) => {
+
+      try {
+        const resp = await axios.post("http://localhost:5000/api/auth/google", {
+          credential: codeResponse.code
+        });
+      } catch (error) {
+        console.log(`Error logging user -> ${error}`);
+      }
+    },
+
+    onError: () => {
+      console.log("Google login failed");
+    }
+  });
+
+  return (
+    <>
+      <div style={{height: "100vh", width: "100%", display: "flex", justifyContent: "center"}}>
+        <p style={{
+          width: "200px",
+          height: "20px",
+          backgroundColor: "white",
+          border: "1.5px solid black",
+          paddingRight: "20px",
+          paddingLeft: "20px",
+          textAlign: "center",
+          paddingTop: "10px",
+          paddingBlock: "10px",
+        }} onClick={login}>
+          Continue with google
+        </p>
+      </div>
+    </>
+  )
+}
+
+export default App
+```
+
+1. Instead of **useGoogleLogin** hook we can also use a default button from google but for this project I wanted to built a custom buttom so I used the hook.
+2. The login flow type is **auth-code** means after user selects a google account a temporary code will be generated which will be sent on backend to verify user details.
+
+![oauth-google](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/oauth-google/oauth-5.jpg)
+![oauth-google](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/oauth-google/oauth-6.jpg)
+
+## 4. Backend verification
+
+**Install required dependency :**
+```
+npm i express dotenv cors google-auth-library
+```
+`index.tsx`
+```javascript
+import "dotenv/config"
+import { OAuth2Client } from "google-auth-library"
+import express from 'express'
+import cors from 'cors'
+
+const app = express();
+const client = new OAuth2Client(process.env.GCP_CLIENT_ID, process.env.GCP_CLIENT_SECRET, "postmessage");
+
+app.use(express.json());
+app.use(cors({
+    origin: ['http://localhost:5173'],
+    methods: ["POST"]
+}));
+
+app.post(`/api/auth/google`, async (req, res) => {
+    const { credential } = req.body;
+
+    console.log(credential);
+
+    try {
+        const tokenResponse = await client.getToken(credential);
+        const idToken = tokenResponse.tokens.id_token;
+        const ticket = await client.verifyIdToken({
+            idToken,
+            audience: process.env.GCP_CLIENT_ID
+        });
+
+        const payload = ticket.getPayload();
+        const { email, name, picture } = payload;
+
+        return res.status(200).json({
+            success: true,
+            message: "User verified"
+        });
+    } catch (err) {
+        console.log(`Error validating user -> ${err}`)
+    }
+});
+
+app.listen(5000, () => {
+    console.log(`Server started`);
+});
+```
+
+1. Receiving the temporary code (credential) from frontend
+2. Sending that code to get a tokenID as response
+3. From that tokenID we're getting the full payload which contains the users : name, email, profile picture, token issue time, expiry time.
+
+Now after this I have simply sent a 200 response back but you can choose to do whatever you want with the payload, 
+- if the user is not registered then create an account and issue login token
+- or if the user exists in database then issue a login token directly
+
+## Final working flow
+1. User will click on the button
+2. From the popup the user can select a google account
+3. After selection, a temporary code will be generated
+4. That code will be sent to backend
+5. Backend verifies the authenticity and gets user's data
+6. Done 🎉
+
+***
+Thank you for reading ❤️
+
