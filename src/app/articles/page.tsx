@@ -128,7 +128,7 @@ function page() {
                 <div className={`w-full px-5 lg:px-8 pb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-4`}>
 
                     {searchTerm && filteredArticles.map((item, index) => {
-                        return <div onClick={() => router.push(`/articles/${item.slug}`)} key={index} className={`w-full active:bg-zinc-800 duration-300 ease-in-out rounded-xl cursor-pointer flex flex-col justify-start items-start py-5 px-3 bg-zinc-900 relative`}>
+                        return <div onClick={() => router.push(`/articles/${item.slug}`)} key={index} className={`w-full hover:inset-shadow-sm hover:inset-shadow-black active:bg-zinc-800 duration-300 ease-in-out rounded-xl cursor-pointer flex flex-col justify-start items-start py-5 px-3 bg-zinc-900 relative`}>
                             <span className={`w-auto ${item.category === 'SYSTEM_DESIGN' ? "block" : "hidden"} px-3 py-1 rounded-full text-black text-[10px] border-2`} style={{
                                 borderColor: colors.SYSTEM_DESIGN.border,
                                 backgroundColor: colors.SYSTEM_DESIGN.bg
@@ -153,7 +153,7 @@ function page() {
                     })}
 
                     {!searchTerm && allArticles.map((item, index) => {
-                        return <div onClick={() => router.push(`/articles/${item.slug}`)} key={index} className={`w-full active:bg-zinc-800 duration-300 ease-in-out rounded-xl cursor-pointer flex flex-col justify-start items-start py-5 px-3 bg-zinc-900 relative`}>
+                        return <div onClick={() => router.push(`/articles/${item.slug}`)} key={index} className={`w-full hover:inset-shadow-sm hover:inset-shadow-black active:bg-zinc-800 duration-300 ease-in-out rounded-xl cursor-pointer flex flex-col justify-start items-start py-5 px-3 bg-zinc-900 relative`}>
                             <span className={`w-auto ${item.category === 'SYSTEM_DESIGN' ? "block" : "hidden"} px-3 py-1 rounded-full font-semibold text-[10px] border-2`} style={{
                                 borderColor: colors.SYSTEM_DESIGN.border,
                                 backgroundColor: colors.SYSTEM_DESIGN.bg,
