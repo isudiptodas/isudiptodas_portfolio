@@ -1,0 +1,291 @@
+---
+title: From localhost to live URL
+author: Sudipto Das
+date: 16 May, 2026
+category: DEVOPS
+linksAttached: false
+featured: false
+tags:
+  - Cloud
+  - EC2
+  - Websockets
+---
+ 
+# From localhost to live URL
+Ever heard the name NGROK ? A package that lets you share your localhost development URL to anyone via a live link.
+
+If not, then your childhood must have been very boring... just kidding !
+But on a serious side if you are into tech and to be specifically into development then you might have ever thought that what if you can share your **localhost** to anyone on the internet to view / test your websites, well obviously there are ways like :
+
+1. you can share port from vs code
+2. you can screen record then share the video
+3. push code in github then share repo url
+4. deploy your app and then share live link
+
+Lot of ways but what if you want a live url **instant** while developing in vscode or in any IDE and you want to share that url to anyone for feedback. Well **NGROK** serves that purpose.
+
+Suppose your app is running on port `5173` then in the powershell or cmd you just write a command like : `ngrok http 5173` (obviously you need to install the ngrok package first) and you get a live link instantly. 
+Now how all of this happens, is it magic or core engineering ? how a development server can be transferred from your personal laptop to literally anywhere on the internet ? That's what we are going to know and build today.
+
+## Requirements :
+1. An AWS account
+2. NodeJS install on local machine
+
+## Folder structure : 
+```
+Live-Tunnelling-System/
+├── client/
+│   ├── bin/
+│   │   └── tunnel.js
+│   ├── index.js
+│   ├── package.json
+│   └── package-lock.json
+│
+└── server/
+    ├── index.js
+    ├── package.json
+    └── package-lock.json
+```
+
+- **Client**: It will be on your local machine and will act as a global package
+- **Server**: It will be on your EC2 machine
+
+## Dependency install
+**For client :**
+```
+npm i axios ws
+```
+**For server :**
+```
+npm i axios cookie-parser express ws
+```
+
+## Client code
+`client/index.js`
+```javascript
+import WebSocket from "ws";
+import axios from "axios";
+
+const PORT = process.argv[2];
+
+function log(message) {
+  console.log(`[Tunnel] ${message}`);
+}
+
+if (!PORT) {
+  log("Usage: tunnel http <port>");
+  process.exit(1);
+}
+
+async function startTunnel() {
+  try {
+    await axios.get(`http://localhost:${PORT}`);
+    log(`Local application detected on port ${PORT}`);
+  } catch (error) {
+    log(`Nothing is running on localhost:${PORT}`);
+    process.exit(1);
+  }
+
+  const ws = new WebSocket("ws://<EC2-IP>:8080");
+
+  ws.on("open", () => log("Connected to tunnel server"));
+
+  ws.on("message", async (message) => {
+    try {
+      const data = JSON.parse(message);
+
+      if (data.type === "connected") {
+        log(`Tunnel is live at http://<EC2-IP>:3000/${data.tunnelId}`);
+        return;
+      }
+
+      if (data.type === "request") {
+        log(`${data.method} ${data.path}`);
+
+        const response = await axios({
+          method: data.method,
+          url: `http://localhost:${PORT}${data.path}`,
+          headers: data.headers,
+          data: data.body,
+          responseType: "arraybuffer",
+          validateStatus: () => true
+        });
+
+        ws.send(JSON.stringify({
+          type: "response",
+          requestId: data.requestId,
+          status: response.status,
+          body: Buffer.from(response.data).toString("base64"),
+          contentType: response.headers["content-type"]
+        }));
+      }
+
+    } catch (error) {
+      log(`Request failed: ${error.message}`);
+    }
+  });
+
+  ws.on("error", (error) => log(`Connection failed: ${error.message}`));
+
+  ws.on("close", () => log("Tunnel disconnected"));
+}
+
+startTunnel();
+```
+`client/bin/tunnel.js`
+```javascript
+#!/usr/bin/env node
+
+import path from "path";
+import { spawn } from "child_process";
+import { fileURLToPath } from "url";
+
+try {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+
+  const command = process.argv[2];
+  const port = process.argv[3];
+
+  if (command !== "http" || !port) {
+    console.log("[Tunnel] Usage: tunnel http <port>");
+    process.exit(1);
+  }
+
+  const clientPath = path.join(__dirname, "..", "index.js");
+
+  spawn("node", [clientPath, port], { stdio: "inherit" });
+
+} catch (error) {
+  console.log(`[Tunnel] CLI error: ${error.message}`);
+}
+```
+
+Now while you're in your **client/bin** folder, 
+run `npm install -g .` which will install your tunnel code as a package globally in your system and will allow you to run live tunnel proxy from any path of your system.
+
+## Server code
+On your EC2 machine you need to have **nodejs**, **npm**, and **pm2** installed.
+
+`server/index.js`
+```javascript
+import express from "express";
+import { WebSocketServer } from "ws";
+import crypto from "crypto";
+import cookieParser from "cookie-parser";
+
+const app = express();
+const tunnels = {};
+const pendingRequests = {};
+
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.listen(3000, "0.0.0.0", () => {
+  console.log("HTTP server running on port 3000");
+});
+
+const wss = new WebSocketServer({
+  host: "0.0.0.0",
+  port: 8080
+});
+
+wss.on("connection", (ws) => {
+  const tunnelId = crypto.randomBytes(3).toString("hex");
+
+  tunnels[tunnelId] = ws;
+  console.log(`Client connected: ${tunnelId}`);
+
+  ws.send(JSON.stringify({
+    type: "connected",
+    tunnelId
+  }));
+
+  ws.on("message", (message) => {
+    try {
+      const data = JSON.parse(message);
+      if (data.type !== "response") return;
+      const res = pendingRequests[data.requestId];
+      if (!res) return;
+      delete pendingRequests[data.requestId];
+      if (data.contentType) res.setHeader("Content-Type", data.contentType);
+
+      let body = Buffer.from(data.body, "base64");
+
+      if (data.contentType?.includes("text/html")) {
+        body = body.toString();
+        body = body.replace("<head>", `<head><base href="/${tunnelId}/"><script>(function(){const code='/${tunnelId}'; if(location.pathname.startsWith(code)){history.replaceState({},'',location.pathname.replace(code,'')||'/'+location.search+location.hash);}})();</script>`);
+
+        body = Buffer.from(body);
+      }
+      res.status(data.status).send(body);
+    } catch (error) {
+      console.log(`Response error: ${error.message}`);
+    }
+  });
+
+  ws.on("close", () => {
+    delete tunnels[tunnelId];
+    console.log(`Client disconnected: ${tunnelId}`);
+  });
+});
+
+app.use((req, res) => {
+  let tunnelId = req.path.split("/")[1];
+
+  if (tunnels[tunnelId]) {
+    res.cookie("tunnelId", tunnelId);
+  } else {
+    tunnelId = req.headers.cookie?.split("=")[1];
+  }
+
+  const client = tunnels[tunnelId];
+
+  if (!client) return res.status(404).send("Tunnel not found");
+  const realPath = req.originalUrl.startsWith(`/${tunnelId}`) ? req.originalUrl.replace(`/${tunnelId}`, "") || "/" : req.originalUrl;
+  const requestId = crypto.randomUUID();
+  pendingRequests[requestId] = res;
+
+  client.send(JSON.stringify({
+    type: "request",
+    requestId,
+    method: req.method,
+    path: realPath,
+    headers: req.headers,
+    body: req.body
+  }));
+
+  setTimeout(() => {
+    if (!pendingRequests[requestId]) return;
+    delete pendingRequests[requestId];
+    if (!res.headersSent) res.status(504).send("Tunnel timeout");
+  }, 30000);
+});
+```
+Now on your EC2 machine navigate to server folder and run `pm2 start index.js --name tunnel-server`
+
+You'll see something like this :
+![pm2](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/pm2-start.png)
+
+Additionally you have to allow some ports for your EC2 security groups otherwise your tunneling will not work.
+![ec2-ports](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/ec2-allowed-tunneling.png)
+
+## How everything works together :
+
+1. Starting with the very first our **tunnel.js** file, which is under the bin folder, which will help you to run simple commands like `tunnel http <PORT>` . We have used the **tunnel.js** code to detect what the user has written in terminal, otherwise you have to write the entire command every time also specifying the exact path of the client file something like :  `node C:\users\tom\client\index.js`
+2. Suppose your application is running on port 5173, which is a react application and now in your terminal when you will write `tunnel http 5173` first in the **tunnel.js** file it will check that if anything is either running on your 5173 or not, if it found that yes, a service is running on your 5173 port of your local machine, then it moves to the **index.js** file
+3. Now your clients **index.js** file will try to make a websocket connection to your EC2 IP on port 8080 as our websocket is running on that port, because to keep the tunnel open you need a connection type which is double ended and can keep connections alive, that's why we're using websockets.
+4. After establishing a successful websocket connection, your server will respond back with a unique ID which will be appended to your EC2 URL, and your entire URL will be printed on your terminal. And when you will open that URL on a new browser, you can access your local host website live even if you can share that link to anyone and they can also view that live.
+5. Now when someone will open that link in a new tab or browser, a http request will be sent to that EC2 server and that EC2 server will check from which ID this request is coming from and obviously that EC2 server has a list of unique IDs mapped for each unique tunnel and then it will forward the request to that specific tunnels machine (along with the request path) which in this case is your react app running on port 5173.
+6. Now through the websocket connection when EC2 server will send the response back to your machine your machine will identify the request and then it will send back the actual page content in a base64 encoded string and that string will be contained HTML, CSS, JavaScript, images, files, everything. And that base64 string will be sent back to your EC2 server and then EC2 server will again forward that to the live URL. And that is how your actual website content will be visible to the live yeah URL of the unique ID from which the request came.
+
+At a high level view, anyone will think that the page is running on the link but in reality the page content is getting transfered from :
+```
+your laptop -> EC2 server -> live URL
+```
+![live-tunneling](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/live-tunneling.png)
+
+***
+
+Thank you for reading ❤️
