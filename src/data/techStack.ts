@@ -5,7 +5,7 @@ export const techStackList = [
   },
   {
     title: "FRONTEND",
-    items: "HTML, CSS, JavaScript, TypeScript, TailwindCSS, ReactJs, NextJs",
+    items: "HTML, CSS, JavaScript, TypeScript, TailwindCSS, ReactJs, NextJs, React Native",
   },
   {
     title: "BACKEND",
@@ -13,7 +13,7 @@ export const techStackList = [
   },
   {
     title: "DESIGN & MODELING",
-    items: "Canva, Figma, Affinity, Spline",
+    items: "Canva, Figma",
   },
   {
     title: "DATABASES",
