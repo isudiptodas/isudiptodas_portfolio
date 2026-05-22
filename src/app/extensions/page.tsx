@@ -26,7 +26,7 @@ function page() {
                             <p className={`w-full text-start text-white text-[8px] opacity-50 py-2 px-3 select-none flex justify-start items-center gap-2`}> <span className={`text-[12px]`}>{platformIcons[item.platform]}</span> {item.platform}</p>
                             <div className={`w-full h-full rounded-xl bg-zinc-900 flex flex-col justify-between items-center px-3 py-3`}>
                                 <div className={`w-full flex justify-start items-center gap-3`}>
-                                    <img src={item.icon} className={`h-5`} />
+                                    <img src={item.icon} className={`h-6`} />
                                     <p className={`w-full text-start text-white font-Red-Hat-Display font-semibold text-xl lg:text-lg select-none`}>{item.name}</p>
                                 </div>
                                 <p className={`w-full text-start text-white font-light text-[10px] opacity-65 my-3 select-none`}>{item.desc}</p>
