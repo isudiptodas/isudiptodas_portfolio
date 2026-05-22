@@ -55,7 +55,7 @@ export const extensions = [
     },
     {
         name:  `Global AD Blocker`,
-        icon: `/extension-icons/inline-api-test.png`,
+        icon: `/extension-icons/ad-blocker.png`,
         desc: `Advanced Chrome extension that blocks website ads, banners, popups, trackers, and aggressively skips YouTube advertisements automatically.`,
         platform: `Google Chrome`,
         link: ``,
