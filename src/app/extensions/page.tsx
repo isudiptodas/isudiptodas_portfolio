@@ -30,7 +30,7 @@ function page() {
                                     <p className={`w-full text-start text-white font-Red-Hat-Display font-semibold text-xl lg:text-lg select-none`}>{item.name}</p>
                                 </div>
                                 <p className={`w-full text-start text-white font-light text-[10px] opacity-65 my-3 select-none`}>{item.desc}</p>
-                                <p onClick={() => window.open(item.link, '_blank')} className={`w-full select-none py-2 active:opacity-70 duration-200 ease-in-out text-center bg-linear-to-r from-[#0012ff] to-[#001e8c] text-white flex justify-center items-center gap-2 text-[10px] cursor-pointer rounded-xl`}>Download <FaDownload /></p>
+                                <p onClick={() => window.open(item.link, '_blank')} className={`w-full ${item.linkAvailable ? "block" : "hidden"} select-none py-2 active:opacity-70 duration-200 ease-in-out text-center bg-linear-to-r from-[#0012ff] to-[#001e8c] text-white flex justify-center items-center gap-2 text-[10px] cursor-pointer rounded-xl`}>Download <FaDownload /></p>
                             </div>
                         </div>
                     })}
