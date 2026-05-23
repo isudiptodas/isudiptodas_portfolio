@@ -54,6 +54,14 @@ export const extensions = [
         linkAvailable: true
     },
     {
+        name:  `Dependency Chart`,
+        icon: `/extension-icons/dependency-chart.png`,
+        desc: `Dependency Chart is a VS Code extension that converts your project dependencies into an animated interactive pie chart for faster analysis and understanding.`,
+        platform: `Visual Studio Code`,
+        link: `https://marketplace.visualstudio.com/items?itemName=isudiptodas.dependency-chart`,
+        linkAvailable: true
+    },
+    {
         name:  `Global AD Blocker`,
         icon: `/extension-icons/ad-blocker.png`,
         desc: `Advanced Chrome extension that blocks website ads, banners, popups, trackers, and aggressively skips YouTube advertisements automatically.`,
