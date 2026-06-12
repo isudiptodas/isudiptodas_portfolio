@@ -3,7 +3,6 @@ title: Understanding messaging queues with BullMQ
 author: Sudipto Das
 date: 31 Mar, 2026
 category: SYSTEM_DESIGN
-linksAttached: false
 featured: false
 tags:
   - System Design
@@ -29,7 +28,7 @@ At very first you need to configure a redis connection because internally BullMQ
 3. The workers pull each task from the queue job and does its operations
 4. After the operations are completed, it clears the tasks from redis memory
 
-![vpc-diagram](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/bullmq-working.png) 
+![vpc-diagram](https://ik.imagekit.io/isudiptodas/portfolio-article-images/bullmq-working.png) 
 
 - **Step 1**: User proceeds for account creation
 - **Step 2**: Data is pushed in email queue

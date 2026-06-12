@@ -21,7 +21,7 @@ Now you may ask, why only API ? So my friend, everything depends on API, because
 Below are some ways and by implementing them you can make your system scale.
 
 ## 1. Caching
-![caching](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/caching.png)
+![caching](https://ik.imagekit.io/isudiptodas/portfolio-article-images/caching.png)
 
 Undoubtedly the very best and very common approach for optimizing API calls is caching. Caching simply means store frequently accessed data in the memory so that whenever that particular data is required the API can fetch directly from the cache layer and will not run a database query. It will help save time for database calls and the response time will also increase a little.
 
@@ -36,7 +36,7 @@ Now in this same situation, let's add a caching layer. So when the page will loa
 If you are creating a very small application for testing or for demo purposes in that case maybe caching will not be helpful for you. But in real life cases where the scale is massive and user base grows to million and billion, in that case caching is very much helpful because caching works in the memory (RAM) and every data is stored temporarily in the memory, so accessing becomes much more faster.
 
 ## 2. Messaging Queues
-![messaging-queues](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/messaging-queues.png)
+![messaging-queues](https://ik.imagekit.io/isudiptodas/portfolio-article-images/messaging-queues.png)
 
 Back in the year 2024 when I have just started learning full-stack web development and to be specific learning backend, I got to know about authentication, hashing, sending mail and everything. So what I wanted to do is I want to register people in my website and send them a welcome e-mail.
 
@@ -47,7 +47,7 @@ It is nearly impossible that my API responses or any of my particular route will
 To prevent this, we can use messaging queues. That means whatever task that will take time or there is a probability and it will take much longer than we would ever expect push it in a messaging queue. Pushing in a messaging queue means you can perform the rest of the things as it is like collecting data from the frontend, process that data, send a response but you are changing one thing. Instead of processing entire thing in a single API route and then returning a response, you are pushing the complicated task, the task which may need some time to finish in a messaging queue and returning a response and by doing this you are assuring the user that everything is fine and you can proceed to the next process or next step and in the background the messaging queue will process that task.
 
 ## 3. Database indexing
-![indexing](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/indexing.png)
+![indexing](https://ik.imagekit.io/isudiptodas/portfolio-article-images/indexing.png)
 
 > This table diagram is just for the purpose of understanding database indexing
 

@@ -3,7 +3,6 @@ title: The 20 essentials of system design
 author: Sudipto Das
 date: 22 Apr, 2026
 category: SYSTEM_DESIGN
-linksAttached: false
 featured: false
 tags:
   - System Design
@@ -74,7 +73,7 @@ SSD: 42GB (x5)
 - **Horizontal scaling:** Keep resource capacity same, but add more servers
 
 ## 4. DNS working
-![dns](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/dns.png)
+![dns](https://ik.imagekit.io/isudiptodas/portfolio-article-images/dns.png)
 In any browser when you type a URL for example www.facebook.com what do you think ? How the browser will actually know that where is facebook.com or which page you want to visit ? It doesn't magically knows, behind the scenes DNS works.
 
 You can think of DNS as a phone book for the Internet. And with each domain name there is an IP address mapped in DNS records so when you type any URL, the DNS resolver comes in and redirects the domain with the actual IP address.
@@ -89,7 +88,7 @@ Many people underestimate this step. People think that database can be of any ty
 
 
 ## 6. Caching
-![caching](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/caching.png)
+![caching](https://ik.imagekit.io/isudiptodas/portfolio-article-images/caching.png)
 Suppose you made an e-commerce website for your own business and there you are selling different electronic products and whenever people come in your homepage, every time the page refreshes and a new database call happens to get all the products from database and return to the frontend. Now if your page will load 100 times, 100 database call occur which will eventually slow down your API response time and will degrade your app performance.
 
 Now in this same situation, let's add a caching layer. So when the page will load for the first time, the database call will happen and the requested data will be fetched and returned to the frontend but before returning to the frontend, it will be stored in the caching layer. So from the next time, whenever the page will load, the API will not hit the database query, instead it will first look in the caching layer and if it founds the data there, it will just return from the caching layer and no database query will happen. This will eventually make your API responses much faster.
@@ -101,7 +100,7 @@ Now in this same situation, let's add a caching layer. So when the page will loa
 4. MemoryCache (.NET)
 
 ## 7. Sharding
-![sharding](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/sharding.png)
+![sharding](https://ik.imagekit.io/isudiptodas/portfolio-article-images/sharding.png)
 Sharding is the way where we distribute our data in different small shards/DBs. It is highly recommended to use sharding as it enables horizontal scaling and reduces latency by not querying the entire large database instead just query the required portion from the available shard. It also reduces the risk of single point of failure.
 
 **before:**
@@ -115,7 +114,7 @@ Sharding is the way where we distribute our data in different small shards/DBs. 
 - 5 million rows each database
 
 ## 8. Load balancing
-![loadbalancer](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/loadbalancer.png)
+![loadbalancer](https://ik.imagekit.io/isudiptodas/portfolio-article-images/loadbalancer.png)
 Load balancing is the way of distributing incoming traffic to all the servers equally so that no single server should handle maximum traffic instead all the traffic will be handled by all the servers equally. 
 
 Load balancing can be implemented by several ways such as: round robin, least connection, IP hash etc.
@@ -141,7 +140,7 @@ By following this we can make sure that our database will not be bombarded with 
 CAP theorem, also stands for (Consistency, Availability, Partition tolerance). It mainly states that a system that is distributed can avail only two at once not all three (CAP). This technique is only applied when you have either a microservice architecture or a distributed database.
 
 ## 11. Monolith vs Microservices
-![mono-micro](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/monolith_microservice.png)
+![mono-micro](https://ik.imagekit.io/isudiptodas/portfolio-article-images/monolith_microservice.png)
 
 | Monolith | Microservices |
 |--|--|
@@ -151,7 +150,7 @@ CAP theorem, also stands for (Consistency, Availability, Partition tolerance). I
 | Not scalable | Highly scalable |
 
 ## 12. Messaging Queues
-![messaging-queues](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/messaging-queues.png)
+![messaging-queues](https://ik.imagekit.io/isudiptodas/portfolio-article-images/messaging-queues.png)
 Messaging queues are the way of performing asynchronous task based on any event or any topic. It mainly works on producer and consumer architecture, where a producer is responsible to creating tasks and the consumers accept and process the tasks.
 
 Think of it is like you want to send welcome emails to user after login and now you are writing all of the codes in a single function. First register, then send mail, keep waiting until the mail was sent and then return a response. Ughhh, boring, now we can make it 10x better by implementing an asynchronous queue where after registering we will push the users email into a queue and then the consumers will do the mail sending thing behind the scenes, in this way your app will not wait until a task is completed and it's performance will also increase as it is decoupling things.
@@ -169,7 +168,7 @@ For example:
 A person lives in mumbai but he is using instagram where the main server is on U.S but the frequently accessed files will be stored in the users nearest CDN location (any data center near mumbai) so just by this the user will see reduced latency and overall improved and fast user experience.
 
 ## 14. API Gateway
-![api-gateway](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/api-gateway.png)
+![api-gateway](https://ik.imagekit.io/isudiptodas/portfolio-article-images/api-gateway.png)
 You can think of an API gateway as a middleman who sits in between the client and the different backend services and based on the API route it gets decided that on which service the request should forward.
 
 ## 15. Proxy (Forward & Reverse)
@@ -209,7 +208,7 @@ API designing is a way of writing API routes so that it can be useful for users 
 `GET /api/v2/post/:id`
 
 ## 18. Database indexing
-![indexing](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/indexing.png)
+![indexing](https://ik.imagekit.io/isudiptodas/portfolio-article-images/indexing.png)
 
 Database indexing is a technique where a separate small index structure is created to minimise the lookup speed and fast data retrieval.
 

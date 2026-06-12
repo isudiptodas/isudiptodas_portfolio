@@ -3,7 +3,6 @@ title: From localhost to live URL
 author: Sudipto Das
 date: 16 May, 2026
 category: DEVOPS
-linksAttached: false
 featured: true
 tags:
   - Cloud
@@ -267,10 +266,10 @@ app.use((req, res) => {
 Now on your EC2 machine navigate to server folder and run `pm2 start index.js --name tunnel-server`
 
 You'll see something like this :
-![pm2](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/pm2-start.png)
+![pm2](https://ik.imagekit.io/isudiptodas/portfolio-article-images/pm2-start.png)
 
 Additionally you have to allow some ports for your EC2 security groups otherwise your tunneling will not work.
-![ec2-ports](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/ec2-allowed-tunneling.png)
+![ec2-ports](https://ik.imagekit.io/isudiptodas/portfolio-article-images/ec2-allowed-tunneling.png)
 
 ## How everything works together :
 
@@ -285,7 +284,7 @@ At a high level view, anyone will think that the page is running on the link but
 ```
 your laptop -> EC2 server -> live URL
 ```
-![live-tunneling](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/live-tunneling.png)
+![live-tunneling](https://ik.imagekit.io/isudiptodas/portfolio-article-images/live-tunneling.png)
 
 ***
 

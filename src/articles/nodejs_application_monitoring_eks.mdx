@@ -19,7 +19,6 @@ To move along with this article you will need a free AWS account and an EKS clus
 
 When we talk about monitoring there are around 5-6 types of monitoring in DevOps. And two of the most widely used monitoring styles are cluster monitoring and application performance monitoring. And today we are going to see application monitoring in a nodejs app.
 
-We also covered cluster monitoring on EKS check it out [here](https://www.isudiptodas.online/articles/kubernetes_cluster_monitoring)
 
 ## Steps to follow
 1. Install `helm` on ubuntu 
@@ -201,7 +200,7 @@ Now after doing all of this, when you run commands to apply these files then you
 Run command `kubectl get svc -n monitoring`.
 You will see all the services running on the monitoring namespace and one of the service you will find as : **prometheus-grafana**. By default that service type is ClusterIP, you should change that service type from ClusterIP to LoadBalancer and then you will run the command again `kubectl get svc -n monitoring` and you will see a DNS name beside that service, copy and paste that in a browser and you will see grafana login screen will appear.
 
-![app-metric](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/grafana-login.png)
+![app-metric](https://ik.imagekit.io/isudiptodas/portfolio-article-images/grafana-login.png)
 
 -   **username**  -> admin
 -   **password**  -> run  `kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode`
@@ -227,21 +226,21 @@ Now after adding the data source you need to add the dashboard because obviously
 
 Go to the dashboard section from the left side tab and create a new dashboard, select a data source (Prometheus). Select a dashboard style and continue.
 
-![app-metric](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/grafana-dashboard-2.png)
+![app-metric](https://ik.imagekit.io/isudiptodas/portfolio-article-images/grafana-dashboard-2.png)
 
 ## Step 7: Add custom visualization in grafana
 With the current setup till now only your cluster level monitoring is visible. But if you want to add your application monitoring as well then you have to add by a custom visualization.
 
 **Follow the below mentioned steps**
 
-![app-metric](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/grafana-app-metric/grafana-app-metric-1.jpg)
-![app-metric](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/grafana-app-metric/grafana-app-metric-2.jpg)
-![app-metric](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/grafana-app-metric/grafana-app-metric-3.jpg)
-![app-metric](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/grafana-app-metric/grafana-app-metric-4.jpg)
+![app-metric](https://ik.imagekit.io/isudiptodas/portfolio-article-images/grafana-app-metric/grafana-app-metric-1.jpg)
+![app-metric](https://ik.imagekit.io/isudiptodas/portfolio-article-images/grafana-app-metric/grafana-app-metric-2.jpg)
+![app-metric](https://ik.imagekit.io/isudiptodas/portfolio-article-images/grafana-app-metric/grafana-app-metric-3.jpg)
+![app-metric](https://ik.imagekit.io/isudiptodas/portfolio-article-images/grafana-app-metric/grafana-app-metric-4.jpg)
 
 Here in the **Select metric** section search for the name which we defined in our nodeJS prom-client registry. In our case it is `http_requests_total`. After selecting it click on **Save dashboard** and exit.
 
-![app-metric](https://raw.githubusercontent.com/isudiptodas/isudiptodas_portfolio/main/src/articles/images/grafana-app-metric/grafana-app-metric-5.jpg)
+![app-metric](https://ik.imagekit.io/isudiptodas/portfolio-article-images/grafana-app-metric/grafana-app-metric-5.jpg)
 Now your application metrics are also started showing in the dashboard.
 
 ***
