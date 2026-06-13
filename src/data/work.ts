@@ -19,4 +19,9 @@ export const works = [
         image: `/assets/work-background/extension.png`,
         link: `/extensions`
     },
+    {
+        title: `Cloud & DevOps`,
+        image: `/assets/work-background/cloud.jpeg`,
+        link: `/cloud`
+    }
 ];

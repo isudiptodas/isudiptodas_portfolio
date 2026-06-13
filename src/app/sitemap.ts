@@ -22,5 +22,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: "https://www.isudiptodas.online/articles",
       lastModified: new Date(),
     },
+    {
+      url: "https://www.isudiptodas.online/cloud",
+      lastModified: new Date(),
+    }
   ];
 }

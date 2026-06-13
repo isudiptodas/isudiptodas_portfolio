@@ -126,7 +126,7 @@ function page() {
           <div className={`w-full pb-10 bg-white h-auto flex flex-col justify-start items-center pt-10`}>
             <motion.h1 initial={{filter: "blur(20px)"}} whileInView={{filter: "blur(0px)"}} transition={{delay: 0.3, duration: 0.4, ease: "easeInOut"}} viewport={{once: true}} className={`w-full text-center px-5 text-black font-Horizon text-2xl md:text-4xl xl:text-6xl`}>SELECTED WORKS</motion.h1>
 
-            <div className={`w-full px-3 h-auto mt-5 md:mt-10 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 justify-items-center gap-4`}>
+            <div className={`w-full px-3 h-auto mt-5 md:mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center gap-4`}>
               {works.map((item, index) => {
                 return <motion.div initial={{filter: "blur(20px)"}} whileInView={{filter: "blur(0px)"}} transition={{delay: 0.3, duration: 0.4, ease: "easeInOut"}} viewport={{once: true}} key={index} className={`w-full rounded-xl bg-[#e4e4e4] flex flex-col justify-start items-center pb-3`}>
                   <div className={`w-full h-56 rounded-xl overflow-hidden bg-black`}> <img src={item.image} className={`w-full h-full object-cover`} /> </div>
