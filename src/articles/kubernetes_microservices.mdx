@@ -1,0 +1,487 @@
+---
+title: This is how microservices work on Kubernetes
+author: Sudipto Das
+date: 14 June, 2026
+featured: false
+category: DEVOPS
+tags:
+  - AWS
+  - Kubernetes
+  - Microservices
+---
+#  This is how microservices work on Kubernetes
+
+The reason why I built this project is very simple because I wanted to learn how actually microservices work in production not just in theoretically but actually with real implementation. And as we all know, microservices means you are distributing your monolith or a single codebase into manageable individual services.
+
+Before starting the overall discussion and implementation, I just want to clear out some things that 
+- what have I built?
+- why have I built this?
+- how have I built this?
+- what tech stack have I used?
+
+## What have I built?
+A calendar-based task management web app for managing tasks, automated reminders. Yeah, that's it, nothing special.
+
+## Why have I built this?
+Because I didn't find any more interesting topic to create on. And even my main aim was to implement microservice not to make revolutionary task management app.
+
+## How have I built this?
+At first, I have a **frontend**. Then instead of creating a single backend server I divided the backend based on each individual service, and now I have :
+
+1. Authentication service (signup, login, user verification)
+2. Task service (task CRUD operations)
+3. Notification service (welcome email, automated reminders)
+4. Password service (password recovery OTP, new password updation)
+
+## What tech stack have I used?
+ 
+1. **Frontend** : ReactJS + TypeScript
+2. **Backend** : NodeJS + Express
+3. **Database** : MongoDB
+4. **Asynchronous tasks** : BullMQ + Redis
+5. **Deployment** : AWS EKS (Kubernetes)
+
+> The sole purpose of this article is to explain the implementation & working, so if you are hoping that every codefiles will be here then sorry for that, be ready for disappointment
+
+## Architecture
+| Development | Production |
+|--|--|
+| Frontend will use 4 separate API URLs to communicate with backend services | Frontend will communicate with only one single DNS with the help of ingress |
+
+> **Ingress** :  An ingress in simple words is a route traffic controller, you define ingress with some routing configuration and it routes internet traffic to your service based on specified conditions / rules. 
+> **NOTE** : You should use ingress only if you have multiple services running for a single application and you want path based routing otherwise normal load balancers will also work fine.  
+
+
+## Project folder structure
+
+```bash
+MICROSERVICE
+│
+├── auth-service/
+├── frontend/
+├── k8s/
+├── notification-service/
+├── password-service/
+├── task-service/
+└── README.md
+```
+
+- **frontend** : a simple react application from where every backend service API call is happening
+- **auth-service** : performing operations for login, signup, user verification
+- **notification-service** : performing welcome mail sending, automated task date reminder
+- **password-service** : performing password recovery, OTP validating, new password updation
+- **task-service** : performing all CRUD task operations
+
+## Explained folder structure
+
+### 1. `auth-service`
+```bash
+auth-service/
+├── config/
+│   └── db.js
+├── models/
+│   └── User.js
+├── routes/
+│   └── authRoutes.js
+├── .dockerignore
+├── .env
+├── .gitignore
+├── Dockerfile
+├── package-lock.json
+├── package.json
+└── server.js
+```
+
+This service is responsible for authentication-related work like user registration, login, logout, and checking whether the current user is already logged in or not.
+
+| Folder/File | What it does | Connected with |
+|---|---|---|
+| `config/db.js` | Creates the MongoDB connection for the auth service whenever user-related database work is needed. | MongoDB Atlas |
+| `models/User.js` | Defines the user schema. It stores user details like name, email, and hashed password. | MongoDB `users` collection |
+| `routes/authRoutes.js` | Contains all authentication routes like register, login, logout, and current user verification. It also creates JWT tokens and stores them in cookies. | MongoDB, JWT, Notification service |
+| `.env` | Stores environment variables required by the auth service, like MongoDB URL, JWT secret, frontend URL, and notification service URL. | Used by the auth service runtime |
+| `.dockerignore` | Tells Docker which files should not be copied into the Docker image. | Docker |
+| `.gitignore` | Tells Git which files should not be tracked. | Git |
+| `Dockerfile` | Defines how to build the Docker image for the auth service. | Docker |
+| `package.json` | Contains service dependencies, scripts, and project metadata. | Node.js/npm |
+| `package-lock.json` | Locks exact dependency versions for consistent installs. | Node.js/npm |
+| `server.js` | Starts the Express server, adds middleware like CORS and JSON parsing, and mounts auth routes. | Express, auth routes |
+
+In simple words, whenever a user signs up, logs in, logs out, or opens the home page after login, the frontend communicates with this service.
+
+### 2. `notification-service`
+```bash
+notification-service/
+├── config/
+│   ├── mailer.js
+│   └── queue.js
+├── routes/
+│   └── notificationRoutes.js
+├── .dockerignore
+├── .env
+├── .gitignore
+├── Dockerfile
+├── package-lock.json
+├── package.json
+└── server.js
+```
+
+This service is responsible for email-related work. Other services do not send emails directly. They send a request to this service, and this service handles the email queue and delivery.
+
+| Folder/File | What it does | Connected with |
+|---|---|---|
+| `config/mailer.js` | Contains the email sending logic using Resend. It prepares and sends emails to users. | Resend |
+| `config/queue.js` | Creates the BullMQ email queue and worker. It processes email jobs in the background. | BullMQ, Redis Cloud |
+| `routes/notificationRoutes.js` | Contains notification routes for welcome email, password OTP email, and task reminder email. These routes add email jobs into the queue. | BullMQ queue |
+| `.env` | Stores required values like Redis credentials, Resend API key, sender email, and frontend URL. | Redis Cloud, Resend |
+| `.dockerignore` | Tells Docker which files should not be copied into the Docker image. | Docker |
+| `.gitignore` | Tells Git which files should not be tracked. | Git |
+| `Dockerfile` | Defines how to build the Docker image for the notification service. | Docker |
+| `package.json` | Contains service dependencies, scripts, and project metadata. | Node.js/npm |
+| `package-lock.json` | Locks exact dependency versions for consistent installs. | Node.js/npm |
+| `server.js` | Starts the Express server, mounts notification routes, and starts the email worker. | Express, BullMQ worker |
+
+In simple words, this service acts like the email department of the whole project. Auth service, task service, and password service all depend on this service whenever an email needs to be sent.
+
+### 3. `password-service`
+```bash
+password-service/
+├── config/
+│   ├── db.js
+│   └── redis.js
+├── models/
+│   └── User.js
+├── routes/
+│   └── passwordRoutes.js
+├── .dockerignore
+├── .env
+├── .gitignore
+├── Dockerfile
+├── package-lock.json
+├── package.json
+└── server.js
+```
+
+This service is responsible for password recovery. It handles OTP generation flow, OTP verification, and updating the user password.
+
+| Folder/File | What it does | Connected with |
+|---|---|---|
+| `config/db.js` | Creates the MongoDB connection for password-related user updates. | MongoDB Atlas |
+| `config/redis.js` | Creates the Redis Cloud connection. Redis is used to temporarily store OTP values with expiry time. | Redis Cloud |
+| `models/User.js` | Defines the user schema used by this service to find users and update passwords. | MongoDB `users` collection |
+| `routes/passwordRoutes.js` | Contains routes for requesting OTP, verifying OTP, and resetting password. It also asks notification service to send OTP emails. | MongoDB, Redis, Notification service |
+| `.env` | Stores MongoDB URL, Redis credentials, notification service URL, OTP expiry time, and other service config values. | MongoDB, Redis, Notification service |
+| `.dockerignore` | Tells Docker which files should not be copied into the Docker image. | Docker |
+| `.gitignore` | Tells Git which files should not be tracked. | Git |
+| `Dockerfile` | Defines how to build the Docker image for the password service. | Docker |
+| `package.json` | Contains service dependencies, scripts, and project metadata. | Node.js/npm |
+| `package-lock.json` | Locks exact dependency versions for consistent installs. | Node.js/npm |
+| `server.js` | Starts the Express server and mounts password recovery routes. | Express, password routes |
+
+In simple words, when a user forgets their password, this service manages the complete recovery process.
+
+### 4. `task-service`
+```bash
+task-service/
+├── config/
+│   ├── db.js
+│   └── reminderJob.js
+├── models/
+│   └── Task.js
+├── routes/
+│   ├── authMiddleware.js
+│   └── taskRoutes.js
+├── .dockerignore
+├── .env
+├── .gitignore
+├── Dockerfile
+├── package-lock.json
+├── package.json
+└── server.js
+```
+
+This service is responsible for all task-related operations. It handles creating, reading, updating, deleting tasks, and also triggers task reminder emails.
+
+| Folder/File | What it does | Connected with |
+|---|---|---|
+| `config/db.js` | Creates the MongoDB connection for task-related database work. | MongoDB Atlas |
+| `config/reminderJob.js` | Runs a scheduled reminder job. It checks upcoming or due tasks and asks notification service to send reminder emails. | MongoDB, Notification service |
+| `models/Task.js` | Defines the task schema. It stores task title, description, priority, date, user ID, user email, and reminder status. | MongoDB `tasks` collection |
+| `routes/authMiddleware.js` | Verifies the logged-in user before allowing access to task routes. It checks the JWT token from the request. | JWT |
+| `routes/taskRoutes.js` | Contains task CRUD routes like get tasks, create task, update task, and delete task. | MongoDB, auth middleware |
+| `.env` | Stores MongoDB URL, JWT secret, notification service URL, reminder cron value, and frontend URL. | MongoDB, JWT, Notification service |
+| `.dockerignore` | Tells Docker which files should not be copied into the Docker image. | Docker |
+| `.gitignore` | Tells Git which files should not be tracked. | Git |
+| `Dockerfile` | Defines how to build the Docker image for the task service. | Docker |
+| `package.json` | Contains service dependencies, scripts, and project metadata. | Node.js/npm |
+| `package-lock.json` | Locks exact dependency versions for consistent installs. | Node.js/npm |
+| `server.js` | Starts the Express server, applies authentication middleware on task routes, mounts task routes, and starts the reminder job if notification service is configured. | Express, task routes, reminder job |
+
+In simple words, this service is the main working service of the app because it manages the actual tasks shown on the calendar.
+
+Now, here all services are independent and even if in scale any service got down, the rest of the services can still be accessible and will work fine.
+
+### 5. k8s
+```
+```bash
+k8s/
+├── deployments/
+│   ├── auth-deployment.yaml
+│   ├── notification-deployment.yaml
+│   ├── password-deployment.yaml
+│   └── task-deployment.yaml
+├── services/
+│   ├── auth-service.yaml
+│   ├── notification-service.yaml
+│   ├── password-service.yaml
+│   └── task-service.yaml
+├── ingress.yaml
+└── secrets.yaml
+```
+
+This folder contains all Kubernetes configuration files required to run the complete microservice project inside a Kubernetes cluster.
+
+| Folder/File | What it does | Connected with |
+|---|---|---|
+| `deployments/` | Contains deployment files for each backend service. A deployment tells Kubernetes how many copies of a service should run and which Docker image should be used. | Kubernetes Pods |
+| `deployments/auth-deployment.yaml` | Runs the auth service container inside Kubernetes. It defines the auth service image, container port `5000`, replicas, secrets, and health check. | Auth service, Kubernetes Secret |
+| `deployments/notification-deployment.yaml` | Runs the notification service container inside Kubernetes. It defines the notification service image, container port `6000`, replicas, secrets, and health check. | Notification service, Kubernetes Secret |
+| `deployments/password-deployment.yaml` | Runs the password service container inside Kubernetes. It defines the password service image, container port `8000`, replicas, secrets, and health check. | Password service, Kubernetes Secret |
+| `deployments/task-deployment.yaml` | Runs the task service container inside Kubernetes. It defines the task service image, container port `7000`, replicas, secrets, and health check. | Task service, Kubernetes Secret |
+
+| Folder/File | What it does | Connected with |
+|---|---|---|
+| `services/` | Contains Kubernetes service files. A service gives each backend deployment a stable internal network name inside the cluster. | Kubernetes Deployments |
+| `services/auth-service.yaml` | Creates an internal Kubernetes service for auth service. Other parts of the cluster can reach auth service through this service. | Auth deployment |
+| `services/notification-service.yaml` | Creates an internal Kubernetes service for notification service. Other services call this when they need to send emails. | Notification deployment |
+| `services/password-service.yaml` | Creates an internal Kubernetes service for password service. Ingress uses it to route password recovery requests. | Password deployment |
+| `services/task-service.yaml` | Creates an internal Kubernetes service for task service. Ingress uses it to route task-related requests. | Task deployment |
+
+| Folder/File | What it does | Connected with |
+|---|---|---|
+| `ingress.yaml` | Defines the public routing rules. It receives external traffic and sends requests to the correct backend service based on the API path. | Auth, Task, Password, Notification services |
+| `secrets.yaml` | Stores environment variable names required by the backend services. Actual secret values are added during deployment. | All backend deployments |
+
+> **NOTE** : It is always recommended that for each deployment you should use separate secrets but just because this project is a small implementation so I have combined all the secrets in one yaml file.
+
+## Kubernetes example files
+
+### 1. `k8s/auth-deployment.yaml`
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-deployment
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+        - name: auth-container
+          image: <container-name>
+          ports:
+            - containerPort: 5000
+          envFrom:
+            - secretRef:
+                name: taskcal-secrets
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+```
+
+This file is a Kubernetes `Deployment` example file for the `auth-service`.  
+Its job is to tell Kubernetes how to run the auth service inside the cluster.
+
+| Part | What it means |
+|---|---|
+| `apiVersion: apps/v1` | This tells Kubernetes which API version is being used for the Deployment resource. |
+| `kind: Deployment` | This tells Kubernetes that we are creating a Deployment. A Deployment manages running copies of an application. |
+| `metadata.name` | The name of this deployment is `auth-deployment`. |
+| `metadata.namespace` | This deployment will be created inside the `default` namespace. |
+| `spec.replicas: 2` | Kubernetes should run 2 copies of the auth service pod. If one crashes, Kubernetes can still keep another one running. |
+| `selector.matchLabels.app: auth` | This tells the deployment which pods it should manage. It will manage pods with the label `app: auth`. |
+| `template.metadata.labels.app: auth` | This label is attached to the pods created by this deployment. It must match the selector above. |
+| `containers` | This section defines the container that will run inside the pod. |
+| `name: auth-container` | The container name inside the pod. |
+| `image: <container-name>` | The Docker image Kubernetes will pull and run for the auth service. In real deployment, this will be your pushed image name. |
+| `ports.containerPort: 5000` | The auth service runs inside the container on port `5000`. |
+| `envFrom.secretRef.name` | This loads environment variables from the Kubernetes secret named `taskcal-secrets`. |
+| `readinessProbe` | Kubernetes uses this to check whether the auth service is ready to receive traffic. |
+| `readinessProbe.httpGet.path: /health` | Kubernetes will call `/health` to check service readiness. |
+| `readinessProbe.httpGet.port: 5000` | The health check request will be sent to port `5000`. |
+
+In simple words, this file says:
+
+> “Kubernetes, please run 2 copies of my auth service using this Docker image, expose port 5000 inside the pod, load environment variables from my secret file, and keep checking `/health` to know whether the service is ready.”
+
+
+### 2. `k8s/auth-service.yaml`
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+spec:
+  type: ClusterIP
+  selector:
+    app: auth
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+```
+
+This file is a Kubernetes `Service` example file for the `auth-service`.
+
+A deployment runs the actual pods, but pods are temporary. Their IP addresses can change whenever Kubernetes restarts or replaces them. So we create a `Service` to give those pods one stable internal address.
+
+| Part | What it means |
+|---|---|
+| `apiVersion: v1` | This tells Kubernetes which API version is being used for the Service resource. |
+| `kind: Service` | This tells Kubernetes that we are creating a Service. |
+| `metadata.name` | The service name is `auth-service`. Other parts of the cluster can use this name to reach the auth service. |
+| `spec.type: ClusterIP` | This service is only reachable inside the Kubernetes cluster. It is not directly exposed to the public internet. |
+| `selector.app: auth` | This service will send traffic to pods that have the label `app: auth`. |
+| `ports.protocol: TCP` | The service will use TCP protocol, which is the normal protocol for HTTP traffic. |
+| `ports.port: 80` | This is the port exposed by the Kubernetes service internally. Other services or Ingress can call `auth-service` on port `80`. |
+| `ports.targetPort: 5000` | This is the actual port where the auth container is running inside the pod. |
+
+In simple words, this file says:
+
+> “Kubernetes, create an internal stable network address called `auth-service`. Whenever someone sends traffic to this service on port `80`, forward it to the auth pods running on port `5000`.”
+
+### 3. `k8s/secrets.yaml`
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: taskcal-secrets
+  namespace: default
+type: Opaque
+stringData:
+  PORT:
+  JWT_SECRET:
+  MONGO_URI:
+  REDIS_USERNAME:
+  ....
+  ....
+  ....
+  ....
+```
+
+This file is a Kubernetes `Secret` file.
+
+A secret is used to store sensitive or environment-specific values like database URLs, JWT secret, Redis credentials, and email API keys. Instead of writing these values directly inside deployment files, we keep them in one secret and load them into services using `envFrom`.
+
+| Part | What it means |
+|---|---|
+| `apiVersion: v1` | This tells Kubernetes which API version is being used for the Secret resource. |
+| `kind: Secret` | This tells Kubernetes that we are creating a Secret. |
+| `metadata.name` | The secret name is `taskcal-secrets`. Deployment files use this name to load environment variables. |
+| `metadata.namespace` | This secret will be created inside the `default` namespace. |
+| `type: Opaque` | This is the default general-purpose secret type in Kubernetes. |
+| `stringData` | This lets us write secret values as normal strings. Kubernetes converts them internally into encoded secret data. |
+| `PORT` | The port used by a service. |
+| `JWT_SECRET` | Secret key used for signing and verifying JWT tokens. |
+| `MONGO_URI` | MongoDB Atlas connection string. |
+| `REDIS_USERNAME` | Redis Cloud username. |
+
+In simple words, this file says:
+
+> “Kubernetes, store all my environment variable names in one place, and let my backend services load them securely during runtime.”
+
+
+### 4. `k8s/ingress.yaml`
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: taskcal-ingress
+  namespace: default
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /api/auth
+            pathType: Prefix
+            backend:
+              service:
+                name: auth-service
+                port:
+                  number: 80
+          - path: /api/task
+            pathType: Prefix
+            backend:
+              service:
+                name: task-service
+                port:
+                  number: 80
+          - path: /api/password-recovery
+            pathType: Prefix
+            backend:
+              service:
+                name: password-service
+                port:
+                  number: 80
+          - path: /api/notification
+            pathType: Prefix
+            backend:
+              service:
+                name: notification-service
+                port:
+                  number: 80
+```
+
+This file is a Kubernetes `Ingress` file for the whole application.
+
+A service gives internal access inside the cluster, but Ingress gives controlled external access from outside the cluster. In this project, the frontend can call one single backend URL, and Ingress routes the request to the correct service based on the path.
+
+| Part | What it means |
+|---|---|
+| `apiVersion: networking.k8s.io/v1` | This tells Kubernetes which API version is being used for the Ingress resource. |
+| `kind: Ingress` | This tells Kubernetes that we are creating an Ingress. |
+| `metadata.name` | The ingress name is `taskcal-ingress`. |
+| `metadata.namespace` | This ingress will be created inside the `default` namespace. |
+| `spec.rules` | This contains routing rules for incoming HTTP requests. |
+| `http.paths` | This contains all path-based routing rules. | 
+| `path: /api/auth` | Any request starting with `/api/auth` will go to the auth service. |
+| `path: /api/task` | Any request starting with `/api/task` will go to the task service. |
+| `path: /api/password-recovery` | Any request starting with `/api/password-recovery` will go to the password service. |
+| `path: /api/notification` | Any request starting with `/api/notification` will go to the notification service. |
+| `pathType: Prefix` | This means all URLs starting with that path will match. For example, `/api/auth/login` matches `/api/auth`. |
+| `backend.service.name` | This is the Kubernetes service where the request should be forwarded. |
+| `backend.service.port.number: 80` | This tells Ingress to send traffic to port `80` of that Kubernetes service. |
+
+In simple words, this file says:
+
+> “Kubernetes, expose one public entry point for my backend. If the request starts with `/api/auth`, send it to auth service. If it starts with `/api/task`, send it to task service. If it starts with `/api/password-recovery`, send it to password service. If it starts with `/api/notification`, send it to notification service.”
+
+## Architecture in development
+![diagram-before](https://ik.imagekit.io/isudiptodas/portfolio-article-images/taskcal-architecture-before.png)
+
+-   The frontend directly calls every backend service separately, like auth, task, notification, and password recovery.
+-   This works for development, but it is not ideal for production because the frontend needs to know multiple backend URLs.
+-   Every service manages its own `.env`, so configuration becomes scattered and harder to control.
+-   If any backend URL changes, the frontend configuration also needs to be updated.
+-   This setup is fine for local testing, but it does not look like a clean production architecture.
+
+## Architecture after deploying on kubernetes
+![diagram-after](https://ik.imagekit.io/isudiptodas/portfolio-article-images/taskcal-architecture-after.png)
+
+-   The user/frontend sends requests to one single entry point: the Kubernetes Ingress.
+-   Ingress checks the API path, like `/api/auth` or `/api/task`, and forwards the request to the correct backend service.
+-   The frontend no longer needs to know all individual backend service URLs.
+-   All backend services can share common environment values through one Kubernetes Secret.
+-   This setup is cleaner, easier to manage, and closer to how real production microservice systems are deployed.
+
+*** 
+
+Thank you for reading ♥️
