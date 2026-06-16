@@ -47,7 +47,7 @@ function page() {
                   </div>
 
                   <div className={`w-full h-auto rounded-xl border border-white/10 bg-black/25 px-3 md:px-4 py-4`}>
-                    <p className={`w-full text-white font-Red-Hat-Display font-semibold text-sm mb-4`}>Architecture Flow</p>
+                    <p className={`w-full text-white font-Red-Hat-Display font-semibold text-sm mb-4`}>Architecture</p>
                     <div className={`w-full h-auto flex flex-col justify-start items-center gap-3`}>
                       {project.flow.map((flow, index) => {
                         return <div key={flow} className={`w-full h-auto flex justify-start items-start gap-3`}>
