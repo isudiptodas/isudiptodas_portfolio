@@ -1,5 +1,4 @@
 export const imageList = [
-  "https://ik.imagekit.io/isudiptodas/photography/messi-algeria-hatrick-fifa26.png",
   "https://ik.imagekit.io/isudiptodas/photography/tram-window.png",
   "https://ik.imagekit.io/isudiptodas/photography/upside-down.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/victoria-afternoon.jpg",
@@ -58,6 +57,7 @@ export const imageList = [
 ];
 
 export const designList = [
+  "https://ik.imagekit.io/isudiptodas/photography/messi-algeria-hatrick-fifa26.png",
   "https://ik.imagekit.io/isudiptodas/design/anirudh-ravichander.png",
   "https://ik.imagekit.io/isudiptodas/design/argentina.png",
   "https://ik.imagekit.io/isudiptodas/design/bahubali-the-epic.png",
