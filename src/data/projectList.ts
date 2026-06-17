@@ -181,5 +181,21 @@ export const devOpsProjects = [
             'Ingress controller for path based routing to services'
         ],
         githubLink: `https://github.com/isudiptodas/TaskCal-NodeJS_Microservice`
+    },
+    {
+        id: 3,
+        name: `GitOps Architecture with ArgoCD`,
+        techStack: `MERN, Docker, AWS EKS, Github Actions, ArgoCD`,
+        flow: [
+            'Implemented git as the source of truth',
+            'Added github actions for CI/CD that includes test, build, deploy on registry, update manifest',
+            'Pull based mechanism with ArgoCD for cluster state sync',
+        ],
+        githubLink: `https://github.com/isudiptodas/FormBuilder-ArgoCD_GitOps`
     }
+    
 ]
+
+
+
+
