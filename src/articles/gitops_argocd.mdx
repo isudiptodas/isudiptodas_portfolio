@@ -1,0 +1,314 @@
+---
+title: Understanding GitOps architecture with ArgoCD
+author: Sudipto Das
+date: 18 June, 2026
+category: DEVOPS
+featured: false
+tags:
+  - Cloud
+  - EKS
+  - GitOps
+  - ArgoCD
+---
+# Understanding GitOps architecture with ArgoCD
+
+Before following this article you need to have a good understanding of : 
+- Git & Github
+- Kubernetes
+- CI/CD pipelines
+
+## Traditional DevOps
+Traditionally, the entire DevOps life cycle was based on push based mechanism means a developer commits code changes with a external web hook, either with jenkins or any other cicd pipeline to send code trigger then the cicd pipeline runs, then we manually write a script to update any configuration for deployment, either on kubernetes or any other deployment platform and this was the entire process.
+
+## With GitOps
+Now, if we fast forward and see in today's time, we have gitops, which basically means **Git + Operations** means here the git becomes the single source of truth for our deployment.
+
+Here in gitops architecture, we don't have to juggle between multiple configuration tools, multiple cicd tools, or we don't even need to add a push based mechanism because gitops is pull based by default means whenever a new code change will be applied in your github repository then the new changes will be automatically be applied to your deployment.
+
+## What we will build ?
+To practically understand how gitops architecture actually works, we will use a tool called **ArgoCD**, which is a kubernetes native gitops tool. And here we have a two tier application, a frontend which is built on react, and a backend which is built on nodejs and express with a database mongodb. Now we will be deploying that backend on kubernetes with the help of argocd and github actions and will setup the entire GitOps pipeline.
+
+![diagram](https://ik.imagekit.io/isudiptodas/portfolio-article-images/argocd-gitops-diagram.png)
+
+1. Developer will push code changes in a repository
+2. Github actions workflow will run and perform the specified jobs
+3. Update kubernetes manifest file
+4. ArgoCD will keep monitoring the manifest files so that the desired state and deployed state should be in sync
+
+## Project folder structure
+
+```bash
+├── .github
+│   └── workflows
+│       └── actions.yaml
+├── backend
+├── frontend
+├── README.md
+```
+- `frontend` - (you can ignore it for this article)
+- `backend` - (actual nodejs implementation + kubernetes manifest files)
+- `actions.yaml` - (CI/CD script for github actions, by default should be placed under **.github/workflows**)
+
+## Backend folder structure
+
+```bash
+├── backend  
+│ ├── config/  
+│ ├── k8s/  
+│ ├── models/  
+│ ├── routes/  
+│ ├── testing/  
+│ ├── Dockerfile  
+│ ├── package-lock.json  
+│ ├── package.json  
+│ └── server.js
+```
+
+## Backend Dockerfile
+
+```docker
+FROM node:22-bookworm-slim
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+EXPOSE 5000
+CMD ["npm", "run", "dev"]
+```
+
+## Backend k8s manifests
+Inside the `k8s` I have added two manifest files, one for deployment and another for service (loadbalancer)
+
+`k8s/deployment.yaml`
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: form-builder-backend
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: formbuilder
+  template:
+    metadata:
+      labels:
+        app: formbuilder
+    spec:
+      containers:
+      - name: form-builder-backend
+        image: isudiptodas/form-builder:1
+        ports:
+        - containerPort: 5000
+        envFrom:
+          - secretRef:
+              name: formbuilder-secrets
+        readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+```
+`k8s/service.yaml`
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: formbuilder-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: formbuilder
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+```
+
+
+## Github actions configuration
+
+```yaml
+name: FormBuilder-Actions
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**'
+
+permissions:
+  contents: write
+
+jobs:
+  build-test-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # 2. Setup Node
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # 3. Install dependencies
+      - name: Install dependencies
+        working-directory: backend
+        run: npm ci
+
+      # 4. Run tests
+      - name: Run tests
+        working-directory: backend
+        env:
+            NODE_ENV: test
+            MONGO_TEST_URI: ${{ secrets.MONGO_TEST_URI }}
+            JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        run: npm test
+
+      # 5. Docker Login
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # 6. Build Docker Image
+      - name: Build Docker Image
+        run: |
+          docker build \
+            -t ${{ secrets.IMAGE_TAG }}:${{ github.run_number }} \
+            ./backend
+
+      # 7. Push Image
+      - name: Push Docker Image
+        run: |
+          docker push ${{ secrets.IMAGE_TAG }}:${{ github.run_number }}
+
+      # 8. Logout
+      - name: Docker Logout
+        run: docker logout
+
+      # 9. Update K8s Manifest
+      - name: Update deployment image
+        run: |
+          sed -i "s|image: .*|image: ${{ secrets.IMAGE_TAG }}:${{ github.run_number }}|g" backend/k8s/deployment.yaml
+
+      # 10. Configure Git
+      - name: Configure Git
+        run: |
+          git config user.name "isudiptodas"
+          git config user.email "isudiptodas01@outlook.com"
+
+      # 11. Commit changes
+      - name: Commit manifest update
+        run: |
+          git add backend/k8s/deployment.yaml
+          git commit -m "Updated k8s image tag [skip ci]" || echo "No changes to commit"
+
+      # 12. Push changes
+      - name: Push changes
+        run: |
+          git push origin main
+```
+Now here in the github actions configuration, you will see in many places I have added a dynamic variable, which I am using with the keyword **secrets**. Now you may wonder that what is a secret and what is even its value, and from where I am getting it. So just for the understanding in my script, I needed some values which are environment variables actually. And I need it because the script will test my application where I will need my mongodb URL, my jwt secret, and even while deploying my application on docker, I will need some credentials for that. So the secrets are referring to those actual environment values which I have stored in the github repository secrets.
+
+### Follow the steps to set secrets for github actions
+![github-secrets](https://ik.imagekit.io/isudiptodas/portfolio-article-images/argocd-gitops/github-actions-secrets.jpg)
+
+Repository settings > Secrets and variables > Actions > New repository secret
+
+***
+Now we will move to the ArgoCD implementation
+
+To run ArgoCD, you will need :
+- A running kubernetes cluster
+- An EC2 with permissions to perform operations on the cluster
+- Helm installed on the EC2
+
+## Install ArgoCD
+
+```bash
+helm repo add argo https://argoproj.github.io/argo-helm
+helm repo update argo
+helm install argocd argo/argo-cd --namespace argocd --create-namespace
+```
+> NOTE: The commands may change in future so it is recommended to look for the official documentation always.
+
+## Verify ArgoCD running on the cluster 
+
+```bash
+kubectl get pods -n argocd
+```
+![argocd-pods](https://ik.imagekit.io/isudiptodas/portfolio-article-images/argocd-gitops/argocd-pods.png)
+
+## Access ArgoCD dashboard
+Now, after we verify that the argocd pods are actually running on our cluster, we have to access the argocd dashboard, and for this we have to run the following command :
+```bash
+kubectl get svc -n argocd
+```
+After running this command, you will see a lot of services are running on the namespace of argocd and one of the service name you will see as `argocd-server`. And by default it will be of type clusterIP. You have two options. 
+- Either you can change the ClusterIP to NodePort 
+- Or you can go with LoadBalancer 
+
+but for this article to keep it simple I have used it as a load balancer.
+
+Now after changing it to load balancer you will see a public dns beside the service, copy the dns and open in a new tab, you will see the login ui of argocd.
+![argocd-login](https://ik.imagekit.io/isudiptodas/portfolio-article-images/argocd-gitops/argocd-login.png)
+
+- username : admin
+- password : run the following command 
+```bash
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+```
+After login you will see the argocd dashboard
+![argocd-dashboard](https://ik.imagekit.io/isudiptodas/portfolio-article-images/argocd-gitops/argocd-dashboard.png)
+
+## Connect your cluster and repository in ArgoCD
+Now by default when you will open argocd dashboard for the first time there you will see no application is added on the screen. So for that you have to add your application on the argocd dashboard, where you will connect your cluster and your github repository where your actual manifest files are located.
+
+On the dashboard click on **New App**
+![argocd-app-add](https://ik.imagekit.io/isudiptodas/portfolio-article-images/argocd-gitops/argocd-application-create.png)
+![argocd-app-add](https://ik.imagekit.io/isudiptodas/portfolio-article-images/argocd-gitops/argocd-application-create-2.png)
+
+- Repository URL : The git repo where your kubernetes manifest files are stored
+- Revision : Another name for branch (branch of the repo)
+- path : On which path the manifest files are stored (for example in my case I have a backend folder and inside that in the k8s folder I have my two manifest files)
+- Cluster URL : If argocd and your application is on the same cluster then add **default**
+- Namespace : On which namespace your application should be deployed
+
+Now after configuring all of the above you may see your application got registered on the dashboard
+![argocd-app-ui](https://ik.imagekit.io/isudiptodas/portfolio-article-images/argocd-gitops/argocd-application-ui.png)
+
+### Done 🎉
+Now for the final time just verify that all of your resources are running or not
+
+## Final verify
+![verify](https://ik.imagekit.io/isudiptodas/portfolio-article-images/argocd-gitops/k8s-resources.png)
+Here you can see all the deploymemts and services got created and now copy the service dns and open in a new tab and you may see the application is running.
+![dns-verify](https://ik.imagekit.io/isudiptodas/portfolio-article-images/argocd-gitops/dns-service-verify.png)
+In my application in the home route, I have not configured anything, but I had a `/health` route and there I am sending a JSON response of my application is running or not, and also about my database. So now with the help of the DNS, I can verify that my application is successfully running and databases are also active.
+
+Now, after this setup, whenever a developer will push any code change in github repository, your argocd will constantly keep on monitoring the repository and your cluster so that the cluster state matches with the desired manifest kubernetes files and everything be in sync.
+***
+
+## What about secrets ?
+
+Now, if you have followed the entire article step by step, you may ask one thing that is while testing in github actions workflow, I have added the env in the repository secrets. But while deploying my application in kubernetes, where the secrets gone? Like will I not need to add secrets there or how the secrets will be managed in this gitops architecture if we need to add any secrets.
+
+If this question came in your mind, then here is the perfect answer for that.
+
+As we are implementing gitops architecture. And here git becomes the single source of growth for our application. So we can't really just upload our environment variables in github which will be very much risky. So we have two options, although we have a lot of options, but specifically industry standard, there are two options.
+
+- First, you can encode your environment variables in basic base64 format and then create a resource of type **Secret** and you can deploy manually in the kubernetes cluster with the help of EC2.
+
+- Or, you can use external plugins like : AWS secret manager or hashicorp vault and there you store the env variables and in the Secret manifest file you will just add the value paths instead of the base64 format and you can upload that file in github safely from where the argocd will apply the changes.
+
+***
+Thank you for reading ❤️
