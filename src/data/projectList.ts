@@ -192,6 +192,18 @@ export const devOpsProjects = [
             'Pull based mechanism with ArgoCD for cluster state sync',
         ],
         githubLink: `https://github.com/isudiptodas/FormBuilder-ArgoCD_GitOps`
+    },
+    {
+        id: 4,
+        name: `Blue-Green deployment with Argo rollouts & Cloudwatch`,
+        techStack: `Docker, AWS EKS, Github Actions, ArgoCD, Cloudwatch, NGINX Ingress`,
+        flow: [
+            'Active service for real time traffic routing and preview service for new version rollouts',
+            'Cloudwatch metrics monitoring before promoting new rollouts',
+            'CPU & health checks before routing traffic to new version',
+            'Old version backup upto 1 hour with last 3 revision history',
+        ],
+        githubLink: `https://github.com/isudiptodas/Blue-Green-Deployment-Argo-Rollout`
     }
     
 ]
