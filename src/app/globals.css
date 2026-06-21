@@ -23,12 +23,24 @@
   --font-Red-Hat-Display: "RedHatDisplay", sans-serif;
 }
 
-html, .sidebar, .content{
+/* Hide scrollbars globally and prevent loading flash */
+html,
+body,
+.sidebar,
+.content {
   scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-html::-webkit-scrollbar, .sidebar::-webkit-scrollbar, .content::-webkit-scrollbar {
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+.sidebar::-webkit-scrollbar,
+.content::-webkit-scrollbar {
   display: none;
+}
+
+body {
+  overflow-x: hidden;
 }
 
 .markdown {
@@ -95,6 +107,7 @@ html::-webkit-scrollbar, .sidebar::-webkit-scrollbar, .content::-webkit-scrollba
   display: block;
   height: 6px;
 }
+
 .markdown table::-webkit-scrollbar-thumb {
   background-color: #444;
   border-radius: 4px;
@@ -106,7 +119,7 @@ html::-webkit-scrollbar, .sidebar::-webkit-scrollbar, .content::-webkit-scrollba
   padding: 8px;
   font-size: 10px;
   color: #d9d9d9;
-  white-space: normal; 
+  white-space: normal;
   word-break: break-word;
   min-width: 120px;
 }
@@ -160,7 +173,4 @@ html::-webkit-scrollbar, .sidebar::-webkit-scrollbar, .content::-webkit-scrollba
 .markdown blockquote p {
   margin: 0;
 }
-
-
-
 
