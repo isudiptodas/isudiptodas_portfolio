@@ -406,6 +406,7 @@ metadata:
   name: taskcal-ingress
   namespace: default
 spec:
+  ingressClassName: nginx
   rules:
     - http:
         paths:
@@ -462,6 +463,21 @@ A service gives internal access inside the cluster, but Ingress gives controlled
 In simple words, this file says:
 
 > “Kubernetes, expose one public entry point for my backend. If the request starts with `/api/auth`, send it to auth service. If it starts with `/api/task`, send it to task service. If it starts with `/api/password-recovery`, send it to password service. If it starts with `/api/notification`, send it to notification service.”
+
+## Install NGINX ingress controller
+Now by default this configuration will not be enough, you need to install an ingress controller for nginx to use this configuration.
+
+```yaml
+kubectl create namesapce ingress-nginx
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm install my-ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx
+```
+
+Now to view the ingress load balancer :
+
+```yaml
+kubectl get svc -n ingress-nginx
+```
 
 ## Architecture in development
 ![diagram-before](https://ik.imagekit.io/isudiptodas/portfolio-article-images/taskcal-architecture-before.png)
