@@ -23,20 +23,15 @@
   --font-Red-Hat-Display: "RedHatDisplay", sans-serif;
 }
 
-/* Hide scrollbars globally and prevent loading flash */
-html,
-body,
-.sidebar,
-.content {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+* {
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE and old Edge */
 }
 
-html::-webkit-scrollbar,
-body::-webkit-scrollbar,
-.sidebar::-webkit-scrollbar,
-.content::-webkit-scrollbar {
-  display: none;
+*::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
 }
 
 body {
