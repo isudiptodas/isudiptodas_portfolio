@@ -1,0 +1,293 @@
+---
+title: Complete end to end blue-green deployment setup with Argo Rollouts & AWS Cloudwatch
+author: Sudipto Das
+date: 2 July, 2026
+category: DEVOPS
+featured: true
+tags:
+  - EKS
+  - GitOps
+  - ArgoCD
+  - Blue-Green Deployment
+  - Cloudwatch
+  - Argo Rollout
+---
+# Complete end to end blue-green deployment setup with Argo Rollouts & AWS Cloudwatch
+
+## Prerequisites
+- AWS account
+- Understanding of kubernetes, argocd
+- Running EKS cluster with cloudwatch metrics add-on
+
+If you are into cloud computing or DevOps, then you may have heard a term a lot called blue Green deployment. But to be honest have you ever wondered that what exactly means **blue green** deployment and why even the name bluegreen and not **orange red** or **pink brown** ?
+
+Well, blue green is just a name and I also don't know why blue green and not any other color. And in this article we will not going to discuss why the name, but we are going to discuss what the name actually does and what is the architecture behind it.
+
+Blue green deployment is a strategy by which companies reduce their downtime to literally in milliseconds or even no downtime at all. And in this architecture, two life environments run parallelly at the same time where one is for the production where the actual traffic is flowing and another one is for testing or demo purpose where a new environment is being set up or being tested before the live traffic gets routed.
+
+## Architecture Flow
+
+![diagram](https://ik.imagekit.io/isudiptodas/portfolio-article-images/argocd-bluegreen/argo-blue-green-diagram.png)
+
+Just like a real production setup of a company, we will also create a parallel environment for the live version and the testing version for this implementation.
+
+1. Developer will push new code
+2. Github actions pipeline will run and will perform necessary steps.
+3. Updates manifest files
+4. Argo notices the change and deploy the new change (new argo deployments will be paused before final rollout)
+5. Health checks & monitoring will be done with cloudwatch upto 10 rounds
+6. Traffic gets routed to new version (if health checks passes, otherwise traffic will be on current deployment)
+
+## Why Argo Rollouts ?
+Well, this question is very much common and quite obvious that if there is a tool already present called argocd, now what is argo rollout and why do we even need to use it ? When we already have argocd.
+
+Now to answer this, argocd is a tool which looks for changes and applies the current state with the desired state of our deployment, but it can't control any deployment strategy like canary or bluegreen deployment or perform health check based deployment and for that use cases we need to go for argo rollout in which we can define our deployment strategy. Even we can also define some health check parameters that initially our new version rollout will be paused until and unless some health checks will be performed. And then our traffic will get shifted. These are the advantages of argo rollout which we don't get in argocd.
+
+## Folder structure
+```bash
+├── .github/
+│   └── workflows/
+│       └── actions.yaml
+├── k8s/
+│   ├── services/
+│   │   ├── active-service.yaml
+│   │   └── preview-service.yaml
+│   ├── analysis-template.yaml
+│   ├── ingress.yaml
+│   └── rollout.yaml
+├── Dockerfile
+├── index.js
+├── package.json
+├── package-lock.json
+└── README.md
+```
+
+### 1.  `.github/workflows/actions.yaml`
+```yaml
+name: Build and Push
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'k8s/**'
+      - 'README.md'
+      
+jobs:
+  build-and-update:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build image
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.IMAGE_TAG }}:${{ github.run_number }} .
+
+      - name: Push image
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.IMAGE_TAG }}:${{ github.run_number }}
+
+      - name: Logout from Docker Hub
+        run: docker logout
+
+      - name: Update rollout.yaml
+        run: |
+          sed -i "s|image: .*|image: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.IMAGE_TAG }}:${{ github.run_number }}|g" k8s/rollout.yaml
+
+      - name: Commit and push manifest
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}01@outlook.com"
+          git add k8s/rollout.yaml
+          git commit -m "Update image tag to ${{ github.run_number }} [skip ci]"
+          git push
+```
+
+### 2. `k8s/rollout.yaml`
+In argocd, we generally use kind of deployment, but while using argo rollout, we specify a kind rollout in which we define our health check parameters, our deployment strategy and our revision history limit, and a so on.
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
+metadata:
+  name: blue-green-rollout
+spec:
+  replicas: 2
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: rollout-bluegreen
+  template:
+    metadata:
+      labels:
+        app: rollout-bluegreen
+    spec:
+      containers:
+      - name: blue-green-demo
+        image: isudiptodas/blue-green-demo:2
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+  strategy:
+    blueGreen: 
+      activeService: rollout-bluegreen-active
+      previewService: rollout-bluegreen-preview
+      autoPromotionEnabled: false
+      scaleDownDelaySeconds: 3600
+      prePromotionAnalysis:
+        templates:
+        - templateName: cpu-analysis
+```
+Now at the end of the rollout file, you will notice that we have specified a pre promotion analysis and the analysis template is of CPU analysis means before actually releasing this rollout we are taking a pause, and in that pause we are checking cpu metric and if the cpu metric will get passed then only this rollout will get released otherwise it it will get removed and traffic will be on the previous deployment.
+
+### 3. `k8s/analysis-template.yaml`
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: cpu-analysis
+spec:
+  metrics:
+  - name: cpu-utilization
+    interval: 30s
+    successCondition: result[0] < 80
+    failureLimit: 4
+    count: 10
+    provider:
+      cloudWatch:
+        interval: 1m
+        metricDataQueries:
+        - id: cpu
+          metricStat:
+            metric:
+              namespace: ContainerInsights
+              metricName: pod_cpu_utilization
+              dimensions:
+              - name: ClusterName
+                value: my-cluster
+              - name: Namespace
+                value: default
+              - name: ContainerName
+                value: blue-green-demo
+            period: 60
+            stat: Average
+        region: ap-south-1
+```
+This is the kind of analysis template where we have actually defined our health check for our container CPU. And here we have used cloudwatch metrics.
+
+And basically what we are doing here is we're checking at a particular interval for the container CPU metric. And if the CPU metric is below 80%, then everything is good and we can deploy it but if the CPU metric crosses 80%, that means something is suspicious and this deployment will get deleted, and to prevent an inginite loop of health check we have defined a **count** of 10 means the maximum number of checks to be performed is 10.
+
+### 4. `k8s/ingress.yaml`
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: guestbook-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/limit-rps: "20"
+spec:
+  ingressClassName: nginx
+  rules:
+  -  http:
+      paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: rollout-bluegreen-active
+              port:
+                number: 80
+```
+Now here, one question still may arise that why we need ingress here ? Can't we just use a single load balancer service for accessing our application ? The answer is no, to be very fair, absolute no, because blue Green deployment needs an ingress to route between the current version and the new version.
+
+Now here is the actual myth. The blue green name is just a placeholder for people's understanding, but in real case it should stand for a current/active and testing/preview deployment. Where the active/current version is the one where all the traffic is flowing through, people are using this version, and the second one, which is for the testing/preview, is the one which was newly released and in testing stage and after all the testing and health checks gets passed then all the traffic gets routed to the new one instead of the old one. And that is why for routing the traffic we will need ingress here.
+
+And not only for automatic routing but in many companies after releasing the new version, teams check manually, perform several checks on security & functionality and In that case also ingress helps a lot.
+
+### 5. `k8s/services/active-service.yaml`
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: rollout-bluegreen-active
+spec:
+  ports:
+  - port: 80
+    targetPort: 5000
+    protocol: TCP
+  selector:
+    app: rollout-bluegreen
+```
+
+### 6. `k8s/services/preview-service.yaml`
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: rollout-bluegreen-preview
+spec:
+  ports:
+  - port: 80
+    targetPort: 5000
+    protocol: TCP
+  selector:
+    app: rollout-bluegreen
+```
+Now after looking at both the service files, you may think that what is the point of defining two service file when we can use only one, because both of the service files are almost same.Only the names are different. one is for active service and one is for preview service. But here is the catch.
+
+Understand this in a very simple way that these service files are not for us. It is for adgo rollout. You will see that at the very top while defining our rollout kind we have mentioned the strategy of bluegreen deployment and inside the bluegreen we have mentioned the active service as rollout-bluegreen-active and our preview service as rollout-bluegreen-preview. That means the live version will be on the active and whenever a new version will be available or will be about to release argo will internally start the new preview pods before routing the traffic. The pods will be there for health check and performing CPU metric analysis and after everything gets passed then both of the services get swapped with each other.
+
+**Before :**
+
+- Active : live running
+- Preview : empty
+
+**New version released :**
+
+- Active : live running
+- Preview : new version
+
+**After :**
+
+- Active : new version
+- Preview : previous version (upto 1hr, then gets delete)
+
+For a much cleaner understanding below is the diagram :
+
+### Before
+
+![before](https://ik.imagekit.io/isudiptodas/portfolio-article-images/argocd-bluegreen/before-rollout.png)
+
+### During rollout
+![rollout-process](https://ik.imagekit.io/isudiptodas/portfolio-article-images/argocd-bluegreen/rollout-process.png)
+
+### After
+![after](https://ik.imagekit.io/isudiptodas/portfolio-article-images/argocd-bluegreen/after-rollout.png)
+
+***
+Thank you for reading ❤️
+
