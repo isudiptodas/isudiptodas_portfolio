@@ -34,10 +34,6 @@
   display: none !important;
 }
 
-body {
-  overflow-x: hidden;
-}
-
 .markdown {
   line-height: 1.7;
 }
@@ -130,12 +126,21 @@ body {
 
 .inline-code,
 .markdown :not(pre) > code {
+
+  display: inline-block;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  vertical-align: middle;
+  
   background: #242424;
   color: #c9d1d9;
   padding: 2px 6px;
   border-radius: 4px;
   font-size: 0.9em;
   white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
 }
 
 .markdown hr {
