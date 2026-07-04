@@ -204,6 +204,20 @@ export const devOpsProjects = [
             'Old version backup upto 1 hour with last 3 revision history',
         ],
         githubLink: `https://github.com/isudiptodas/Blue-Green-Deployment-Argo-Rollout`
+    },
+    {
+        id: 5,
+        name: `End-to-end video transcoding pipeline`,
+        techStack: `Docker, ECR, ECS, S3, SQS, FFmpeg`,
+        flow: [
+            'S3 event notification on input bucket upload',
+            'SQS polling for available event messages,
+            'Raw video downloads on running container',
+            'FFmpeg transcoding into multiple resolutions',
+            'All transcoded videos gets uploaded in S3 output bucket',
+            'SQS event related to that video gets deleted afterwards'
+        ],
+        githubLink: `https://github.com/isudiptodas/AWS-Video-Transcoding-Pipeline`
     }
     
 ]
