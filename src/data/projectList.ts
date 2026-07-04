@@ -211,7 +211,7 @@ export const devOpsProjects = [
         techStack: `Docker, ECR, ECS, S3, SQS, FFmpeg`,
         flow: [
             'S3 event notification on input bucket upload',
-            'SQS polling for available event messages,
+            'SQS polling for available event messages',
             'Raw video downloads on running container',
             'FFmpeg transcoding into multiple resolutions',
             'All transcoded videos gets uploaded in S3 output bucket',
