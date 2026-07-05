@@ -125,7 +125,7 @@ function page() {
                     </div>
                 </div>
 
-                <div className={`w-full px-5 lg:px-8 pb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center gap-4`}>
+                <div className={`w-full px-5 lg:px-8 pb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center items-start gap-4`}>
 
                     {searchTerm && filteredArticles.map((item, index) => {
                         return <div onClick={() => router.push(`/articles/${item.slug}`)} key={index} className={`w-full hover:inset-shadow-sm hover:inset-shadow-black active:bg-zinc-800 duration-300 ease-in-out rounded-xl cursor-pointer flex flex-col justify-start items-start py-5 px-3 bg-zinc-900 relative`}>
