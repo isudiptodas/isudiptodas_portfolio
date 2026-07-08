@@ -58,7 +58,6 @@ export const imageList = [
 
 export const designList = [
   "https://ik.imagekit.io/isudiptodas/design/aston-martin-dbs11.png",
-  "https://ik.imagekit.io/isudiptodas/design/messi-egypt-win-fifa26.png",
   "https://ik.imagekit.io/isudiptodas/design/digital-literacy.png",
   "https://ik.imagekit.io/isudiptodas/design/messi-algeria-hatrick-fifa26.png",
   "https://ik.imagekit.io/isudiptodas/design/anirudh-ravichander.png",
