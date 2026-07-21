@@ -1,0 +1,809 @@
+---
+title: Designing an Adaptive Bitrate Streaming architecture with FFmpeg and Cloudflare
+author: Sudipto Das
+date: 22 July, 2026
+category: SYSTEM_DESIGN
+featured: true
+tags:
+  - FFmpeg
+  - Cloudflare R2
+---
+# Designing an Adaptive Bitrate Streaming architecture with FFmpeg and Cloudflare
+Youtube is such a platform which is probably loved by most of the people either it is of kids, youngsters, teenagers or old people. And as a developer, I had one very curiosity that how my internet affects my video quality in youtube automatically.
+
+If you are from a non tech background, then maybe this is not a big deal for you because obviously behind the scenes something is going on, some magic is going on. But as a tech guy I have this curiosity in my mind from a very long time and that is why today I have created a mini project where I have demonstrated the entire system design of adaptive bitrate streaming like youtube.
+
+Now, although we have a lot of options for quality switching. Like we have manual controls, we have different modes, but it also happens automatically whenever our internet drops a little or even our internet becomes very fast, our quality improves a lot in youtube. So my aim was to deep down and understand that, okay, how this switching between the picture qualities actually happening.
+
+## Prerequisites :
+1. NodeJS installed on system
+2. FFmpeg installed (windows, mac, linux)
+3. A cloudflare account
+
+Now before jumping right into the implementation part and architecture, let's first try to understand that what even is an adaptive bitrate streaming. And how it affects the overall user experience.
+
+## What is Adaptive Bitrate Streaming ?
+In plain english an Adaptive bitrate streaming means adjusting the video quality automatically based on your internet speed. That means if your internet speed is very much high, then you will experience seamless and smoother playback with ultra rich quality, and if your internet drops a little then you may see a drop in your video quality as well.
+
+Now you may think that why even the intense speed matters, can't I just download the entire video at once and play it infinite number of times ? so the answer is no, definitely not. The reason :
+
+1. If you download the entire video at once, the user may have to wait for minutes, or if the entire speed is very much low, then maybe the user may have to wait for hours.bWhich is not very much likable in today's world.
+2. Even if the video gets downloaded one time and if the user clears his memory and closes the system. Next time again you have to download the entire video. Again, you have to wait for the download completion.
+3. If a video is 5 or 10 hour long and the total size of the video is maybe 4 GB, but the user have to see at a particular timestamp, then the user have to wait for the entire video to get downloaded and then he can skip to that particular timestamp.
+
+## Architecture :
+![diagram](https://ik.imagekit.io/isudiptodas/portfolio-article-images/adaptive-bitrate-streaming/abs-diagram.png)
+
+1. User will upload a video file.
+2. That video file will be stored in our temporary folder in our backend.
+3. With the help of ffmpeg we will transcode the videos into chunks, multiple formats and a master file.
+4. After that, we will upload every transcoded assets into cloudflare R2 object storage.
+5. After the uploading gets completed, we will receive a public URL link of our main master file.
+6. We will return the main master file link to our frontend and in the browser we can play the video with that master file only to experience adaptive bitrate streaming.
+
+Now you may have two questions in your mind. first thing is why does even a master file? And the second thing is if I get the URL of that master file, that means I can play that video on any browser, any tab. And even I can embed it anywhere and I will get adaptive bitrate streaming, right?
+Well well welllll.... NO.
+
+### What is a master file (.m3u8 file) ?
+When we start our video for processing with ffmpeg our video gets divided into multiple formats, and in each format our video gets again divided into multiple chunks, maybe of 10 seconds, 20 seconds, 15 seconds, depending upon your configuration. Now the master file tracks all the video chunks, and which chunk should play next.
+And if you don't really have a master file then you will just end up with multiple small chunks of a single video but not a file to control them.
+
+### Why we need a library for playing the master URL ?
+You can definitely play the video with just the master link but to experience adaptive bitrate streaming you have to use an external library for example `video.js`, which by default supports adaptive bitrate streaming. If you don't use that then the video will play but you will experience lag and buffering if your internet speed drops, instead of getting lower quality your video will just stop playing. (Personal experience)
+
+## Cloudflare R2 setup :
+
+### 1. Create a new bucket
+![bucket](https://ik.imagekit.io/isudiptodas/portfolio-article-images/adaptive-bitrate-streaming/create-bucket.jpg)
+
+### 2. Allow public access for that bucket
+![public-url](https://ik.imagekit.io/isudiptodas/portfolio-article-images/adaptive-bitrate-streaming/enable-public-url.png)
+
+### 3. Allow CORS policy for that bucket
+![cors](https://ik.imagekit.io/isudiptodas/portfolio-article-images/adaptive-bitrate-streaming/cors-policy.png)
+
+If you're thinking that when you've already enabled public URL for this bucket, then what is the need of enabling CORS policy again, so to answer this question, public URL means you can access the buckets objects from anywhere outside your cloudflare account, but when you will play the video from the master file that will give you a error similar to this -> `Access blocked by CORS policy: No 'Access-Control-Allow-Origin'`. 
+
+That means your frontend is hosted on a different origin and your video files or the master file is hosted on a different origin and communication between them is not possible and that is the reason why you have to enable CORS policy for this.
+
+### 4. Create API tokens for that bucket
+![api-token](https://ik.imagekit.io/isudiptodas/portfolio-article-images/adaptive-bitrate-streaming/create-api-tokens.jpg)
+
+## Frontend Code :
+
+`src/Upload.tsx`
+```javascript
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
+function Upload() {
+
+    const navigate = useNavigate();
+
+    const [video, setVideo] = useState<File | null>(null);
+    const [loading, setLoading] = useState(false);
+
+    const handleUpload = async () => {
+        if (!video) {
+            alert("Please select a video.");
+            return;
+        }
+
+        try {
+            setLoading(true);
+
+            const formData = new FormData();
+            formData.append("video", video);
+
+            const res = await axios.post("http://localhost:5000/upload", formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+
+            if (res.status === 200) {
+                //console.log(res.data);
+                navigate("/player", {
+                    state: {
+                        playlistUrl: res.data.playlistUrl,
+                    },
+                });
+            }
+        } catch (error) {
+            console.error(error);
+            const message = axios.isAxiosError(error)
+                ? error.response?.data?.message || "Upload failed."
+                : "Upload failed.";
+            alert(message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
+        <div className="min-h-screen flex items-center justify-center">
+            <div className="w-full flex flex-col justify-center items-center">
+
+                <input
+                    type="file"
+                    accept="video/*"
+                    onChange={(e) =>
+                        setVideo(e.target.files?.[0] || null)
+                    }
+                    className={`w-auto bg-gray-200 rounded-md py-2 px-5 mb-5`}
+                />
+
+                <p onClick={handleUpload} className={`w-auto px-5 py-2 bg-linear-to-b from-yellow-400 via-orange-400 to-orange-700 text-white select-none font-semibold cursor-pointer`}>
+                    {loading ? "Uploading..." : "Upload"}
+                </p>
+
+            </div>
+        </div>
+    );
+}
+
+export default Upload;
+```
+
+`src/Player.tsx`
+```javascript
+import { useEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import videojs from "video.js";
+import "video.js/dist/video-js.css";
+
+function Player() {
+
+    const { state } = useLocation();
+    const navigate = useNavigate();
+
+    const videoRef = useRef<HTMLVideoElement | null>(null);
+    const playerRef = useRef<any>(null);
+
+
+    useEffect(() => {
+        if (!state?.playlistUrl) {
+            navigate("/");
+            return;
+        }
+
+        const timer = setTimeout(() => {
+            const videoElement = videoRef.current;
+
+            if (!videoElement || playerRef.current) {
+                return;
+            }
+
+            const player = videojs(videoElement, {
+                controls: true,
+                responsive: true,
+                fluid: false,
+                width: 960,
+                height: 540,
+                autoplay: false,
+                preload: "auto",
+                html5: {
+                    vhs: {
+                        overrideNative: true,
+                    },
+                },
+            });
+
+            playerRef.current = player;
+            player.src({
+                src: state.playlistUrl,
+                type: "application/x-mpegURL",
+            });
+
+            player.load();
+
+            player.on("error", () => {
+                console.log(
+                    "Video.js error:",
+                    player.error()
+                );
+            });
+        }, 100);
+
+        return () => {
+            clearTimeout(timer);
+
+            if (playerRef.current) {
+                playerRef.current.dispose();
+                playerRef.current = null;
+            }
+        };
+    }, [state, navigate]);
+
+    return (
+        <div
+            style={{
+                width: "100%",
+                minHeight: "100vh",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                background: "#111",
+                padding: "20px",
+            }}
+        >
+            <video
+                ref={videoRef}
+                className="video-js vjs-big-play-centered"
+                playsInline
+            />
+        </div>
+    );
+}
+
+export default Player;
+```
+
+
+## Backend folder structure :
+```bash
+backend/
+├── routes/
+│   └── upload.js
+├── utils/
+│   ├── ffmpeg.js
+│   └── r2.js
+├── index.js
+├── package-lock.json
+└── package.json
+```
+
+`index.js`
+```javascript
+import "dotenv/config";
+
+import express from "express";
+import cors from "cors";
+import uploadRoute from "./routes/upload.js";
+
+const app = express();
+
+app.use(cors({
+    origin: "*",
+    methods: ["POST", "GET"]
+}));
+app.use(express.json());
+
+app.use("/upload", uploadRoute);
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
+```
+
+`utils/ffmpeg.js`
+```javascript
+import { spawn } from "child_process";
+import fs from "fs";
+import path from "path";
+
+const PRESETS = [
+    {
+        name: "144p",
+        width: 256,
+        height: 144,
+        videoBitrate: "180k",
+        audioBitrate: "96k",
+        bandwidth: 280000,
+        bufsize: "360k",
+    },
+    {
+        name: "240p",
+        width: 426,
+        height: 240,
+        videoBitrate: "350k",
+        audioBitrate: "96k",
+        bandwidth: 500000,
+        bufsize: "700k",
+    },
+    {
+        name: "360p",
+        width: 640,
+        height: 360,
+        videoBitrate: "800k",
+        audioBitrate: "128k",
+        bandwidth: 1000000,
+        bufsize: "1600k",
+    },
+    {
+        name: "480p",
+        width: 854,
+        height: 480,
+        videoBitrate: "1400k",
+        audioBitrate: "128k",
+        bandwidth: 1700000,
+        bufsize: "2800k",
+    },
+    {
+        name: "720p",
+        width: 1280,
+        height: 720,
+        videoBitrate: "2800k",
+        audioBitrate: "128k",
+        bandwidth: 3200000,
+        bufsize: "5600k",
+    },
+    {
+        name: "1080p",
+        width: 1920,
+        height: 1080,
+        videoBitrate: "5000k",
+        audioBitrate: "192k",
+        bandwidth: 5500000,
+        bufsize: "10000k",
+    },
+];
+
+function ensureDirectory(dir) {
+    fs.mkdirSync(dir, {
+        recursive: true,
+    });
+}
+
+function run(command, args) {
+    return new Promise((resolve, reject) => {
+        const process = spawn(command, args, {
+            windowsHide: true,
+        });
+
+        let stdout = "";
+        let stderr = "";
+
+        process.stdout.on("data", (data) => {
+            stdout += data.toString();
+        });
+
+        process.stderr.on("data", (data) => {
+            stderr += data.toString();
+        });
+
+        process.on("close", (code) => {
+            if (code === 0) {
+                resolve(stdout);
+            } else {
+                reject(
+                    new Error(
+                        `\n${command} exited with code ${code}\n\n${stderr || stdout}`
+                    )
+                );
+            }
+        });
+
+        process.on("error", (error) => {
+            if (error.code === "ENOENT") {
+                reject(
+                    new Error(
+                        `${command} is not installed or not available on PATH.`
+                    )
+                );
+                return;
+            }
+            reject(error);
+        });
+    });
+}
+
+export async function getMetadata(input) {
+    const output = await run("ffprobe", [
+        "-v",
+        "quiet",
+        "-print_format",
+        "json",
+        "-show_streams",
+        "-show_format",
+        input,
+    ]);
+
+    const metadata = JSON.parse(output);
+
+    const videoStream = metadata.streams.find(
+        (stream) => stream.codec_type === "video"
+    );
+
+    const audioStream = metadata.streams.find(
+        (stream) => stream.codec_type === "audio"
+    );
+
+    if (!videoStream) {
+        throw new Error("Video stream not found.");
+    }
+
+    return {
+        width: Number(videoStream.width),
+        height: Number(videoStream.height),
+        duration: Number(metadata.format.duration),
+        hasAudio: !!audioStream,
+    };
+}
+
+export function getRenditions(videoHeight) {
+    const renditions = PRESETS.filter(
+        (preset) => preset.height <= videoHeight
+    );
+
+    if (!renditions.length) {
+        throw new Error("Unsupported video resolution.");
+    }
+    return renditions;
+}
+
+export function createMasterPlaylist(outputDir, renditions) {
+    const lines = [
+        "#EXTM3U",
+        "#EXT-X-VERSION:3",
+        "",
+    ];
+
+    for (const rendition of renditions) {
+        lines.push(
+            `#EXT-X-STREAM-INF:BANDWIDTH=${rendition.bandwidth},RESOLUTION=${rendition.width}x${rendition.height}`
+        );
+        lines.push(`${rendition.name}/playlist.m3u8`);
+        lines.push("");
+    }
+
+    fs.writeFileSync(
+        path.join(outputDir, "master.m3u8"),
+        lines.join("\n")
+    );
+}
+
+async function generateRendition(input, outputDir, preset, hasAudio) {
+    const renditionDir = path.join(outputDir, preset.name);
+
+    ensureDirectory(renditionDir);
+
+    const playlistPath = path.join(renditionDir, "playlist.m3u8");
+    const segmentPath = path.join(renditionDir, "segment_%03d.ts");
+
+    console.log(`\nGenerating ${preset.name}...`);
+
+    const args = [
+        "-y",
+        "-i",
+        input,
+        "-map",
+        "0:v:0",
+        "-vf",
+        `scale=-2:${preset.height}`,
+        "-c:v",
+        "libx264",
+        "-preset",
+        "veryfast",
+        "-profile:v",
+        "main",
+        "-level",
+        "3.1",
+        "-pix_fmt",
+        "yuv420p",
+        "-b:v",
+        preset.videoBitrate,
+        "-maxrate",
+        preset.videoBitrate,
+        "-bufsize",
+        preset.bufsize,
+        "-g",
+        "48",
+        "-keyint_min",
+        "48",
+        "-sc_threshold",
+        "0",
+        "-sn",
+        "-f",
+        "hls",
+        "-hls_time",
+        "6",
+        "-hls_playlist_type",
+        "vod",
+        "-hls_flags",
+        "independent_segments",
+        "-hls_segment_filename",
+        segmentPath,
+    ];
+
+    if (hasAudio) {
+        args.push("-map", "0:a:0");
+        args.push("-c:a", "aac");
+        args.push("-b:a", preset.audioBitrate);
+        args.push("-ar", "48000");
+        args.push("-ac", "2");
+    } else {
+        args.push("-an");
+    }
+
+    args.push(playlistPath);
+
+    await run("ffmpeg", args);
+    console.log(`Finished ${preset.name}`);
+}
+
+export async function generateHLS(input, videoId) {
+    const outputDir = path.join(process.cwd(), "temp", videoId);
+
+    ensureDirectory(outputDir);
+
+    const metadata = await getMetadata(input);
+    const renditions = getRenditions(metadata.height);
+
+    createMasterPlaylist(outputDir, renditions);
+
+    for (const rendition of renditions) {
+        await generateRendition(input, outputDir, rendition, metadata.hasAudio);
+    }
+
+    return {
+        outputDir,
+        metadata,
+        renditions,
+    };
+}
+```
+
+`utils/r2.js`
+```javascript
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import fs from "fs";
+import path from "path";
+
+function ensureR2Config() {
+    const required = [
+        "R2_ACCOUNT_ID",
+        "R2_ACCESS_KEY_ID",
+        "R2_SECRET_ACCESS_KEY",
+        "R2_BUCKET_NAME",
+        "R2_PUBLIC_URL",
+    ];
+
+    const missing = required.filter((key) => !process.env[key]);
+
+    if (missing.length) {
+        throw new Error(
+            `Missing Cloudflare R2 configuration: ${missing.join(", ")}`
+        );
+    }
+}
+
+ensureR2Config();
+
+const r2 = new S3Client({
+    region: "auto",
+    endpoint: `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
+    credentials: {
+        accessKeyId: process.env.R2_ACCESS_KEY_ID,
+        secretAccessKey: process.env.R2_SECRET_ACCESS_KEY,
+    },
+});
+
+async function getAllFiles(dir) {
+    let files = [];
+
+    const items = fs.readdirSync(dir);
+
+    for (const item of items) {
+        const fullPath = path.join(dir, item);
+        const stat = fs.statSync(fullPath);
+
+        if (stat.isDirectory()) {
+            files = [...files, ...(await getAllFiles(fullPath))];
+        } else {
+            files.push(fullPath);
+        }
+    }
+
+    return files;
+}
+
+function getContentType(file) {
+    if (file.endsWith(".m3u8")) {
+        return "application/vnd.apple.mpegurl";
+    }
+
+    if (file.endsWith(".ts")) {
+        return "video/mp2t";
+    }
+
+    if (file.endsWith(".jpg") || file.endsWith(".jpeg")) {
+        return "image/jpeg";
+    }
+
+    if (file.endsWith(".png")) {
+        return "image/png";
+    }
+
+    return "application/octet-stream";
+}
+
+export async function uploadVideoFolder(outputDir, videoId, folderName) {
+    ensureR2Config();
+
+    const files = await getAllFiles(outputDir);
+    const uploadPromises = files.map(async (file) => {
+        const relativePath = path
+            .relative(outputDir, file)
+            .replace(/\\/g, "/");
+
+        const key = `${folderName}/${relativePath}`;
+
+        const command = new PutObjectCommand({
+            Bucket: process.env.R2_BUCKET_NAME,
+            Key: key,
+            Body: fs.createReadStream(file),
+            ContentType: getContentType(file),
+        });
+
+        await r2.send(command);
+    });
+
+    await Promise.all(uploadPromises);
+    return `${process.env.R2_PUBLIC_URL}/${folderName}/master.m3u8`;
+}
+```
+
+`routes/upload.js`
+```javascript
+import express from "express";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+import { v4 as uuid } from "uuid";
+
+import { generateHLS } from "../utils/ffmpeg.js";
+import { uploadVideoFolder } from "../utils/r2.js";
+
+const router = express.Router();
+
+const tempDir = path.join(process.cwd(), "temp");
+
+if (!fs.existsSync(tempDir)) {
+    fs.mkdirSync(tempDir, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, tempDir);
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${uuid()}${path.extname(file.originalname)}`);
+    },
+});
+
+const allowedVideoExtensions = [
+    ".mp4",
+    ".mov",
+    ".m4v",
+    ".mkv",
+    ".webm",
+    ".avi",
+    ".ts",
+];
+
+const upload = multer({ storage, limits: {
+        fileSize: 500 * 1024 * 1024,
+    }, fileFilter: (req, file, cb) => {
+        const isVideoMime = file.mimetype.startsWith("video/");
+        const ext = path.extname(file.originalname).toLowerCase();
+        const isAllowedExtension = allowedVideoExtensions.includes(ext);
+
+        if (isVideoMime || isAllowedExtension) {
+            cb(null, true);
+        } else {
+            cb(new Error("Only video files are allowed."));
+        }
+    },
+});
+
+router.post("/", (req, res, next) => {
+        upload.single("video")(req, res, (error) => {
+            if (error) {
+                if (error instanceof multer.MulterError) {
+                    if (error.code === "LIMIT_FILE_SIZE") {
+                        return res.status(413).json({
+                            success: false,
+                            message: "File size exceeds the 500MB limit.",
+                        });
+                    }
+
+                    return res.status(400).json({
+                        success: false,
+                        message: error.message,
+                    });
+                }
+
+                return res.status(400).json({
+                    success: false,
+                    message: error.message,
+                });
+            }
+            next();
+        });
+    },
+    async (req, res) => {
+        let uploadedFile = null;
+        let outputDir = null;
+
+        try {
+            if (!req.file) {
+                return res.status(400).json({
+                    success: false,
+                    message: "No video uploaded.",
+                });
+            }
+
+            uploadedFile = req.file;
+
+            const videoId = uuid();
+            const baseName = path
+                .parse(uploadedFile.originalname)
+                .name
+                .replace(/[^a-zA-Z0-9-_]+/g, "-")
+                .replace(/-+/g, "-")
+                .replace(/^-|-$/g, "") || "video";
+            const folderName = `${baseName}-${videoId}`;
+
+            const result = await generateHLS(
+                path.resolve(uploadedFile.path),
+                videoId
+            );
+
+            outputDir = result.outputDir;
+
+            const playlistUrl = await uploadVideoFolder(
+                outputDir,
+                videoId,
+                folderName
+            );
+
+            res.status(200).json({
+                success: true,
+                playlistUrl,
+                videoId,
+            });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({
+                success: false,
+                message: error.message,
+            });
+        } finally {
+            if (uploadedFile && fs.existsSync(uploadedFile.path)) {
+                fs.unlinkSync(uploadedFile.path);
+            }
+
+            if (outputDir && fs.existsSync(outputDir)) {
+                fs.rmSync(outputDir, {
+                    recursive: true,
+                    force: true,
+                });
+            }
+        }
+    }
+);
+
+export default router;
+```
+
+Now after this entire setup when you will upload a video from your frontend and in your backend terminal you will notice there are multiple formats processing and when you will open your cloudflare R2 object storage bucket you will notice the all the transcoded assets has been uploaded in a folder.
+
+Folder naming convension : 
+`videofilename-uniqueid`
+
+![after-processing](https://ik.imagekit.io/isudiptodas/portfolio-article-images/adaptive-bitrate-streaming/after-processing.png)
+![formats](https://ik.imagekit.io/isudiptodas/portfolio-article-images/adaptive-bitrate-streaming/multiple-formats.jpg)
+
+And finally, when your video URL will be returned to the front end, your frontend will automatically navigate you to a different page where the video will start playing. And it will look something like this
+![video-player](https://ik.imagekit.io/isudiptodas/portfolio-article-images/adaptive-bitrate-streaming/video-player.png)
+
+***
+
+Thank you for reading ❤️
+
