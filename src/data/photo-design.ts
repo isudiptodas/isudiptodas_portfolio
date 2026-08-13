@@ -1,5 +1,4 @@
 export const imageList = [
-  "https://ik.imagekit.io/isudiptodas/photography/djo-end-of-beginning.png",
   "https://ik.imagekit.io/isudiptodas/photography/lake-gardens-afternoon.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/spiderman-iam-both.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/afternoon-cat-3.jpg",
