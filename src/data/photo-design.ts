@@ -28,7 +28,6 @@ export const imageList = [
   "https://ik.imagekit.io/isudiptodas/photography/afternoon-cat-2.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/afternoon-ride.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/arm-wrestling.jpg",
-  "https://ik.imagekit.io/isudiptodas/photography/august-evening.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/belagavi-leading-lines.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/bridge-light-trail.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/cat-1.jpg",
