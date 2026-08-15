@@ -4,7 +4,7 @@ export const imageList = [
   "https://ik.imagekit.io/isudiptodas/photography/red-road-bus.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/kumartuli-4.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/barsaat-lagdi-ae.jpg",
-  "https://ik.imagekit.io/isudiptodas/photography/maa-asche.jpg",
+  "https://ik.imagekit.io/isudiptodas/photography/kumartuli-6.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/spiderman-iam-both-2.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/lake-gardens-afternoon.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/spiderman-iam-both.jpg",
