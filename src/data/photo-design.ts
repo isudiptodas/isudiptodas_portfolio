@@ -1,4 +1,5 @@
 export const imageList = [
+  "https://ik.imagekit.io/isudiptodas/photography/raga-of-revenge.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/kumartuli-5.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/frames-of-kolkata.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/red-road-bus.jpg",
@@ -72,6 +73,7 @@ export const imageList = [
 ];
 
 export const designList = [
+  "https://ik.imagekit.io/isudiptodas/design/argha-banik-football.jpg",
   "https://ik.imagekit.io/isudiptodas/design/spain-argentina-fifa26-final.png",
   "https://ik.imagekit.io/isudiptodas/design/aston-martin-dbs11.png",
   "https://ik.imagekit.io/isudiptodas/design/digital-literacy.png",
