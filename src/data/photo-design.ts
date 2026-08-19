@@ -51,7 +51,6 @@ export const imageList = [
   "https://ik.imagekit.io/isudiptodas/photography/kumartuli-rain.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/kumartuli.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/long-exposure.jpg",
-  "https://ik.imagekit.io/isudiptodas/photography/maidan-afternoon.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/maidan-morning-2.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/maidan-morning.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/maidan-winter.jpg",
