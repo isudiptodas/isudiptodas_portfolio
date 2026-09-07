@@ -1,4 +1,5 @@
 export const imageList = [
+  "https://ik.imagekit.io/isudiptodas/photography/radha-krishna.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/argha-vogue-fashion.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/everything-is-written.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/radhimaa.jpg",
@@ -23,7 +24,6 @@ export const imageList = [
   "https://ik.imagekit.io/isudiptodas/photography/meow-meow.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/jagannath-rath-2026.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/dog-sleeping-rain.jpg",
-  "https://ik.imagekit.io/isudiptodas/photography/kolkata-rain-1.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/tram-window.png",
   "https://ik.imagekit.io/isudiptodas/photography/upside-down.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/victoria-afternoon.jpg",
@@ -34,8 +34,6 @@ export const imageList = [
   "https://ik.imagekit.io/isudiptodas/photography/3d-music-player.png",
   "https://ik.imagekit.io/isudiptodas/photography/afternoon-cat-1.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/afternoon-cat-2.jpg",
-  "https://ik.imagekit.io/isudiptodas/photography/afternoon-ride.jpg",
-  "https://ik.imagekit.io/isudiptodas/photography/arm-wrestling.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/belagavi-leading-lines.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/bridge-light-trail.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/cat-1.jpg",
