@@ -1,0 +1,396 @@
+---
+title: Building a Stateful AI Agent From Scratch Using Python and Mem0
+author: Sudipto Das
+date: 22 September, 2026
+category: AIML
+featured: true
+tags:
+  - Mem0
+  - Agentic AI
+  - Docker
+  - Python
+  - AI/ML
+---
+# Building a Stateful AI Agent From Scratch Using Python and Mem0
+
+In 2026, agentic ai, ai agents, these are the one of the hottest topic in the market. But do you actually know the difference between agentic AI or what even means when someone says agentic AI or I've built an AI agent or this xyz company launched a new AI agent. 
+
+Well after this article, you'll be confident enough to build our own AI agent and also understand how everything is connected and works together.
+
+## Prerequisites:
+1. Docker desktop
+2. Python installed on system
+3. A free account on Mem0
+
+## What is an AI agent?
+Everyone has heard and even used LLMs. LLMs are nothing but large language models for example ChatGPT, Google Gemini, Qwen even DeepSeek. Now these are chat models, or I should say a model which can respond to users queries but if I say do they have the capabilities to perform any action for example: sending any email or booking any ticket or buying any stuff on your behalf, then obviously the answer will be no.
+
+Now here comes the actual differentiation between an LLM and an AI agent. An AI agent is like a worker, which can perform any task, any operation on your behalf. But an AI agent can't work alone. It needs a brain or a system which will think that whether any task or any action needs to be performed or not. And for that case, we need to use an LLM.
+
+So to summarize quickly, an LLM is just like a brain and an AI agent is just like an extension of that brain, but with a worker which can perform operations and task.
+
+## AI Agent vs Agentic AI
+Now personally, I know that this is the most complicated or confusing part between AI agent and agentic AI. What is the actual difference if I had to explain to someone a one liner difference? Then I would say AI agent is like an extension of an LLM, which can do operations, perform task. 
+
+On the other hand an An agentic AI is like the entire process that how we're going to do it.
+
+## System Flow:
+Now before actually jumping straight into the implementation, let me be very clear that what we're going to build and how the system will work.
+
+1. User will ask a question.
+2. Along with that question, a set of tool definitions and schemas will go to the LLM.
+3. The LLM will decide whether a simple answer will be sufficient or a tool calling is required.
+4. If simple answer will be sufficient, then we will just return the answer to the user otherwise if a tool calling is needed then the LLM will return a tool name, and in our code we will explicitly use that tool.
+5. Whatever output will be returned from that tool execution, we will return that output to the LLM.
+6. Based on the provided input, LLM will decide what steps to perform next, whether a final answer will be sufficient or call a tool again.
+7. This process will run in a loop.
+
+![agentic-ai-diagram](https://ik.imagekit.io/isudiptodas/portfolio-article-images/agentic-ai-diagram.png)
+
+
+## The secret recipe:
+You may think that the LLM will decide that a tool calling is required or not, and the LLM will call the tool on your behalf. This is the absolute myth. 
+
+In reality, based on the input or the user's question, the LLM can only decide whether a tool calling is required or not. If required, then which tool calling should be done and we are getting that response in a predefined output schema. And from our code we are calling the tool in a loop and the entire process, we are naming it as **Agentic AI**.
+
+## What tools our AI agent will get access to?
+- Fetching the current weather data for a specific city
+- Saving any data to a file 
+- Fetch memory from Mem0 (if needed context)
+- Send email 
+
+## Folder structure:
+![folder-structure](https://ik.imagekit.io/isudiptodas/portfolio-article-images/agentic-ai-folder.png)
+
+## Required dependencies:
+```python
+pip i openai mem0ai python-dotenv
+```
+
+## Implementation:
+
+`tools/tools.py`
+
+```python
+from mem0 import MemoryClient
+from dotenv import load_dotenv
+import requests
+import os
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+load_dotenv()
+
+memClient = MemoryClient(api_key=os.getenv("MEM0_API"))
+
+def get_weather(location: str):
+
+    try:
+        geo_url = "https://geocoding-api.open-meteo.com/v1/search"
+
+        geo_response = requests.get(
+            geo_url,
+            params={"name": location, "count": 1, "language": "en", "format": "json"},
+        )
+
+        geo_data = geo_response.json()
+
+        if "results" not in geo_data:
+            return {"error": f"Could not find location: {location}"}
+
+        place = geo_data["results"][0]
+
+        latitude = place["latitude"]
+        longitude = place["longitude"]
+
+        weather_url = "https://api.open-meteo.com/v1/forecast"
+
+        weather_response = requests.get(
+            weather_url,
+            params={
+                "latitude": latitude,
+                "longitude": longitude,
+                "current": "temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m",
+            },
+        )
+
+        weather_data = weather_response.json()
+
+        return {
+            "location": location,
+            "temperature": weather_data["current"]["temperature_2m"],
+            "humidity": weather_data["current"]["relative_humidity_2m"],
+            "wind_speed": weather_data["current"]["wind_speed_10m"],
+            "weather_code": weather_data["current"]["weather_code"],
+        }
+    except Exception as e:
+        print(f"Weather info exception -> {e}")
+
+
+def save_to_file(filename: str, content: str):
+
+    try:
+        with open(filename, "w", encoding="utf-8") as file:
+            file.write(content)
+
+        return {"success": True, "message": f"Data saved to {filename}"}
+    except Exception as e:
+        print(f"File saving exception -> {e}")
+
+
+def get_memories():
+    try:
+        USER_ID = "sudipto"
+        memories = memClient.get_all(filters={"user_id": "sudipto"})
+
+        return memories
+    except Exception as e:
+        print(f"Memory fetching exception -> {e}")
+
+
+def send_mail(to: str, subject: str, content: str):
+    smtp_server = os.getenv("SMTP_SERVER")
+    port = os.getenv("SMTP_PORT")
+    sender_email = os.getenv("EMAIL_ADDRESS")
+    password = os.getenv("EMAIL_PASSWORD")
+
+    try:
+        message = MIMEMultipart()
+        message['From'] = sender_email
+        message['To'] = to
+        message['Subject'] = subject
+
+        body = content
+        message.attach(MIMEText(body, 'plain'))
+
+        server = smtplib.SMTP(smtp_server, port)
+        server.starttls()
+        server.login(sender_email, password)
+        server.send_message(message)
+        server.quit()
+
+        return {
+            "success": True,
+            "message": f"Email successfully sent to {to}"
+        }
+    except Exception as e:
+        print(f"Mail sending exception -> {e}")
+
+
+tools = [
+    {
+        "type": "function",
+        "function": {
+            "name": "get_weather",
+            "description": "Get the current weather of a location.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "location": {
+                        "type": "string",
+                        "description": "City or location name",
+                    }
+                },
+                "required": ["location"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "save_to_file",
+            "description": "Save text content into a file.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "filename": {"type": "string", "description": "Name of the file"},
+                    "content": {"type": "string", "description": "Content to save"},
+                },
+                "required": ["filename", "content"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "send_mail",
+            "description": "Send mail to a email address",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "to": {"type": "string", "description": "destination email address"},
+                    "content": {"type": "string", "description": "The actual body that should be written on the email"},
+                    "subject": {"type": "string", "description": "The subject line of the email"},
+                },
+                "required": ["to", "content", "subject"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_memories",
+            "description": "Get stored memories for a user from Mem0.",
+            "parameters": {"type": "object", "properties": {}, "required": []},
+        },
+    },
+]
+
+tool_functions = {
+    "get_weather": get_weather,
+    "save_to_file": save_to_file,
+    "get_memories": get_memories,
+    "send_mail": send_mail
+}
+```
+`prompt.py`
+
+```python
+SYSTEM_PROMPT = """
+# ROLE
+You are a helpful terminal-based AI agent.
+
+# TOOLS
+You have access to these tools:
+
+1. get_weather
+   - Get current weather for a location.
+
+2. save_to_file
+   - Save content to a local file.
+
+3. get_memories
+   - Retrieve information stored in the Mem0 memory.
+
+4. send_mail
+   - Send mail to a specific email address.
+
+# MEMORY POLICY
+Use get_memories ONLY when the user's request depends on
+information from their previous interactions.
+
+Examples where memory SHOULD be used:
+- "What project was I working on?"
+- "What programming language do I prefer?"
+- "What did I tell you about my website?"
+- "What was the approach we discussed yesterday?"
+
+Examples where memory SHOULD NOT be used:
+- "What is 2 + 2?"
+- "Explain binary search."
+- "Write a Python function."
+- "What is React?"
+- "Explain recursion."
+
+# WEATHER POLICY
+Use get_weather when the user asks for current/live weather.
+
+Examples:
+- "What's the weather in Kolkata?"
+- "Is it raining in Delhi?"
+- "What's the temperature in Mumbai?"
+
+Do not use it for general questions about weather.
+
+# FILE POLICY
+Use save_to_file when the user explicitly asks you to save
+content to a file.
+
+# MAIL SENDING POLICY
+Understand the users question and context properly and only 
+ask to send mail if it is needed.
+
+# GENERAL BEHAVIOR
+- Think about whether a tool is actually necessary before calling it.
+- Do not call tools unnecessarily.
+- Do not invent information returned by tools.
+- After receiving a tool result, use it to formulate the final answer.
+- If no tool is necessary, answer directly.
+"""
+```
+`main.py`
+
+```python
+from openai import OpenAI
+from mem0 import MemoryClient
+from dotenv import load_dotenv
+import os
+from tools.tools import tools, tool_functions
+from prompt import SYSTEM_PROMPT
+import json
+
+load_dotenv() 
+
+memClient = MemoryClient(api_key=os.getenv("MEM0_API"))
+client = OpenAI(
+    base_url="http://localhost:12434/engines/v1",
+    api_key="hello"
+)
+
+while True:
+    userInput = input("Ask anything : ")
+
+    if userInput.strip().lower() == 'exit':
+        break
+    else:
+        messages = [
+          { "role": "system", "content": SYSTEM_PROMPT },
+          { "role": "user", "content": userInput }
+        ]
+
+        while True:
+            response = client.chat.completions.create(
+            model="qwen2.5:1.5B-F16",
+            messages=messages,
+            tools=tools,
+            stream=False
+            )
+
+            assistant_message = response.choices[0].message
+
+            if not assistant_message.tool_calls:
+                final_text = assistant_message.content
+                print(f"{final_text}\n")
+                break
+
+            messages.append(assistant_message)
+
+            for tool_call in assistant_message.tool_calls:
+                function_name = tool_call.function.name
+
+                arguments = json.loads(
+                    tool_call.function.arguments
+                )
+
+                print(f"\n Calling tool: {function_name}")
+                print(f" Arguments: {arguments}")
+
+                function = tool_functions[function_name]
+                result = function(**arguments)
+
+                print(f" Tool result: {result}\n")
+
+                messages.append({
+                    "role": "tool",
+                    "tool_call_id": tool_call.id,
+                    "content": json.dumps(result)
+                })
+
+    memClient.add(messages=[
+        {
+            "role": "user",
+            "content": userInput
+        },
+        {
+            "role": "assistant",
+            "content": final_text
+        }
+    ], user_id="sudipto")
+        
+```
+***
+Thank you for reading ❤️
+
+
+
