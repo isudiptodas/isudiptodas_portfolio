@@ -1,0 +1,172 @@
+---
+title: Hand on with Laya - the open-source alternative of jev system one decision model 
+author: Sudipto Das
+date: 14 October, 2026
+category: AIML
+featured: true
+tags:
+  - Laya
+  - System One
+  - Python
+  - AI/ML
+---
+# Hands on with Laya - the open-source alternative of jev system one decision model 
+
+Recently in October 2026, one thing is getting so much hyped up in the tech industry and that is system one models or decision models.
+
+Now what exactly is the system one or decision model. In this article we are going to find out exactly what it is.
+
+## Why we even need system one model?
+Before jumping right into the implementation part, we first need to understand that what even is a system one model and why do we even need it.
+
+A system one model is a special kind of AI model which returns a structured output or a decision rather than a large text chunk or sentence.
+
+### Didn't understood? Okk no issues, let's make it more clear
+
+## Analogy
+Suppose you are getting a request from the front end and in the backend servers you want to evaluate that this request needs a database call or any external API call. Now to be realistic how will you manage this?
+
+If you are a beginner, then you can do one thing that you define specific routes. And whenever any request comes in that route, a database call will be done or any external api will be called based on the routes or even better you'll call an LLM on each incoming request and send the incoming data to the LLM for checking that either this request needs a database call or not but here's the catch.
+
+What if first time your LLM returns a text like : **"yes this request needs a database call"** . And on the second time it tell something like : **"yes!! this request needs to go to database"**
+
+### Problem 1:
+Each time the LLM will generate different text and will not give a structured, definite answer, which will be literally unpredictable for the system to classify.
+
+### Problem 2:
+This is just an example we are working on that either this request needs a database call or not either yes or no. But still here we are giving the request to the LLM for identifying and LLM will decode each word by word and generate new tokens and then give you a reply even though if you add in the system prompt for the definite structured output still a lot of tokens will be generated and the entire task will be slower and costlier.
+
+And to prevent this, the solution is **System One Models**
+
+And right now one system, one model is trending very high in the market, and that is jev, released by the company TypeSafe AI on september 2026.
+
+But right now you can't really use it for free, you have to add credits on their platform to even generate an API key (if you are seeing this in future then maybe the rules are changed but right now this is what it is).
+
+## What's the solution?
+**Laya** - An open-source alternative of the complete Jev model with very similar or even close to the Jev implementation.
+
+Now even though laya is an open source model, but still it is an AI model, then how it is different from an LLM and how it is actually used.
+
+In an LLM you can ask literally anything and their nature is by default generative, so whenever you will give them any kind of input, they will generate a text based on the context provided. But the case is different in case of decision model like jev or laya.
+
+Here you can define 3 types of questions:
+1. **Noul:** a yes/no question
+2. **Score:** numeric score between a range
+3. **Choice:** multiple choice answers
+
+## Implementation
+
+In this implementation, what I have done is each time I am asking a question to the user, and the user is giving an input and I am passing that input along with some predefined questions which I need to know based on that text that the user has provided both to the system one model and the model is giving me a well structured output and then I can do whatever I want based on the decision that was returned.
+
+```python
+pip install laya
+```
+
+`predictHandler.py`
+```python
+
+def handler(result: object):
+
+    department = result["answers"]["department"]["choice"]
+    urgency = urgency_formatter(result["answers"]["urgency"])
+    risk = risk_formatter(result["answers"]["churn_risk"])
+    intent = result["answers"]["intent"]["choice"]
+    
+    print(f"\nWhich department should handle this ? : {department}")
+    print(f"How urgent the request is ? : {urgency}")
+    print(f"How much risk ? : {risk}")
+    print(f"What is the intent ? : {intent}")
+    print("\n")
+
+def urgency_formatter(urgency: object):
+    probabilities = urgency["probabilities"]
+
+    highest = max(probabilities, key=probabilities.get)
+
+    levels = {
+        "0": "very urgent",
+        "1": "as soon as possible",
+        "2": "not urgent"
+    }
+
+    confidence = probabilities[highest] * 100
+    return f"{levels[highest]} ({confidence:.2f}% confidence)"
+
+def risk_formatter(risk: object):
+    risk_score = risk["noul"]
+    risk_percentage = risk_score * 100
+
+    if risk_score >= 0.8:
+        level = "High"
+    elif risk_score >= 0.5:
+        level = "Medium"
+    else:
+        level = "Low"
+
+    return f"{level} ({risk_percentage:.2f}%)"
+```
+
+`main.py`
+```python
+from laya import Router
+import json
+from predictHandler import handler
+
+router = Router() 
+
+# Representing an AI film-making company that has departments : sound-team, editing-team, prompt-team, social-media-team 
+state = input("Enter your query : ")
+questions = {
+    "department": {
+        "type": "choice",
+        "instructions": "Which department should handle this ?",
+        "criteria": {
+            "sound-team": "background sound mismatch, sound copyright issue, lip sync match error, song selection",
+            "editing-team": "color grading, video editing, video formatting, video compressing",
+            "prompt-team": "story board making, prompt generation, video generation,",
+            "social-media-team": "posting on social media, release updates for new company offers",
+            "others": "Any other general query"
+        },
+    },
+    "urgency": {
+        "type": "score",
+        "instructions": "How urgent is this ?",
+        "criteria": ["very urgent", "as soon as possible", "not urgent"],
+    },
+    "churn_risk": {
+        "type": "noul",
+        "instructions": "Is the user threatening of damaging the company's reputation or public image ?",
+    },
+    "intent": {
+        "type": "choice",
+        "instructions": "Based on the request what intent the user signifies ?",
+        "criteria": {
+            "complain": "the user is angry and wants to register a complain",
+            "information-request": "the user wants to understand or have any query regarding company services or company"
+        }
+    },
+}
+
+result = router.predict(state, questions)
+formatted = json.dumps(result["answers"], indent=2)
+
+handler(result=result)
+print(formatted)
+```
+
+So here you can clearly see that I am representing as an AI filmmaking company where I have defined some departments and a set of predefined questions that I need to know based on the user's input. And I am passing both the input and the predefined question list to the system one model and based on the provided context the model will give us a well structured output.
+
+## Doubt 1: Will it everytime give a definite structured output? If yes then how?
+
+Yes, every time it will give you a definite structure response because unlike a traditional LLM, these are not generative in nature. These are decision making models. So every time whatever context you will provide, you will get a structured response based on the question sets.
+
+## Doubt 2: What's the working difference between an LLM and a system one model?
+Whenever we give any context to the LLM. It first reads one token at a time and then it generates or predicts the next token and this keeps on going in a loop until the LLM finally generates a final correct response.
+
+But in case of system one models the process is entirely different they are not designed to generate, instead they are built for thinking capabilities, making quick decisions and returning only what's needed and nothing extra unnecessary stuff.
+
+***
+Thank you for reading ❤️
+
+
+
