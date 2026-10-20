@@ -47,7 +47,7 @@ export const imageList = [
   "https://ik.imagekit.io/isudiptodas/photography/dogs.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/howrah-winter-morning.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/kolkata-city.jpg",
-  "https://ik.imagekit.io/isudiptodas/photography/kolkata-coffee.jpg",
+  "https://ik.imagekit.io/isudiptodas/photography/kolkata-coffee.jpeg",
   "https://ik.imagekit.io/isudiptodas/photography/kolkata-tram.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/kumartuli-rain.jpg",
   "https://ik.imagekit.io/isudiptodas/photography/long-exposure.jpg",
