@@ -5,7 +5,7 @@ export const works = [
         link: `/web-dev`
     },
     {
-        title: `Design & Documentation`,
+        title: `Designs`,
         image: `/assets/work-background/design.png`,
         link: `/design`
     },
@@ -13,6 +13,11 @@ export const works = [
         title: `Photography`,
         image: `/assets/work-background/photography.jpg`,
         link: `/photography`
+    },
+    {
+        title: `Cinematography`,
+        image: `/assets/work-background/video.png`,
+        link: ``
     },
     {
         title: `Extensions`,

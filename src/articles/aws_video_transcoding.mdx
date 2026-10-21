@@ -32,7 +32,7 @@ Now think of the same situation but this time you have implemented a video trans
 
 ## Architecture
 
-![diagram](https://ik.imagekit.io/isudiptodas/portfolio-article-images/aws-video-transcoding/video-transcoding-diagram.png)
+![diagram](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/aws-video-transcoding/video-transcoding-diagram.png)
 
 1. User will upload a video
 2. That video will be uploaded to an S3 bucket (input bucket)
@@ -116,25 +116,25 @@ On the other hand, we're writing a code in our backend where we are polling the 
 ## Implementation :
 ### ECR :
 1. Create a ECR repo to store images
-![ecr](https://ik.imagekit.io/isudiptodas/portfolio-article-images/aws-video-transcoding/ecr-repository.png)
+![ecr](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/aws-video-transcoding/ecr-repository.png)
 2. Click on **View push commands** for instructions and pushing the docker image (code) to ECR
-![ecr-before](https://ik.imagekit.io/isudiptodas/portfolio-article-images/aws-video-transcoding/ecr-before-push.png)
+![ecr-before](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/aws-video-transcoding/ecr-before-push.png)
 3. After pushing the image it will be shown in this way
-![ecr-after](https://ik.imagekit.io/isudiptodas/portfolio-article-images/aws-video-transcoding/ecr-after-push.png)
+![ecr-after](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/aws-video-transcoding/ecr-after-push.png)
 ### ECS :
 1. Create a cluster for ECS
-![ecs-cluster](https://ik.imagekit.io/isudiptodas/portfolio-article-images/aws-video-transcoding/ecs-cluster.png)
+![ecs-cluster](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/aws-video-transcoding/ecs-cluster.png)
 2. Create a new task definition first with details like : task family, image URI, container name, task size, launch machine type, port mappings, environment variables etc.
 3. Create a new service with the task definition
-![ecs-service](https://ik.imagekit.io/isudiptodas/portfolio-article-images/aws-video-transcoding/ecs-service-create.png)
+![ecs-service](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/aws-video-transcoding/ecs-service-create.png)
 
 ### SQS Queue :
 1. Create a queue for receiving event notifications
-![sqs-queue](https://ik.imagekit.io/isudiptodas/portfolio-article-images/aws-video-transcoding/sqs-queue.png)
+![sqs-queue](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/aws-video-transcoding/sqs-queue.png)
 
 ### S3 :
 1. Create two s3 buckets, one for input and one for output
-![s3-buckets](https://ik.imagekit.io/isudiptodas/portfolio-article-images/aws-video-transcoding/s3-buckets.png)
+![s3-buckets](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/aws-video-transcoding/s3-buckets.png)
 2. Go to S3 input bucket > properties > scroll down & you will see event notification 
 3. Set up your event for any object creation and select your queue
 
@@ -351,9 +351,9 @@ CMD ["npm", "start"]
 ``` 
 Now after running this code on ECS, you can test the pipeline by :
 1. Upload a video in input bucket and check ECS container logs
-![ecs-logs](https://ik.imagekit.io/isudiptodas/portfolio-article-images/aws-video-transcoding/ecs-logs-after.png)
+![ecs-logs](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/aws-video-transcoding/ecs-logs-after.png)
 2. And after sometime check in your output bucket for final video formats along with the original raw video
-![ecs-logs](https://ik.imagekit.io/isudiptodas/portfolio-article-images/aws-video-transcoding/transcoding-output.png)
+![ecs-logs](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/aws-video-transcoding/transcoding-output.png)
 
 **Congratulations** 🎉
 You just built a video transcoding pipeline from scratch and now you know what happens behind the scenes at any video platform after clicking on "Upload"

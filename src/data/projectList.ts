@@ -1,7 +1,7 @@
 export const webProjects = [
     {
         name: `MediLab`,
-        image: `/assets/medilab.png`,
+        image: `/assets/web-dev-projects/medilab.png`,
         features: [
             "Complete end to end healthcare management",
             "Email reminders for appointments",
@@ -17,7 +17,7 @@ export const webProjects = [
     },
     {
         name: `learnfinity`,
-        image: `/assets/learnfinity.png`,
+        image: `/assets/web-dev-projects/learnfinity.png`,
         features: [
             "Free tech resources (roadmaps, videos, docs)",
             "Real time collaborative code editor",
@@ -35,7 +35,7 @@ export const webProjects = [
     },
     {
         name: `downtown.io`,
-        image: `/assets/downtown.png`,
+        image: `/assets/web-dev-projects/downtown.png`,
         features: [
             "AI trip planner",
             "Location detection and events suggestions",
@@ -49,7 +49,7 @@ export const webProjects = [
     },
     {
         name: `companion AI`,
-        image: `/assets/companion-ai.png`,
+        image: `/assets/web-dev-projects/companion-ai.png`,
         features: [
             "Open communication with AI voice agents",
             "Mood upliftment with human like conversation"
@@ -61,7 +61,7 @@ export const webProjects = [
     },
     {
         name: `evaluate AI`,
-        image: `/assets/evaluate-ai.png`,
+        image: `/assets/web-dev-projects/evaluate-ai.png`,
         features: [
             "Mock interview with AI voice agents",
             "Automatic feedback generation",
@@ -75,7 +75,7 @@ export const webProjects = [
     },
     {
         name: `aurora AI`,
-        image: `/assets/aurora-ai.jpg`,
+        image: `/assets/web-dev-projects/aurora-ai.jpg`,
         features: [
             "RAG chatbot for pdf, web url and youtube",
             "Ask queries for external data with accurate context"
@@ -87,7 +87,7 @@ export const webProjects = [
     },
     {
         name: `shield`,
-        image: `/assets/shield.png`,
+        image: `/assets/web-dev-projects/shield.png`,
         features: [
             "256 bit encrypted password manager",
             "Account recovery with two step verification",
@@ -101,7 +101,7 @@ export const webProjects = [
     },
     {
         name: `technotracer`,
-        image: `/assets/technotracer.jpg`,
+        image: `/assets/web-dev-projects/technotracer.jpg`,
         features: [
             "Campus items lost and recovery platform",
             "Role based access control",
@@ -115,7 +115,7 @@ export const webProjects = [
     },
     {
         name: `ripple AI`,
-        image: `/assets/ripple-ai.png`,
+        image: `/assets/web-dev-projects/ripple-ai.png`,
         features: [
             "Anonymous AI chatbot + real time internet data",
             "Online file sharing with 24 hour validity",
@@ -130,7 +130,7 @@ export const webProjects = [
     },
     {
         name: `pixel labs`,
-        image: `/assets/pixel-labs.png`,
+        image: `/assets/web-dev-projects/pixel-labs.png`,
         features: [
             "Open source react based component UI library",
             "UI element list with wide variety",
@@ -144,7 +144,7 @@ export const webProjects = [
     },
     {
         name: `OS theme portfolio`,
-        image: `/assets/os-theme.jpg`,
+        image: `/assets/web-dev-projects/os-theme.jpg`,
         features: [
             "Windows 11 and MacOS inspired theme",
             "Windows and Mac micro interactions",

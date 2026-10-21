@@ -3,11 +3,6 @@
 import { SiGooglegemini } from "react-icons/si";
 import Marquee from "react-fast-marquee";
 import { useState, useEffect } from "react";
-import { BiLogoGmail } from "react-icons/bi";
-import { PiMicrosoftOutlookLogoFill } from "react-icons/pi";
-import { FaGithub } from "react-icons/fa";
-import { FaLinkedin } from "react-icons/fa";
-import { FaSquareXTwitter } from "react-icons/fa6";
 import { works } from "@/data/work";
 import { techStackList } from "@/data/techStack";
 import { useRouter } from "next/navigation";
@@ -16,6 +11,7 @@ import axios from "axios";
 import ReactLenis from 'lenis/react';
 import { ArticleType as ArticleListItem } from '@/types/Article';
 import { IoMdShare } from "react-icons/io";
+import Footer from "@/components/Footer";
 
 function page() {
 
@@ -39,17 +35,9 @@ function page() {
     "FULL STACK WEB DEVELOPMENT",
     "DEVOPS",
     "AI/ML",
-    "SYSTEM DESIGN"
+    "SYSTEM DESIGN",
+    "CINEMATOGRAPHY"
   ];
-
-  const navigate = (link: string) => {
-    if (link.startsWith(`https`)) {
-      window.open(link, '_blank');
-    }
-    else {
-      window.open(`mailto:${link}`, '_blank');
-    }
-  }
 
   return (
     <ReactLenis root options={{
@@ -108,7 +96,7 @@ function page() {
               {techStackList.map((item, index) => {
                 return <motion.div initial={{filter: "blur(20px)"}} whileInView={{filter: "blur(0px)"}} transition={{delay: 0.3, duration: 0.4, ease: "easeInOut"}} viewport={{once: true}} key={index} className={`w-full rounded-xl bg-[#e4e4e4] flex flex-col justify-start items-center py-2 px-5`}>
                   <p className={`w-full text-center font-Red-Hat-Display font-bold text-lg border-b border-b-zinc-400 pb-4`}>{item.title}</p>
-                  <p className={`w-full text-center font-Red-Hat-Display text-sm pt-5 pb-2`}>{item.items}</p>
+                  <p className={`w-full text-center font-Red-Hat-Display text-sm pt-5 pb-4 px-4`}>{item.items}</p>
                 </motion.div>
               })}
             </div>
@@ -123,7 +111,7 @@ function page() {
                 return <motion.div initial={{filter: "blur(20px)"}} whileInView={{filter: "blur(0px)"}} transition={{delay: 0.3, duration: 0.4, ease: "easeInOut"}} viewport={{once: true}} key={index} className={`w-full rounded-xl bg-[#e4e4e4] flex flex-col justify-start items-center pb-3`}>
                   <div className={`w-full h-56 rounded-xl overflow-hidden bg-black`}> <img src={item.image} className={`w-full h-full object-cover`} /> </div>
                   <p className={`w-full select-none text-center font-Red-Hat-Display font-bold text-xl py-5`}>{item.title}</p>
-                  <p onClick={() => router.push(item.link)} className={`w-[95%] bg-linear-to-r from-[#0012ff] to-[#001e8c] px-3 py-3 rounded-full select-none text-white font-Red-Hat-Display text-sm text-center cursor-pointer`}>Explore</p>
+                  <p onClick={() => router.push(item.link)} className={`w-[95%] active:opacity-75 duration-150 ease-in-out ${item.link ? "bg-linear-to-r from-[#0012ff] to-[#001e8c] text-white font-semibold cursor-pointer" : "bg-gray-400 text-zinc-900 font-semibold cursor-default pointer-events-none"} px-3 py-3 rounded-full select-none text-white font-Red-Hat-Display text-sm text-center`}>{item.link ? "Explore" : "Coming Soon"}</p>
                 </motion.div>
               })}
             </div>
@@ -139,7 +127,7 @@ function page() {
                   <p className={`w-full pt-3 text-start font-Red-Hat-Display select-none font-bold text-lg text-black`}>{item.title}</p>
 
                   <div className={`w-full mt-3 flex justify-between items-center py-2 gap-5`}>
-                    <p onClick={() => router.push(`/articles/${item.slug}`)} className={`w-full rounded-full text-center select-none bg-black active:opacity-70 duration-150 ease-in-out text-white text-sm px-4 py-3`}>Read now</p>
+                    <p onClick={() => router.push(`/articles/${item.slug}`)} className={`w-full rounded-full cursor-pointer text-center select-none bg-black active:opacity-70 duration-150 ease-in-out text-white text-sm px-4 py-3`}>Read now</p>
                     <p onClick={() => navigator.clipboard.writeText(`https://www.isudiptodas.online/articles/${item.slug}`)} className={`w-auto rounded-full bg-[#0012ff] active:bg-[#020fb8] duration-150 ease-in-out text-white p-3`}><IoMdShare /></p>
                   </div>
                 </div>
@@ -151,13 +139,7 @@ function page() {
           </div>
 
           {/* footer */}
-          <div className={`w-full h-auto pt-10 pb-5 flex justify-center items-center gap-5 lg:gap-8 bg-[#080808]`}>
-            <span onClick={() => navigate('mailto:work.sudiptodas@gmail.com')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><BiLogoGmail /></span>
-            <span onClick={() => navigate('mailto:isudiptodas01@outlook.com')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><PiMicrosoftOutlookLogoFill /></span>
-            <span onClick={() => navigate('https://github.com/isudiptodas')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><FaGithub /></span>
-            <span onClick={() => navigate('https://www.linkedin.com/in/sudiptodas-developer')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><FaLinkedin /></span>
-            <span onClick={() => navigate('https://www.x.com/isudiptodas')} className={`text-xl md:text-2xl lg:text-3xl text-white cursor-pointer`}><FaSquareXTwitter /></span>
-          </div>
+          <Footer />
           <div className={`bg-[#080808] w-full h-auto flex justify-center items-center pb-6`}>
             <p className={`w-full text-center font-Red-Hat-Display text-white text-[8px] md:text-[10px] opacity-70`}>Designed and developed by Sudipto</p>
           </div>

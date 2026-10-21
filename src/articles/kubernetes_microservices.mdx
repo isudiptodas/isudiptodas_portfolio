@@ -480,7 +480,7 @@ kubectl get svc -n ingress-nginx
 ```
 
 ## Architecture in development
-![diagram-before](https://ik.imagekit.io/isudiptodas/portfolio-article-images/taskcal-architecture-before.png)
+![diagram-before](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/taskcal-architecture-before.png)
 
 -   The frontend directly calls every backend service separately, like auth, task, notification, and password recovery.
 -   This works for development, but it is not ideal for production because the frontend needs to know multiple backend URLs.
@@ -489,7 +489,7 @@ kubectl get svc -n ingress-nginx
 -   This setup is fine for local testing, but it does not look like a clean production architecture.
 
 ## Architecture after deploying on kubernetes
-![diagram-after](https://ik.imagekit.io/isudiptodas/portfolio-article-images/taskcal-architecture-after.png)
+![diagram-after](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/taskcal-architecture-after.png)
 
 -   The user/frontend sends requests to one single entry point: the Kubernetes Ingress.
 -   Ingress checks the API path, like `/api/auth` or `/api/task`, and forwards the request to the correct backend service.

@@ -1,5 +1,5 @@
 
-import { imageList } from "@/data/photo-design";
+import { imageList } from "@/data/photo";
 import Link from "next/link";
 import type { Metadata } from "next";
 

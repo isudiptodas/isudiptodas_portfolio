@@ -28,7 +28,7 @@ Here in gitops architecture, we don't have to juggle between multiple configurat
 ## What we will build ?
 To practically understand how gitops architecture actually works, we will use a tool called **ArgoCD**, which is a kubernetes native gitops tool. And here we have a two tier application, a frontend which is built on react, and a backend which is built on nodejs and express with a database mongodb. Now we will be deploying that backend on kubernetes with the help of argocd and github actions and will setup the entire GitOps pipeline.
 
-![diagram](https://ik.imagekit.io/isudiptodas/portfolio-article-images/argocd-gitops-diagram.png)
+![diagram](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/argocd-gitops-diagram.png)
 
 1. Developer will push code changes in a repository
 2. Github actions workflow will run and perform the specified jobs
@@ -220,7 +220,7 @@ jobs:
 Now here in the github actions configuration, you will see in many places I have added a dynamic variable, which I am using with the keyword **secrets**. Now you may wonder that what is a secret and what is even its value, and from where I am getting it. So just for the understanding in my script, I needed some values which are environment variables actually. And I need it because the script will test my application where I will need my mongodb URL, my jwt secret, and even while deploying my application on docker, I will need some credentials for that. So the secrets are referring to those actual environment values which I have stored in the github repository secrets.
 
 ### Follow the steps to set secrets for github actions
-![github-secrets](https://ik.imagekit.io/isudiptodas/portfolio-article-images/argocd-gitops/github-actions-secrets.jpg)
+![github-secrets](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/argocd-gitops/github-actions-secrets.jpg)
 
 Repository settings > Secrets and variables > Actions > New repository secret
 
@@ -246,7 +246,7 @@ helm install argocd argo/argo-cd --namespace argocd --create-namespace
 ```bash
 kubectl get pods -n argocd
 ```
-![argocd-pods](https://ik.imagekit.io/isudiptodas/portfolio-article-images/argocd-gitops/argocd-pods.png)
+![argocd-pods](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/argocd-gitops/argocd-pods.png)
 
 ## Access ArgoCD dashboard
 Now, after we verify that the argocd pods are actually running on our cluster, we have to access the argocd dashboard, and for this we have to run the following command :
@@ -260,7 +260,7 @@ After running this command, you will see a lot of services are running on the na
 but for this article to keep it simple I have used it as a load balancer.
 
 Now after changing it to load balancer you will see a public dns beside the service, copy the dns and open in a new tab, you will see the login ui of argocd.
-![argocd-login](https://ik.imagekit.io/isudiptodas/portfolio-article-images/argocd-gitops/argocd-login.png)
+![argocd-login](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/argocd-gitops/argocd-login.png)
 
 - username : admin
 - password : run the following command 
@@ -268,14 +268,14 @@ Now after changing it to load balancer you will see a public dns beside the serv
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 ```
 After login you will see the argocd dashboard
-![argocd-dashboard](https://ik.imagekit.io/isudiptodas/portfolio-article-images/argocd-gitops/argocd-dashboard.png)
+![argocd-dashboard](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/argocd-gitops/argocd-dashboard.png)
 
 ## Connect your cluster and repository in ArgoCD
 Now by default when you will open argocd dashboard for the first time there you will see no application is added on the screen. So for that you have to add your application on the argocd dashboard, where you will connect your cluster and your github repository where your actual manifest files are located.
 
 On the dashboard click on **New App**
-![argocd-app-add](https://ik.imagekit.io/isudiptodas/portfolio-article-images/argocd-gitops/argocd-application-create.png)
-![argocd-app-add](https://ik.imagekit.io/isudiptodas/portfolio-article-images/argocd-gitops/argocd-application-create-2.png)
+![argocd-app-add](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/argocd-gitops/argocd-application-create.png)
+![argocd-app-add](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/argocd-gitops/argocd-application-create-2.png)
 
 - Repository URL : The git repo where your kubernetes manifest files are stored
 - Revision : Another name for branch (branch of the repo)
@@ -284,15 +284,15 @@ On the dashboard click on **New App**
 - Namespace : On which namespace your application should be deployed
 
 Now after configuring all of the above you may see your application got registered on the dashboard
-![argocd-app-ui](https://ik.imagekit.io/isudiptodas/portfolio-article-images/argocd-gitops/argocd-application-ui.png)
+![argocd-app-ui](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/argocd-gitops/argocd-application-ui.png)
 
 ### Done 🎉
 Now for the final time just verify that all of your resources are running or not
 
 ## Final verify
-![verify](https://ik.imagekit.io/isudiptodas/portfolio-article-images/argocd-gitops/k8s-resources.png)
+![verify](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/argocd-gitops/k8s-resources.png)
 Here you can see all the deploymemts and services got created and now copy the service dns and open in a new tab and you may see the application is running.
-![dns-verify](https://ik.imagekit.io/isudiptodas/portfolio-article-images/argocd-gitops/dns-service-verify.png)
+![dns-verify](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/argocd-gitops/dns-service-verify.png)
 In my application in the home route, I have not configured anything, but I had a `/health` route and there I am sending a JSON response of my application is running or not, and also about my database. So now with the help of the DNS, I can verify that my application is successfully running and databases are also active.
 
 Now, after this setup, whenever a developer will push any code change in github repository, your argocd will constantly keep on monitoring the repository and your cluster so that the cluster state matches with the desired manifest kubernetes files and everything be in sync.

@@ -32,7 +32,7 @@ Now you may think that why even the intense speed matters, can't I just download
 3. If a video is 5 or 10 hour long and the total size of the video is maybe 4 GB, but the user have to see at a particular timestamp, then the user have to wait for the entire video to get downloaded and then he can skip to that particular timestamp.
 
 ## Architecture :
-![diagram](https://ik.imagekit.io/isudiptodas/portfolio-article-images/adaptive-bitrate-streaming/abs-diagram.png)
+![diagram](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/adaptive-bitrate-streaming/abs-diagram.png)
 
 1. User will upload a video file.
 2. That video file will be stored in our temporary folder in our backend.
@@ -54,20 +54,20 @@ You can definitely play the video with just the master link but to experience ad
 ## Cloudflare R2 setup :
 
 ### 1. Create a new bucket
-![bucket](https://ik.imagekit.io/isudiptodas/portfolio-article-images/adaptive-bitrate-streaming/create-bucket.jpg)
+![bucket](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/adaptive-bitrate-streaming/create-bucket.jpg)
 
 ### 2. Allow public access for that bucket
-![public-url](https://ik.imagekit.io/isudiptodas/portfolio-article-images/adaptive-bitrate-streaming/enable-public-url.png)
+![public-url](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/adaptive-bitrate-streaming/enable-public-url.png)
 
 ### 3. Allow CORS policy for that bucket
-![cors](https://ik.imagekit.io/isudiptodas/portfolio-article-images/adaptive-bitrate-streaming/cors-policy.png)
+![cors](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/adaptive-bitrate-streaming/cors-policy.png)
 
 If you're thinking that when you've already enabled public URL for this bucket, then what is the need of enabling CORS policy again, so to answer this question, public URL means you can access the buckets objects from anywhere outside your cloudflare account, but when you will play the video from the master file that will give you a error similar to this -> `Access blocked by CORS policy: No 'Access-Control-Allow-Origin'`. 
 
 That means your frontend is hosted on a different origin and your video files or the master file is hosted on a different origin and communication between them is not possible and that is the reason why you have to enable CORS policy for this.
 
 ### 4. Create API tokens for that bucket
-![api-token](https://ik.imagekit.io/isudiptodas/portfolio-article-images/adaptive-bitrate-streaming/create-api-tokens.jpg)
+![api-token](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/adaptive-bitrate-streaming/create-api-tokens.jpg)
 
 ## Frontend Code :
 
@@ -797,11 +797,11 @@ Now after this entire setup when you will upload a video from your frontend and 
 Folder naming convension : 
 `videofilename-uniqueid`
 
-![after-processing](https://ik.imagekit.io/isudiptodas/portfolio-article-images/adaptive-bitrate-streaming/after-processing.png)
-![formats](https://ik.imagekit.io/isudiptodas/portfolio-article-images/adaptive-bitrate-streaming/multiple-formats.jpg)
+![after-processing](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/adaptive-bitrate-streaming/after-processing.png)
+![formats](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/adaptive-bitrate-streaming/multiple-formats.jpg)
 
 And finally, when your video URL will be returned to the front end, your frontend will automatically navigate you to a different page where the video will start playing. And it will look something like this
-![video-player](https://ik.imagekit.io/isudiptodas/portfolio-article-images/adaptive-bitrate-streaming/video-player.png)
+![video-player](https://pub-76dd5696ca1948f98aca32e21a27cf6b.r2.dev/adaptive-bitrate-streaming/video-player.png)
 
 ***
 

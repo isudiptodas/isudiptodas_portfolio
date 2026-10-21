@@ -1,29 +1,86 @@
 export const videoLinks = [
     {
-        link: `https://ik.imagekit.io/isudiptodas/video/save_aravalli.mp4`,
-        thumbnail: `https://ik.imagekit.io/isudiptodas/video_thumbnail/save-aravalli.png`
+        id: 1,
+        title: "Life is Cinematic",
+        description: `Life can get loud.
+        The traffic, the metro, the rush, the constant movement. Sometimes, in the middle of all this chaos, we forget to simply pause.
+        This short cinematic film is about finding that little moment of peace within yourself. A reminder that even when life feels hectic or dull, happiness doesn't always have to come from somewhere else. Sometimes, you just need to pause, breathe, listen to your music, and enjoy the moment.
+
+        MUSIC & COPYRIGHT NOTICE:
+        The music used in this video is copyrighted material, and I fully respect the rights of the original creators and copyright owners.
+
+        I have included proper credits for the songs in my video description and have not claimed ownership of any of the music. I am using these songs only as part of my own cinematic project to showcase my filmmaking, editing, and storytelling skills.
+        I have no intention to commercially use, sell, monetize, or claim ownership of these songs. I am also not trying to represent the music as my own work.
+
+        CREDITS:
+        Lead: Argha Banik
+        Cinematographer: Rajdeep Roy, Sudipto Das
+        Editing & Sound: Sudipto Das
+        Song - Kabhi Kabhi Aditi Zindagi
+        Film - Jaane Tu... Ya Jaane Na
+        Singer - Rashid Ali
+        Lyricist - Abbas Tyrewala
+        Music - A.R. Rahman
+        Artist - Imran Khan, Genelia Dsouza, Manjari Phadnis, Ayaz Khan Others
+        Music On - T-Series`,
+        link: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/videos/life-is-cinematic.mp4`,
+        thumbnail: ``
     },
     {
-        link: `https://ik.imagekit.io/isudiptodas/video/thinking_is_optional.mp4`,
-        thumbnail: `https://ik.imagekit.io/isudiptodas/video_thumbnail/thinking-is-optional.png`
+        id: 2,
+        title: "Nirobota",
+        description: `Sometimes the hardest part of a relationship is not saying what hurts you. It is watching the same thing happen again after you've already said it.
+
+        This short film explores overthinking, trust, boundaries, and the feeling of being unheard in a relationship.
+        He had already explained what was bothering him. He had already tried to communicate. But when nothing changed, he chose to stay quiet.
+        And sometimes, silence does not mean everything is okay.
+
+        MUSIC & COPYRIGHT NOTICE:
+        The music used in this video is copyrighted material, and I fully respect the rights of the original creators and copyright owners.
+
+        I have included proper credits for the songs in my video description and have not claimed ownership of any of the music. I am using these songs only as part of my own cinematic project to showcase my filmmaking, editing, and storytelling skills.
+        I have no intention to commercially use, sell, monetize, or claim ownership of these songs. I am also not trying to represent the music as my own work.
+
+        CREDITS:
+        Lead Actor: Argha Banik
+        Editing & Sound: Sudipto Das 
+        Cinematographer: Sudipto Das
+        Story: Sudipto Das
+
+        Male & Female voice: ElevenLabs
+        Background song: The Metro Proposal (from movie "Dude")
+        Composer: Sai Abhyankkar`,
+        link: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/videos/nirobota.mp4`,
+        thumbnail: ``
     },
     {
-        link: `https://ik.imagekit.io/isudiptodas/video/mother_earth.mp4`,
-        thumbnail: `https://ik.imagekit.io/isudiptodas/video_thumbnail/mother-earth.png`
+        id: 3,
+        title: "Khwab",
+        description: `Some dreams begin quietly. You wait for them and keep working until one day, they finally stand right in front of you.
+
+        Khwab is a short cinematic story about a dream becoming real for Rajdeep Roy. What started as a dream of owning his bike finally becomes a moment he gets to share with his family and the people who were there throughout the journey.
+        A moment of happiness, pride, and a new beginning.
+
+        MUSIC & COPYRIGHT NOTICE:
+        The music used in this video is copyrighted material, and I fully respect the rights of the original creators and copyright owners.
+
+        I have included proper credits for the songs in my video description and have not claimed ownership of any of the music. I am using these songs only as part of my own cinematic project to showcase my filmmaking, editing, and storytelling skills.
+        I have no intention to commercially use, sell, monetize, or claim ownership of these songs. I am also not trying to represent the music as my own work.
+
+        CREDITS:
+        Lead: Rajdeep Roy
+        Story: Sudipto Das
+        Cinematography: Sudipto Das
+        Editing & Sound: Sudipto Das
+
+        Voice Modulation: ElevenLabs
+        Background song 1: The Rose Instrumental (From movie "DC")
+        Music Director: Anirudh Ravichander
+        Background song 2: Aane Wala Star
+        Composer: Sai Abhyankkar`,
+        link: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/videos/khwab.mp4`,
+        thumbnail: ``
     },
-    {
-        link: `https://ik.imagekit.io/isudiptodas/video/bees_and_nature.mp4`,
-        thumbnail: `https://ik.imagekit.io/isudiptodas/video_thumbnail/bees-and-nature.png`
-    },
-    {
-        link: `https://ik.imagekit.io/isudiptodas/video/how_internet_works.mp4`,
-        thumbnail: `https://ik.imagekit.io/isudiptodas/video_thumbnail/how-internet-works.png`
-    },
-    {
-        link: `https://ik.imagekit.io/isudiptodas/video/rise_of_microsoft.mp4`,
-        thumbnail: `https://ik.imagekit.io/isudiptodas/video_thumbnail/rise-of-microsoft.png`
-    },
-   
 ];
 
 
