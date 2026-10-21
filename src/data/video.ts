@@ -24,7 +24,7 @@ export const videoLinks = [
         Artist - Imran Khan, Genelia Dsouza, Manjari Phadnis, Ayaz Khan Others
         Music On - T-Series`,
         link: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/videos/life-is-cinematic.mp4`,
-        thumbnail: ``
+        thumbnail: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/thumbnails/life-is-cinematic.jpeg`
     },
     {
         id: 2,
@@ -51,7 +51,7 @@ export const videoLinks = [
         Background song: The Metro Proposal (from movie "Dude")
         Composer: Sai Abhyankkar`,
         link: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/videos/nirobota.mp4`,
-        thumbnail: ``
+        thumbnail: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/thumbnails/nirobota.jpeg`
     },
     {
         id: 3,
@@ -79,7 +79,7 @@ export const videoLinks = [
         Background song 2: Aane Wala Star
         Composer: Sai Abhyankkar`,
         link: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/videos/khwab.mp4`,
-        thumbnail: ``
+        thumbnail: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/thumbnails/khwab.jpeg`
     },
 ];
 
