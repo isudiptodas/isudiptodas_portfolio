@@ -73,7 +73,7 @@ function page() {
              <div className={`w-full h-auto flex justify-center items-center`}>
                <Marquee speed={70} >
                  {titles.map((item, index) => {
-                return <motion.span initial={{opacity: 0, filter: "blur(20px)"}} animate={{opacity: 1, filter: "blur(0px)"}} transition={{delay: 0.6, duration: 1.4, ease: "easeInOut"}} key={index} className={`text-white text-4xl xl:text-6xl font-Hatton-Medium flex`}>{item} <SiGooglegemini className="mx-5" /></motion.span>
+                return <motion.span initial={{opacity: 0, filter: "blur(20px)"}} animate={{opacity: 1, filter: "blur(0px)"}} transition={{delay: 0.6, duration: 1.4, ease: "easeInOut"}} key={index} className={`text-white py-3 text-4xl xl:text-6xl font-Hatton-Medium flex`}>{item} <SiGooglegemini className="mx-5" /></motion.span>
                  })}
                </Marquee>
              </div>
@@ -92,7 +92,7 @@ function page() {
           <div className={`w-full h-auto pb-10 flex flex-col justify-start items-center pt-6 md:pt-10 bg-white rounded-t-4xl`}>
             <motion.h1 initial={{filter: "blur(20px)"}} whileInView={{filter: "blur(0px)"}} transition={{delay: 0.3, duration: 0.4, ease: "easeInOut"}} viewport={{once: true}} className={`w-full text-center px-5 text-black font-Horizon text-2xl md:text-4xl xl:text-6xl`}>TECH STACK WORKED WITH</motion.h1>
 
-            <div className={`w-full px-3 h-auto mt-5 md:mt-10 grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 justify-items-center gap-4`}>
+            <div className={`w-full px-3 lg:px-6 h-auto mt-5 md:mt-10 grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 justify-items-center gap-4`}>
               {techStackList.map((item, index) => {
                 return <motion.div initial={{filter: "blur(20px)"}} whileInView={{filter: "blur(0px)"}} transition={{delay: 0.3, duration: 0.4, ease: "easeInOut"}} viewport={{once: true}} key={index} className={`w-full rounded-xl bg-[#e4e4e4] flex flex-col justify-start items-center py-2 px-5`}>
                   <p className={`w-full text-center font-Red-Hat-Display font-bold text-lg border-b border-b-zinc-400 pb-4`}>{item.title}</p>
@@ -106,7 +106,7 @@ function page() {
           <div className={`w-full pb-10 bg-white h-auto flex flex-col justify-start items-center pt-10`}>
             <motion.h1 initial={{filter: "blur(20px)"}} whileInView={{filter: "blur(0px)"}} transition={{delay: 0.3, duration: 0.4, ease: "easeInOut"}} viewport={{once: true}} className={`w-full text-center px-5 text-black font-Horizon text-2xl md:text-4xl xl:text-6xl`}>SELECTED WORKS</motion.h1>
 
-            <div className={`w-full px-3 h-auto mt-5 md:mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center gap-4`}>
+            <div className={`w-full px-3 lg:px-6 h-auto mt-5 md:mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center gap-4`}>
               {works.map((item, index) => {
                 return <motion.div initial={{filter: "blur(20px)"}} whileInView={{filter: "blur(0px)"}} transition={{delay: 0.3, duration: 0.4, ease: "easeInOut"}} viewport={{once: true}} key={index} className={`w-full rounded-xl bg-[#e4e4e4] flex flex-col justify-start items-center pb-3`}>
                   <div className={`w-full h-56 rounded-xl overflow-hidden bg-black`}> <img src={item.image} className={`w-full h-full object-cover`} /> </div>
@@ -121,7 +121,7 @@ function page() {
           <div className={`w-full py-10 bg-black h-auto flex flex-col justify-start items-center pt-10`}>
             <h1 className={`w-full text-center px-5 text-white font-Horizon text-2xl md:text-4xl xl:text-6xl`}>FEATURED ARTICLES</h1>
 
-            <div className={`w-full px-3 h-auto mt-5 md:mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-items-center gap-4`}>
+            <div className={`w-full px-3 lg:px-6 h-auto mt-5 md:mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-items-center gap-4`}>
               {allArticles.length > 0 && allArticles.map((item, index) => {
                 return <div key={index} className={`w-full ${item.featured ? "block" : "hidden"} rounded-xl bg-white px-4 pb-3 flex flex-col justify-between items-center`}>
                   <p className={`w-full pt-3 text-start font-Red-Hat-Display select-none font-bold text-lg text-black`}>{item.title}</p>
@@ -134,7 +134,7 @@ function page() {
               })}
             </div>
 
-            <p onClick={() => router.push('/articles')} className={`w-auto bg-white text-black cursor-pointer text-[12px] select-none rounded-full mt-5 px-4 py-2`}>View all</p>
+            <p onClick={() => router.push('/articles')} className={`w-auto bg-white text-black active:opacity-75 duration-200 ease-in-out cursor-pointer text-[12px] select-none rounded-full mt-7 px-4 py-2`}>View all</p>
 
           </div>
 

@@ -14,10 +14,34 @@ function page() {
     const [allArticles, setAllArticles] = useState<ArticleListItem[] | []>([]);
     const [filteredArticles, setFilteredArticles] = useState<ArticleListItem[] | []>([]);
     const [option, setOption] = useState('latest');
+    const [slideOption, setSlideOption] = useState('all');
     const [isLoading, setIsLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [count, setCount] = useState<number | null>(null);
     const router = useRouter();
+
+    const slidebars = [
+        {
+            id: `all`,
+            name: `All`,
+            count: allArticles.length,
+        },
+        {
+            id: `DEVOPS`,
+            name: `DevOps`,
+            count: allArticles.filter( item => item.category?.toLowerCase() === 'devops').length,
+        },
+        {
+            id: `AIML`,
+            name: `AI/ML`,
+            count: allArticles.filter( item => item.category?.toLowerCase() === 'aiml').length,
+        },
+        {
+            id: `SYSTEM_DESIGN`,
+            name: `System Design`,
+            count: allArticles.filter( item => item.category?.toLowerCase() === 'system_design').length,
+        },
+    ]
 
     const colors = {
         SYSTEM_DESIGN: {
@@ -50,6 +74,19 @@ function page() {
 
         fetchAllArticles();
     }, []);
+
+    useEffect(() => {
+        const filterSlideArticles = () => {
+            const filtered = allArticles.filter((item) => {
+                return item.category === slideOption
+            });
+
+            if(filtered) setFilteredArticles(filtered);
+            setCount(filtered.length);
+        }
+
+        filterSlideArticles();
+    }, [slideOption]);
 
     useEffect(() => {
 
@@ -91,6 +128,12 @@ function page() {
                     <p onClick={() => setOption(option === 'latest' ? 'oldest' : 'latest')} className={`w-auto px-3 py-1 text-[12px] md:text-sm rounded-full text-gray-400 cursor-pointer select-none capitalize text-center flex justify-center items-center gap-2`}>{option} <FaSort /></p>
                 </div>
 
+                <div className={`w-full pt-10 pb-5 flex shrink-0 justify-start px-5 items-start md:justify-center gap-3 overflow-x-auto`}>
+                    {slidebars.map((item, index) => {
+                        return <span onClick={() => {setSlideOption(item.id)}} key={index} className={`w-auto select-none cursor-pointer hover:text-white hover:border-white duration-300 ease-in-out rounded-full shrink-0 flex gap-2 py-2 px-4 ${slideOption === item.id ? "border-white text-white font-semibold" : "border-zinc-900 font-normal text-gray-500"} text-sm border-2`}>{item.name} ({item.count})</span>
+                    })}
+                </div>
+
                 <div className={`w-full px-5 lg:px-8 flex justify-start items-start pt-7 pb-5`}>
                     <p className={`w-full select-none text-start text-white text-[12px] lg:text-sm font-Red-Hat-Display`}>Showing {count} results</p>
                 </div>
@@ -127,7 +170,7 @@ function page() {
 
                 <div className={`w-full px-5 lg:px-8 pb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center items-start gap-4`}>
 
-                    {searchTerm && filteredArticles.map((item, index) => {
+                    {(searchTerm || slideOption !== 'all') && filteredArticles.map((item, index) => {
                         return <div onClick={() => router.push(`/articles/${item.slug}`)} key={index} className={`w-full hover:inset-shadow-sm hover:inset-shadow-black active:bg-zinc-800 duration-300 ease-in-out rounded-xl cursor-pointer flex flex-col justify-start items-start py-5 px-3 bg-zinc-900 relative`}>
                             <span className={`w-auto ${item.category === 'SYSTEM_DESIGN' ? "block" : "hidden"} px-3 py-1 rounded-full text-black text-[10px] border-2`} style={{
                                 borderColor: colors.SYSTEM_DESIGN.border,
@@ -152,7 +195,7 @@ function page() {
                         </div>
                     })}
 
-                    {!searchTerm && allArticles.map((item, index) => {
+                    {(!searchTerm && slideOption === 'all') && allArticles.map((item, index) => {
                         return <div onClick={() => router.push(`/articles/${item.slug}`)} key={index} className={`w-full hover:inset-shadow-sm hover:inset-shadow-black active:bg-zinc-800 duration-300 ease-in-out rounded-xl cursor-pointer flex flex-col justify-start items-start py-5 px-3 bg-zinc-900 relative`}>
                             <span className={`w-auto ${item.category === 'SYSTEM_DESIGN' ? "block" : "hidden"} px-3 py-1 rounded-full font-semibold text-[10px] border-2`} style={{
                                 borderColor: colors.SYSTEM_DESIGN.border,
