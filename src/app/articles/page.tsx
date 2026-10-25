@@ -85,12 +85,14 @@ function page() {
                 setFilteredArticles(filtered);
                 setCount(filtered.length);
             }
-            else{
-                setCount(allArticles.length);
-            }
         }
 
+        const allSlidesCount = () => {
+            if (slideOption === 'all') setCount(allArticles.length);
+        }
+        
         filterSlideArticles();
+        allSlidesCount();
     }, [slideOption]);
 
     useEffect(() => {
