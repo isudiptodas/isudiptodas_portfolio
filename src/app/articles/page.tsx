@@ -81,8 +81,13 @@ function page() {
                 return item.category === slideOption
             });
 
-            if(filtered) setFilteredArticles(filtered);
-            setCount(filtered.length);
+            if(filtered) {
+                setFilteredArticles(filtered);
+                setCount(filtered.length);
+            }
+            else{
+                setCount(allArticles.length);
+            }
         }
 
         filterSlideArticles();
