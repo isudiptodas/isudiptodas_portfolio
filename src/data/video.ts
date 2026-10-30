@@ -81,6 +81,55 @@ export const videoLinks = [
         link: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/videos/khwab.mp4`,
         thumbnail: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/thumbnails/khwab.jpeg`
     },
+    {
+        id: 4,
+        title: "Somoy Bodlay Bondhutto Noy",
+        description: `Life takes us in different directions. Childhood dreams slowly turn into responsibilities, busy schedules, and new priorities. But some bonds are too special to fade away with time.
+
+        Somoy Bodlay, Bondhutto Noy is a story about friendship, misunderstandings, memories, and the connection that remains unchanged despite the passing years. It reminds us that no matter how far life takes us or how much time passes, true friendship always finds its way back.
+
+        Because time may change everything, but true friendship never changes.
+
+        MUSIC & COPYRIGHT NOTICE:
+        The music used in this video is copyrighted material, and I fully respect the rights of the original creators and copyright owners.
+
+        I have included proper credits for the songs in my video description and have not claimed ownership of any of the music. I am using these songs only as part of my own cinematic project to showcase my filmmaking, editing, and storytelling skills.
+
+        I have no intention to commercially use, sell, monetize, or claim ownership of these songs. I am also not trying to represent the music as my own work.
+
+        CREDITS:
+        Friend 1: Argha Banik
+        Friend 2: Rajdeep Roy
+        Friend 3: Sujoy Paul
+        Editing & Sound: Sudipto Das 
+        Cinematographer: Sudipto Das, Rajdeep Roy
+        Story: Sudipto Das
+        Ending Voice Over: Rajdeep Roy
+
+        Special Thanks to:
+        Shivam Bhadra 
+        Deep Das
+        Aditya Majumder 
+        Pritam Das
+
+        Background song 1: Bondhu Chol (from movie "Open Tea Bioscope")
+        Vocals: Anupam Roy
+        Music: Shantanu Moitra
+        Lyrics: Anindya Chatterjee
+
+        Background song 2: I Chose You (Soundtrack from movie "The Amazing Spider-Man 2")
+        Composer, Associated Performer, Producer: Hans Zimmer
+
+        Background song 3: Kabira - Flute Cover by Sriharsha Ramkumar | ft. Pranav, Sanjith & Suchin
+
+        Background song 4: Allah Waariyan (from movie "Yaariyan")
+        Singer: Shafqat Amanat Ali
+        Music: Arko Pravo Mukherjee
+        Lyrics: Arko Pravo Mukherjee
+        Music Label: T-Series`,
+        link: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/videos/somoy-bodlay-bondhutto-noy.mp4`,
+        thumbnail: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/thumbnails/somoy-bodlay-bondhutto-noy.jpeg`
+    },
 ];
 
 
