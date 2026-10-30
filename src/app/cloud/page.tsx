@@ -19,7 +19,7 @@ function page() {
         <div className={`w-full h-auto z-50 flex justify-center items-center px-5 fixed bottom-8`}>
           <Link href='/' className={`w-auto px-5 py-3 rounded-full text-white font-Red-Hat-Display text-[10px] md:text-sm backdrop-blur-3xl bg-white/25`}>Exit Section</Link>
         </div>
-
+ 
         <div className={`w-[95%] h-auto mt-20 md:mt-24 flex flex-col justify-start items-center`}>
           <div className={`w-full h-auto flex flex-col justify-start items-center gap-2 mb-8`}>
             <p className={`w-auto select-none px-4 py-2 rounded-full border border-white/10 bg-zinc-900 text-white/60 font-Red-Hat-Display text-[8px] md:text-[12px] tracking-[0.2rem] uppercase`}>Cloud Projects</p>

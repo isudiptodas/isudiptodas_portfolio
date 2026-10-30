@@ -23,6 +23,8 @@ export const videoLinks = [
         Music - A.R. Rahman
         Artist - Imran Khan, Genelia Dsouza, Manjari Phadnis, Ayaz Khan Others
         Music On - T-Series`,
+        category: 'Experimental',
+        date: `September 14, 2026`,
         link: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/videos/life-is-cinematic.mp4`,
         thumbnail: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/thumbnails/life-is-cinematic.jpeg`
     },
@@ -50,6 +52,8 @@ export const videoLinks = [
         Male & Female voice: ElevenLabs
         Background song: The Metro Proposal (from movie "Dude")
         Composer: Sai Abhyankkar`,
+        category: 'Cinematic Storytelling',
+        date: `October 1, 2026`,
         link: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/videos/nirobota.mp4`,
         thumbnail: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/thumbnails/nirobota.jpeg`
     },
@@ -78,6 +82,8 @@ export const videoLinks = [
         Music Director: Anirudh Ravichander
         Background song 2: Aane Wala Star
         Composer: Sai Abhyankkar`,
+        category: 'Cinematic Storytelling',
+        date: `October 5, 2026`,
         link: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/videos/khwab.mp4`,
         thumbnail: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/thumbnails/khwab.jpeg`
     },
@@ -127,6 +133,8 @@ export const videoLinks = [
         Music: Arko Pravo Mukherjee
         Lyrics: Arko Pravo Mukherjee
         Music Label: T-Series`,
+        category: 'Cinematic Storytelling',
+        date: `October 30, 2026`,
         link: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/videos/somoy-bodlay-bondhutto-noy.mp4`,
         thumbnail: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/thumbnails/somoy-bodlay-bondhutto-noy.jpeg`
     },

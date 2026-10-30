@@ -17,7 +17,7 @@ export const works = [
     {
         title: `Cinematography`,
         image: `/assets/work-background/video.png`,
-        link: ``
+        link: `/video`
     },
     {
         title: `Extensions`,

@@ -89,7 +89,7 @@ function page() {
           <div className={`w-full h-screen bg-transparent`} />
 
           {/* tech stack */}
-          <div className={`w-full h-auto pb-10 flex flex-col justify-start items-center pt-6 md:pt-10 bg-white rounded-t-4xl`}>
+          <div className={`w-full h-auto pb-10 flex flex-col justify-start items-center pt-10 md:pt-16 bg-white rounded-t-4xl`}>
             <motion.h1 initial={{filter: "blur(20px)"}} whileInView={{filter: "blur(0px)"}} transition={{delay: 0.3, duration: 0.4, ease: "easeInOut"}} viewport={{once: true}} className={`w-full text-center px-5 text-black font-Horizon text-2xl md:text-4xl xl:text-6xl`}>TECH STACK WORKED WITH</motion.h1>
 
             <div className={`w-full px-3 lg:px-6 h-auto mt-5 md:mt-10 grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 justify-items-center gap-4`}>
@@ -103,13 +103,13 @@ function page() {
           </div>
 
           {/* selected works */}
-          <div className={`w-full pb-10 bg-white h-auto flex flex-col justify-start items-center pt-10`}>
+          <div className={`w-full pb-20 bg-white h-auto flex flex-col justify-start items-center pt-10`}>
             <motion.h1 initial={{filter: "blur(20px)"}} whileInView={{filter: "blur(0px)"}} transition={{delay: 0.3, duration: 0.4, ease: "easeInOut"}} viewport={{once: true}} className={`w-full text-center px-5 text-black font-Horizon text-2xl md:text-4xl xl:text-6xl`}>SELECTED WORKS</motion.h1>
 
             <div className={`w-full px-3 lg:px-6 h-auto mt-5 md:mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center gap-4`}>
               {works.map((item, index) => {
-                return <motion.div initial={{filter: "blur(20px)"}} whileInView={{filter: "blur(0px)"}} transition={{delay: 0.3, duration: 0.4, ease: "easeInOut"}} viewport={{once: true}} key={index} className={`w-full rounded-xl bg-[#e4e4e4] flex flex-col justify-start items-center pb-3`}>
-                  <div className={`w-full h-56 rounded-xl overflow-hidden bg-black`}> <img src={item.image} className={`w-full h-full object-cover`} /> </div>
+                return <motion.div initial={{filter: "blur(20px)"}} whileInView={{filter: "blur(0px)"}} transition={{delay: 0.3, duration: 0.4, ease: "easeInOut"}} viewport={{once: true}} key={index} className={`w-full rounded-2xl bg-[#e4e4e4] flex flex-col justify-start items-center pb-3`}>
+                  <div className={`w-full h-56 rounded-2xl overflow-hidden bg-black`}> <img src={item.image} className={`w-full h-full object-cover`} /> </div>
                   <p className={`w-full select-none text-center font-Red-Hat-Display font-bold text-xl py-5`}>{item.title}</p>
                   <p onClick={() => router.push(item.link)} className={`w-[95%] active:opacity-75 duration-150 ease-in-out ${item.link ? "bg-linear-to-r from-[#0012ff] to-[#001e8c] text-white font-semibold cursor-pointer" : "bg-gray-400 text-zinc-900 font-semibold cursor-default pointer-events-none"} px-3 py-3 rounded-full select-none text-white font-Red-Hat-Display text-sm text-center`}>{item.link ? "Explore" : "Coming Soon"}</p>
                 </motion.div>
@@ -118,7 +118,7 @@ function page() {
           </div>
 
           {/* featured articles */}
-          <div className={`w-full py-10 bg-black h-auto flex flex-col justify-start items-center pt-10`}>
+          <div className={`w-full py-10 bg-black h-auto flex flex-col justify-start items-center pt-16 pb-20`}>
             <h1 className={`w-full text-center px-5 text-white font-Horizon text-2xl md:text-4xl xl:text-6xl`}>FEATURED ARTICLES</h1>
 
             <div className={`w-full px-3 lg:px-6 h-auto mt-5 md:mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 justify-items-center gap-4`}>

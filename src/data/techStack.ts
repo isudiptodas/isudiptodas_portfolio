@@ -17,7 +17,7 @@ export const techStackList = [
   },
   {
     title: "DATABASES",
-    items: "MySQL, MongoDB, Datastax, NeonDB, Redis",
+    items: "MySQL, MongoDB, Datastax, NeonDB, Redis, Qdrant",
   },
   {
     title: "OTHER TOOLS",
@@ -25,7 +25,7 @@ export const techStackList = [
   },
   {
     title: "CLOUD",
-    items: "Docker, AWS (S3, EC2, DynamoDB, IAM, VPC, EKS, ECS, Lambda), Kubernetes, Jenkins, Prometheus, Grafana, ArgoCD",
+    items: "Docker, AWS, Kubernetes, Jenkins, Prometheus, Grafana, ArgoCD, Terraform",
   },
   {
     title: "MESSAGING QUEUES",
