@@ -83,6 +83,7 @@
 
 
 export const imageList = [
+  "https://pub-7e5a5d0488cc40258491be5801d9d865.r2.dev/jai-jai-ram.png",
   "https://pub-7e5a5d0488cc40258491be5801d9d865.r2.dev/argha-grid-warp.jpeg",
   "https://pub-7e5a5d0488cc40258491be5801d9d865.r2.dev/rajdeep-grid-warp.jpeg",
   "https://pub-7e5a5d0488cc40258491be5801d9d865.r2.dev/durga-pillar-frame.png",
