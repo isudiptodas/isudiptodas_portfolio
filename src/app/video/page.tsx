@@ -4,11 +4,22 @@ import { AnimatePresence, motion } from "framer-motion";
 import { videoLinks } from "@/data/video";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { FaArrowLeft, FaArrowRight, FaPlay, FaTimes } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight, FaChevronDown, FaPlay, FaTimes } from "react-icons/fa";
 
 type Video = (typeof videoLinks)[number];
 
+function OrientationIcon({ orientation }: { orientation: Video["orientation"] }) {
+    return (
+        <span
+            aria-hidden="true"
+            className={`inline-block shrink-0 rounded-[2px] border border-current ${orientation === "16:9" ? "h-3 w-5" : "h-5 w-3"
+                }`}
+        />
+    );
+}
+
 function Page() {
+    const orientations = ["16:9", "9:16"] as const;
     const categories = useMemo(
         () => [...new Set(videoLinks.map((video) => video.category))]
             .sort((first, second) => {
@@ -22,11 +33,29 @@ function Page() {
     const [activeIndexes, setActiveIndexes] = useState<Record<string, number>>({});
     const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
     const [videoIsPlaying, setVideoIsPlaying] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [selectedOrientation, setSelectedOrientation] = useState<string>("16:9");
+    const [orientationMenuIsOpen, setOrientationMenuIsOpen] = useState(false);
+
+    const filteredVideos = useMemo(() => {
+        const normalizedQuery = searchQuery.trim().toLocaleLowerCase();
+
+        return videoLinks.filter((video) => {
+            const matchesTitle = video.title.toLocaleLowerCase().includes(normalizedQuery);
+            const matchesOrientation = video.orientation === selectedOrientation;
+
+            return matchesTitle && matchesOrientation;
+        });
+    }, [searchQuery, selectedOrientation]);
 
     useEffect(() => {
-        categories.forEach((category) => {
+        const visibleCategories = categories.filter((category) =>
+            filteredVideos.some((video) => video.category === category),
+        );
+
+        visibleCategories.forEach((category) => {
             const carousel = carouselRefs.current[category];
-            const categoryVideos = videoLinks.filter((video) => video.category === category);
+            const categoryVideos = filteredVideos.filter((video) => video.category === category);
             if (!carousel) return;
 
             const initialIndex = Math.floor(categoryVideos.length / 2);
@@ -37,7 +66,7 @@ function Page() {
             }
             setActiveIndexes((current) => ({ ...current, [category]: initialIndex }));
         });
-    }, [categories]);
+    }, [categories, filteredVideos]);
 
     useEffect(() => {
         if (!selectedVideo) return;
@@ -70,6 +99,7 @@ function Page() {
 
         const carouselCenter = carousel.getBoundingClientRect().left + carousel.clientWidth / 2;
         const cards = Array.from(carousel.querySelectorAll<HTMLElement>("[data-video-index]"));
+        if (cards.length === 0) return;
         const closestCard = cards.reduce((closest, card) => {
             const cardCenter = card.getBoundingClientRect().left + card.clientWidth / 2;
             const closestCenter = closest.getBoundingClientRect().left + closest.clientWidth / 2;
@@ -100,17 +130,89 @@ function Page() {
                 ISUDIPTODAS
             </p>
 
-            <div className="mx-auto flex min-h-screen w-[95%] max-w-6xl flex-col items-center pt-24">
+            <div className={`w-full mb-10 mt-24 flex justify-center items-center`}>
+                <div className="relative z-50 w-[90%] flex flex-col items-center justify-center gap-3 md:w-[80%] md:flex-row lg:w-[60%]">
+                    <input
+                        type="text"
+                        value={searchQuery}
+                        onChange={(event) => setSearchQuery(event.target.value)}
+                        className="w-full rounded-full bg-zinc-800 px-4 py-3 outline-none md:min-w-0 md:flex-1"
+                        placeholder="Search video"
+                        aria-label="Search videos by title"
+                    />
+                    <div className="relative w-full md:w-56 md:shrink-0">
+                        <button
+                            type="button"
+                            onClick={() => setOrientationMenuIsOpen((isOpen) => !isOpen)}
+                            className="flex w-full items-center justify-between rounded-full border border-white/10 bg-zinc-900 px-4 py-3 text-left font-Red-Hat-Display text-sm text-white/75 transition-colors hover:bg-zinc-800"
+                            aria-haspopup="listbox"
+                            aria-expanded={orientationMenuIsOpen}
+                            aria-label="Filter videos by orientation"
+                        >
+                            <span className="flex items-center gap-2">
+                                <OrientationIcon orientation={selectedOrientation} />
+                                {selectedOrientation}
+                            </span>
+                            <motion.span
+                                animate={{ rotate: orientationMenuIsOpen ? 180 : 0 }}
+                                transition={{ duration: 0.2 }}
+                            >
+                                <FaChevronDown className="text-xs" />
+                            </motion.span>
+                        </button>
+                        <AnimatePresence>
+                            {orientationMenuIsOpen && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: -8, scale: 0.98 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                                    transition={{ duration: 0.18 }}
+                                    className="absolute left-0 right-0 top-full z-40 mt-2 overflow-hidden rounded-2xl border border-white/10 bg-zinc-900 p-1 shadow-xl"
+                                    role="listbox"
+                                    aria-label="Video orientations"
+                                    onKeyDown={(event) => {
+                                        if (event.key === "Escape") setOrientationMenuIsOpen(false);
+                                    }}
+                                >
+                                    {orientations.map((orientation) => (
+                                        <button
+                                            key={orientation}
+                                            type="button"
+                                            role="option"
+                                            aria-selected={selectedOrientation === orientation}
+                                            onClick={() => {
+                                                setSelectedOrientation(orientation);
+                                                setOrientationMenuIsOpen(false);
+                                            }}
+                                            className="flex w-full items-center gap-2 rounded-xl px-4 py-3 text-left font-Red-Hat-Display text-sm text-white/75 transition-colors hover:bg-white/10 hover:text-white"
+                                        >
+                                            <OrientationIcon orientation={orientation} />
+                                            {orientation}
+                                        </button>
+                                    ))}
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </div>
+                </div>
+            </div>
+
+            <div className="mx-auto flex min-h-screen w-[95%] max-w-6xl flex-col items-center">
                 <div className="w-full space-y-12 py-5 md:space-y-16">
                     {categories.map((category) => {
-                        const categoryVideos = videoLinks.filter((video) => video.category === category);
-                        const activeIndex = activeIndexes[category] ?? Math.floor(categoryVideos.length / 2);
+                        const categoryVideos = filteredVideos.filter((video) => video.category === category);
+                        if (categoryVideos.length === 0) return null;
+
+                        const activeIndex = Math.min(
+                            activeIndexes[category] ?? Math.floor(categoryVideos.length / 2),
+                            categoryVideos.length - 1,
+                        );
 
                         return (
                             <section key={category} className={`w-full overflow-x-hidden flex flex-col justify-start items-center relative`}>
                                 <div className={`w-[10%] z-40 hidden md:block h-full absolute left-0 bottom-0 bg-gradient-to-r from-[#0b0b0b] to-transparent`} />
                                 <div className={`w-[10%] z-40 hidden md:block h-full absolute right-0 bottom-0 bg-gradient-to-l from-[#0b0b0b] to-transparent`} />
-                                
+
                                 <p className={`w-auto select-none px-4 py-2 rounded-full border border-white/10 bg-zinc-900 text-white/60 font-Red-Hat-Display text-[8px] md:text-[12px] tracking-[0.2rem] text-center uppercase`}>{category}</p>
 
                                 <div className="mx-auto mb-7 h-px w-[78%] bg-gradient-to-r from-transparent via-white/35 to-transparent md:mb-9" />
@@ -131,12 +233,18 @@ function Page() {
                                             }}
                                             transition={{ type: "spring", stiffness: 260, damping: 28 }}
                                             whileHover={{ scale: activeIndex === index ? 1.035 : 0.91 }}
-                                            className="group relative w-[75vw] shrink-0 snap-center cursor-pointer overflow-hidden rounded-xl bg-neutral-900 md:w-[50vw] lg:w-[40vw]"
+                                            className={`group relative shrink-0 snap-center cursor-pointer overflow-hidden rounded-xl bg-neutral-900 ${
+                                                selectedOrientation === "9:16"
+                                                    ? "w-[45vw] md:w-[28vw] lg:w-[22vw]"
+                                                    : "w-[75vw] md:w-[50vw] lg:w-[40vw]"
+                                            }`}
                                         >
                                             <button
                                                 type="button"
                                                 onClick={() => openVideo(video)}
-                                                className="relative block aspect-video w-full overflow-hidden rounded-xl text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+                                                className={`relative block w-full overflow-hidden rounded-xl text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white ${
+                                                    selectedOrientation === "9:16" ? "aspect-[9/16]" : "aspect-video"
+                                                }`}
                                                 aria-label={`Play ${video.title}`}
                                             >
                                                 <img
@@ -202,7 +310,7 @@ function Page() {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.25 }}
-                        className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-black/95 p-4 backdrop-blur-sm md:p-8 pt-10"
+                        className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto overscroll-contain bg-black/95 p-4 pt-10 backdrop-blur-sm lg:items-center lg:overflow-hidden lg:p-8"
                         role="dialog"
                         aria-modal="true"
                         aria-label={selectedVideo.title}
@@ -215,14 +323,17 @@ function Page() {
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: 12, scale: 0.98 }}
                             transition={{ duration: 0.3, ease: "easeOut" }}
-                            className="grid h-full max-h-full min-h-0 w-full max-w-6xl grid-rows-[auto_minmax(0,1fr)] gap-6 overflow-hidden lg:grid-cols-2 lg:grid-rows-1 md:items-stretch md:gap-8"
+                            className="grid w-full max-w-6xl grid-rows-[auto_auto] gap-6 overflow-visible md:gap-8 lg:h-full lg:max-h-full lg:min-h-0 lg:grid-cols-2 lg:grid-rows-1 lg:overflow-hidden lg:items-stretch"
                         >
                             <div className="flex min-h-0 min-w-0 flex-col justify-start">
-                                <div className="group relative aspect-video overflow-hidden rounded-[1.5rem] bg-neutral-900 md:rounded-[2rem]">
+                                <div className={`group relative mx-auto overflow-hidden rounded-[1.5rem] bg-neutral-900 md:rounded-[2rem] ${selectedVideo.orientation === "9:16"
+                                        ? "aspect-[9/16] h-[55vh] w-auto max-w-full md:h-[65vh]"
+                                        : "aspect-video w-full"
+                                    }`}>
                                     {videoIsPlaying ? (
                                         <video
                                             src={selectedVideo.link}
-                                            className="h-full w-full"
+                                            className="h-full w-full object-contain"
                                             autoPlay
                                             controls
                                             playsInline
@@ -247,15 +358,15 @@ function Page() {
                                         </>
                                     )}
                                 </div>
-                                <h2 className="my-5 px-5 text-center font-Red-Hat-Display text-2xl font-bold leading-tight md:text-left md:text-3xl">
+                                <h2 className="my-5 px-5 text-center font-Red-Hat-Display text-2xl font-bold leading-tight md:text-3xl">
                                     {selectedVideo.title}
                                 </h2>
-                                <p className="-mt-3 mb-5 px-5 text-center font-Red-Hat-Display text-sm text-white/55 md:text-left">
+                                <p className="-mt-3 mb-5 px-5 text-center font-Red-Hat-Display text-sm text-white/55">
                                     Uploaded on: {selectedVideo.date}
                                 </p>
                             </div>
 
-                            <div className="flex min-h-0 flex-col rounded-[1.5rem] bg-[#171717] px-5 pb-10 pt-5 md:rounded-[2rem] md:p-8 lg:p-10">
+                            <div className="flex min-h-0 flex-col rounded-[1.5rem] bg-[#171717] px-5 pb-6 pt-5 md:rounded-[2rem] md:p-8 lg:p-10">
                                 <div className="mb-5 flex items-center justify-between">
                                     <span className="font-Red-Hat-Display text-xs uppercase tracking-[0.2em] text-white/45">
                                         {selectedVideo.category}
@@ -269,7 +380,7 @@ function Page() {
                                         <FaTimes />
                                     </button>
                                 </div>
-                                <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain pr-2 font-Red-Hat-Display text-sm leading-6 text-white/75 md:text-[15px] md:leading-7">
+                                <div className="max-h-[40vh] overflow-y-auto overscroll-contain pr-2 font-Red-Hat-Display text-sm leading-6 text-white/75 md:text-[15px] md:leading-7 lg:max-h-none lg:min-h-0 lg:flex-1">
                                     <p className="whitespace-pre-line">{selectedVideo.description}</p>
                                 </div>
                                 <button

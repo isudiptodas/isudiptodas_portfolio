@@ -25,6 +25,7 @@ export const videoLinks = [
         Music On - T-Series`,
         category: 'Experimental',
         date: `September 14, 2026`,
+        orientation: `16:9`,
         link: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/videos/life-is-cinematic.mp4`,
         thumbnail: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/thumbnails/life-is-cinematic.jpeg`
     },
@@ -54,6 +55,7 @@ export const videoLinks = [
         Composer: Sai Abhyankkar`,
         category: 'Cinematic Storytelling',
         date: `October 1, 2026`,
+        orientation: `16:9`,
         link: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/videos/nirobota.mp4`,
         thumbnail: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/thumbnails/nirobota.jpeg`
     },
@@ -84,6 +86,7 @@ export const videoLinks = [
         Composer: Sai Abhyankkar`,
         category: 'Cinematic Storytelling',
         date: `October 5, 2026`,
+        orientation: `16:9`,
         link: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/videos/khwab.mp4`,
         thumbnail: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/thumbnails/khwab.jpeg`
     },
@@ -135,6 +138,7 @@ export const videoLinks = [
         Music Label: T-Series`,
         category: 'Cinematic Storytelling',
         date: `October 30, 2026`,
+        orientation: `16:9`,
         link: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/videos/somoy-bodlay-bondhutto-noy.mp4`,
         thumbnail: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/thumbnails/somoy-bodlay-bondhutto-noy.jpeg`
     },
