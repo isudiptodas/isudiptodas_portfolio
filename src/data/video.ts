@@ -141,33 +141,7 @@ export const videoLinks = [
         orientation: `16:9`,
         link: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/videos/somoy-bodlay-bondhutto-noy.mp4`,
         thumbnail: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/thumbnails/somoy-bodlay-bondhutto-noy.jpeg`
-    },
-    {
-        id: 5,
-        title: "Loser",
-        description: `A phase comes in all of our lives where every single day feels identical. We wake up, we walk the same footsteps, and we lead the same old routine over and over again. It feels like an endless loop.
-
-        But this is what life is. We can't hit pause, and we can't stop. Even when you feel like a loser, even when the spark burns out, you still have to keep moving forward. 
-
-        You just keep going.
-
-        MUSIC & COPYRIGHT NOTICE:
-        The music used in this video is copyrighted material, and I fully respect the rights of the original creators and copyright owners.
-
-        I have included proper credits for the songs in my video description and have not claimed ownership of any of the music. I am using these songs only as part of my own cinematic project to showcase my filmmaking, editing, and storytelling skills.
-
-        I have no intention to commercially use, sell, monetize, or claim ownership of these songs. I am also not trying to represent the music as my own work.
-
-        CREDITS:
-        Song: Loser
-        Songwriter / Producer: Kevin Parker
-        Label: Columbia Records`,
-        category: 'Experimental',
-        date: `November 3, 2026`,
-        orientation: `16:9`,
-        link: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/videos/tame-impala-loser.mp4`,
-        thumbnail: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/thumbnails/tame-impala-loser.jpeg`
-    },
+    }
 ];
 
 
