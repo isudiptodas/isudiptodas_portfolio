@@ -48,6 +48,7 @@
 // ];
 
 export const designList = [
+  "https://pub-a81db0cf155e45c5a87e5a053e714a32.r2.dev/diwali-2026.png",
   "https://pub-a81db0cf155e45c5a87e5a053e714a32.r2.dev/sai-abhyankkar.png",
   "https://pub-a81db0cf155e45c5a87e5a053e714a32.r2.dev/janmashtami.png",
   "https://pub-a81db0cf155e45c5a87e5a053e714a32.r2.dev/messi-retirement.png",
