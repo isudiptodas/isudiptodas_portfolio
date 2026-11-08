@@ -1,4 +1,4 @@
-export const videoLinks = [
+    export const videoLinks = [
     {
         id: 1,
         title: "Life is Cinematic",
@@ -141,7 +141,58 @@ export const videoLinks = [
         orientation: `16:9`,
         link: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/videos/somoy-bodlay-bondhutto-noy.mp4`,
         thumbnail: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/thumbnails/somoy-bodlay-bondhutto-noy.jpeg`
-    }
+    },
+    {
+        id: 5,
+        title: "KALI | A Tribute to the Fearless Spirit of Women",
+        description: `Whenever a woman’s dignity is questioned, judged, or put in danger, remember: her silence is not a sign of surrender, nor is it a mark of weakness. It is the deep, quiet patience before the storm.
+
+        Across every era, in every corner of the world, and through every trial she faces, every woman carries the sacred energy of Maa Kali. Fierce, protective, undaunted, and unyielding. When pushed beyond limits, that silent patience transforms into an unstoppable force of righteousness and strength.
+
+        Presenting KALI, an AI-generated short film created as a visual tribute to the divine courage, resilience, and fearless spirit that lives within every woman.
+
+        CREDITS:
+        Ending song: Maa Kali Mahakali
+        Music Composer - Vikram Montrose
+        Singer - Antara Nandy, Ankita Nandy
+        Lyrics and Music Supervisor: Meggha Vikaas Bali
+        Label - Times Music Spiritual`,
+        category: 'AI Filmmaking',
+        date: `November 9, 2026`,
+        orientation: `16:9`,
+        link: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/videos/KALI.mp4`,
+        thumbnail: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/thumbnails/kali.jpeg`
+    },
+    {
+        id: 6,
+        title: "Ram Sita - Diwali 2026",
+        description: `No matter how long the forest of struggle feels, no exile lasts forever. No darkness, no matter how deep, can withstand the quiet return of light.
+
+        As Shri Ram and Mata Sita return home after years of trial, let this Diwali remind you that every hardship has its end, every patience finds its peace, and every heart finds its way back to love and illumination.
+
+        May the glow of diyas wipe away your heavy days and mark the beginning of your softest, brightest, and happiest chapter yet. 
+        Happy Diwali
+        
+        MUSIC & COPYRIGHT NOTICE:
+        The music used in this video is copyrighted material, and I fully respect the rights of the original creators and copyright owners.
+
+        I have included proper credits for the songs in my video description and have not claimed ownership of any of the music. I am using these songs only as part of my own cinematic project to showcase my filmmaking, editing, and storytelling skills.
+
+        I have no intention to commercially use, sell, monetize, or claim ownership of these songs. I am also not trying to represent the music as my own work.
+        
+        CREDITS:
+        CREDITS:
+        Song: Kesariya (from movie "Brahmastra")
+        Music - Pritam
+        Lyrics - Amitabh Bhattacharya
+        Singer - Arijit Singh, Antara Mitra
+        Label: Sony Music India`,
+        category: 'AI Filmmaking',
+        date: `November 9, 2026`,
+        orientation: `9:16`,
+        link: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/videos/ram-sita-diwali-2026.mp4`,
+        thumbnail: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/thumbnails/ram-sita-diwali-2026.jpeg`
+    },
 ];
 
 
