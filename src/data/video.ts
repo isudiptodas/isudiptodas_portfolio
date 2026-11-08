@@ -144,7 +144,7 @@
     },
     {
         id: 5,
-        title: "KALI | A Tribute to the Fearless Spirit of Women",
+        title: "KALI",
         description: `Whenever a woman’s dignity is questioned, judged, or put in danger, remember: her silence is not a sign of surrender, nor is it a mark of weakness. It is the deep, quiet patience before the storm.
 
         Across every era, in every corner of the world, and through every trial she faces, every woman carries the sacred energy of Maa Kali. Fierce, protective, undaunted, and unyielding. When pushed beyond limits, that silent patience transforms into an unstoppable force of righteousness and strength.
