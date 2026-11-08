@@ -160,7 +160,7 @@
         category: 'AI Filmmaking',
         date: `November 9, 2026`,
         orientation: `16:9`,
-        link: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/videos/KALI.mp4`,
+        link: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/videos/ai-videos/KALI.mp4`,
         thumbnail: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/thumbnails/kali.jpeg`
     },
     {
@@ -190,7 +190,7 @@
         category: 'AI Filmmaking',
         date: `November 9, 2026`,
         orientation: `9:16`,
-        link: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/videos/ram-sita-diwali-2026.mp4`,
+        link: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/videos/ai-videos/ram-sita-diwali-2026.mp4`,
         thumbnail: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/thumbnails/ram-sita-diwali-2026.jpeg`
     },
 ];
