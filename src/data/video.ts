@@ -192,6 +192,31 @@
         link: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/videos/ai-videos/ram-sita-diwali-2026.mp4`,
         thumbnail: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/thumbnails/ram-sita-diwali-2026.jpeg`
     },
+    {
+        id: 7,
+        title: "Lanka Dahan",
+        description: `A cinematic AI-generated short film inspired by the legendary episode of Lanka Dahan from the Ramayana.
+
+        Witness the power, courage and divine strength of Lord Hanuman as he stands before the burning city of Lanka. This film is a visual interpretation of one of the most iconic moments from the Ramayana, recreated using AI filmmaking techniques.
+
+        MUSIC & COPYRIGHT NOTICE:
+        The music used in this video is copyrighted material, and I fully respect the rights of the original creators and copyright owners.
+
+        I have included proper credits for the songs in my video description and have not claimed ownership of any of the music. I am using these songs only as part of my own cinematic project to showcase my filmmaking, editing, and storytelling skills.
+
+        I have no intention to commercially use, sell, monetize, or claim ownership of these songs. I am also not trying to represent the music as my own work.
+
+        CREDITS: 
+        Song: Sri Rama Sambhavam (from movie "Mirai")
+        Music Composed & Arranged by GowraHari 
+        Lyrics:  GowraHari & Traditional 
+        Singers: Sai Charan Bhaskaruni, Harshavardhan Chavali`,
+        category: 'AI Filmmaking',
+        date: `November 17, 2026`,
+        orientation: `16:9`,
+        link: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/videos/ai-videos/lanka-dahan.mp4`,
+        thumbnail: `https://pub-58453830eabd4f998f2f0968fb6b8d43.r2.dev/thumbnails/lanka-dahan.jpeg`
+    },
 ];
 
 
