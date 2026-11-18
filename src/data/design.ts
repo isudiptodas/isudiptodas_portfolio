@@ -44,7 +44,6 @@ export const designList = [
   "https://pub-a81db0cf155e45c5a87e5a053e714a32.r2.dev/srk-1.png",
   "https://pub-a81db0cf155e45c5a87e5a053e714a32.r2.dev/srk-2.png",
   "https://pub-a81db0cf155e45c5a87e5a053e714a32.r2.dev/srk-3.png",
-  "https://pub-a81db0cf155e45c5a87e5a053e714a32.r2.dev/ssmb29.png",
   "https://pub-a81db0cf155e45c5a87e5a053e714a32.r2.dev/stranger-things-5.jpg",
   "https://pub-a81db0cf155e45c5a87e5a053e714a32.r2.dev/the-box.png",
   "https://pub-a81db0cf155e45c5a87e5a053e714a32.r2.dev/the-weeknd.png",
