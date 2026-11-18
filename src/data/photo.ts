@@ -21,7 +21,6 @@ export const imageList = [
   "https://pub-7e5a5d0488cc40258491be5801d9d865.r2.dev/metro-tom-and-jerry.jpg",
   "https://pub-7e5a5d0488cc40258491be5801d9d865.r2.dev/life-is-loud.jpg",
   "https://pub-7e5a5d0488cc40258491be5801d9d865.r2.dev/raga-of-revenge.jpg",
-  "https://pub-7e5a5d0488cc40258491be5801d9d865.r2.dev/frames-of-kolkata.jpg",
   "https://pub-7e5a5d0488cc40258491be5801d9d865.r2.dev/red-road-bus.jpg",
   "https://pub-7e5a5d0488cc40258491be5801d9d865.r2.dev/barsaat-lagdi-ae.jpg",
   "https://pub-7e5a5d0488cc40258491be5801d9d865.r2.dev/spiderman-iam-both-2.jpg",
