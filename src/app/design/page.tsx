@@ -17,7 +17,7 @@ function page() {
                     <Link href='/' className={`w-auto px-5 py-3 rounded-full text-white font-Red-Hat-Display text-[10px] md:text-sm backdrop-blur-3xl bg-white/25`}>Exit Section</Link>
                 </div>
 
-                <div className={`w-[95%] pt-24 h-auto py-5 lg:px-3 columns-2 md:columns-3 lg:columns-4 overflow-auto`}>
+                <div className={`w-[95%] pt-24 h-auto pb-16 lg:px-3 columns-2 md:columns-3 lg:columns-4 overflow-auto`}>
                     {designList.map((design, index) => {
                         return <img onClick={() => openLink(design)} key={index} src={design} className={`h-auto cursor-pointer my-5 rounded-lg break-inside-avoid`} />
                     })}
