@@ -20,6 +20,11 @@ export const works = [
         link: `/video`
     },
     {
+        title: `Songs`,
+        image: `/assets/work-background/songs.png`,
+        link: `/songs`
+    },
+    {
         title: `Extensions`,
         image: `/assets/work-background/extension.png`,
         link: `/extensions`
