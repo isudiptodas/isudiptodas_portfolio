@@ -1,4 +1,5 @@
 export const imageList = [
+  "https://pub-7e5a5d0488cc40258491be5801d9d865.r2.dev/the-everafter-story.jpg",
   "https://pub-7e5a5d0488cc40258491be5801d9d865.r2.dev/diwali-kesariya-2026.jpg",
   "https://pub-7e5a5d0488cc40258491be5801d9d865.r2.dev/la-la-land-2026.jpg",
   "https://pub-7e5a5d0488cc40258491be5801d9d865.r2.dev/argha-grid-warp.jpeg",
