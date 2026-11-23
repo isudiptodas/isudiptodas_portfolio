@@ -35,4 +35,25 @@ export const songs = [
         thumbnail: `https://pub-9ab466f3e6194117ac4fff6cc8306226.r2.dev/thumbnails/raaston-mein.png`,
         link: `https://pub-9ab466f3e6194117ac4fff6cc8306226.r2.dev/ai-songs/Raaston%20Mein.mp3`,
     },
+    {
+        id: 3,
+        type: 'single',
+        name: 'Dil Da Aawara',
+        thumbnail: `https://pub-9ab466f3e6194117ac4fff6cc8306226.r2.dev/thumbnails/the-everafter-story.png`,
+        link: `https://pub-9ab466f3e6194117ac4fff6cc8306226.r2.dev/ai-songs/Dil%20Da%20Aawara.mp3`,
+    },
+    {
+        id: 4,
+        type: 'single',
+        name: 'Dil Da Aawara - Female',
+        thumbnail: `https://pub-9ab466f3e6194117ac4fff6cc8306226.r2.dev/thumbnails/the-everafter-story.png`,
+        link: `https://pub-9ab466f3e6194117ac4fff6cc8306226.r2.dev/ai-songs/Dil%20Da%20Aawara%20-%20Female.mp3`,
+    },
+    {
+        id: 5,
+        type: 'single',
+        name: 'Sukoon',
+        thumbnail: `https://pub-9ab466f3e6194117ac4fff6cc8306226.r2.dev/thumbnails/the-everafter-story.png`,
+        link: `https://pub-9ab466f3e6194117ac4fff6cc8306226.r2.dev/ai-songs/Sukoon.mp3`,
+    },
 ]
