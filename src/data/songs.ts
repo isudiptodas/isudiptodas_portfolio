@@ -49,11 +49,4 @@ export const songs = [
         thumbnail: `https://pub-9ab466f3e6194117ac4fff6cc8306226.r2.dev/thumbnails/dil-da-aawara.png`,
         link: `https://pub-9ab466f3e6194117ac4fff6cc8306226.r2.dev/ai-songs/Dil%20Da%20Aawara%20-%20Female.mp3`,
     },
-    {
-        id: 5,
-        type: 'single',
-        name: 'Sukoon',
-        thumbnail: `https://pub-9ab466f3e6194117ac4fff6cc8306226.r2.dev/thumbnails/sukoon.png`,
-        link: `https://pub-9ab466f3e6194117ac4fff6cc8306226.r2.dev/ai-songs/Sukoon.mp3`,
-    },
 ]
